@@ -40,10 +40,10 @@ endforeach;
             <li class="nav-item dropdown active">
               <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-heart"></i><span>Master data</span></a>
                   <ul class="dropdown-menu">
-                    <li class="nav-item active"><a href="#" class="nav-link">Master Barang</a></li>
+                    <li class="nav-item"><a href="<?= base_url('');?>Home/master_barang" class="nav-link">Master Barang</a></li>
                     <li class="nav-item"><a href="<?= base_url('');?>Home/master_rekanan" class="nav-link">Master Rekanan</a></li>
                     <li class="nav-item"><a href="#" class="nav-link">Master Harga</a></li>
-                    <li class="nav-item"><a href="<?= base_url('');?>Home/master_satuan" class="nav-link">Master Satuan</a></li>
+                    <li class="nav-item active"><a href="#" class="nav-link">Master Satuan</a></li>
                   </ul>
             </li>
             <li class="nav-item dropdown">
@@ -66,35 +66,34 @@ endforeach;
       <div class="main-content">
         <section class="section">
           <div class="section-header">
-            <h1>Master Barang</h1>
+            <h1>Master Rekanan</h1>
           </div>
 
           <div class="section-body">
             <div class="card">
               <div class="card-header">
-                <h4>Pengelolaan Master Barang</h4>
+                <h4>Pengelolaan Master Satuan</h4>
               </div>
               <div class="card-body">
                 <div class="row">
-                <div class="col-md-4"><button id="tambah_barang" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i> Tambah </button></div>
+                <div class="col-md-4"><button id="tambah_satuan" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i> Tambah </button></div>
                 </div>
               
                 
                 <br>
                 <div class="table-responsive">
-                      <table class="table table-striped" id="table-1">
+                      <table class="table table-striped table-1">
                         <thead>                                 
                           <tr>
                             <th class="text-center" style="width:10px;">
                               No
                             </th>
                             <th class="text-center" style="width:80px;">Aksi</th>
-                            <th class="text-center">Nama Barang</th>
-                            <th class="text-center">Satuan Barang</th>
-                            <th class="text-center">Jenis Barang</th>
+                            <th class="text-center">Nama Satuan</th>
+                            <th class="text-center">Deskripsi Satuan</th>
                           </tr>
                         </thead>
-                        <tbody id="data_master_barang">                                 
+                        <tbody id="data_master_satuan">                                 
                          
                         </tbody>
                       </table>
@@ -141,38 +140,33 @@ endforeach;
   <script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
 </body>
 
-<div class="modal fade" id="modal_tambahbarang" tabindex="-1" role="dialog" aria-labelledby="modal_tambahbarang" aria-hidden="true">
+<div class="modal fade" id="modal_tambahsatuan" tabindex="-1" role="dialog" aria-labelledby="modal_tambahsatuan" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="modal_tambahbarang">Modal title</h5>
+                        <h5 class="modal-title" id="modal_tambahsatuan">Tambah Satuan</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
                       <div class="modal-body">
-                        <input type="hidden" name="id_barang" id="id_barang" value="">
+                        <input type="hidden" name="id_satuan" id="id_satuan" value="">
                         <table class="table table-hover table-bordered">
-                            <tr>
-                              <td>Nama Barang</td>
-                              <td>:</td>
-                              <td><input class="form-control" type="text" name="nama_barang" id="nama_barang"></td>
-                            </tr>
                             <tr>
                               <td>Nama Satuan</td>
                               <td>:</td>
-                              <td><input class="form-control" type="text" name="satuan_barang" id="satuan_barang"></td>
+                              <td><input class="form-control" type="text" name="nama_satuan" id="nama_satuan" placeholder="Pcs"></td>
                             </tr>
                             <tr>
-                              <td>Jenis Barang</td>
+                              <td>Deskripsi Satuan</td>
                               <td>:</td>
-                              <td><input class="form-control" type="text" name="jenis_barang" id="jenis_barang"></td>
+                              <td><input class="form-control" type="text" name="deskripsi_satuan" id="deskripsi_satuan"></td>
                             </tr>
                         </table>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button id="save_masterbarang" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Tambah</button>
+                        <button id="save_mastersatuan" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Tambah</button>
                       </div>
                     </div>
                   </div>
