@@ -42,8 +42,8 @@ endforeach;
                   <ul class="dropdown-menu">
                     <li class="nav-item"><a href="<?= base_url('');?>Home/master_barang" class="nav-link">Master Barang</a></li>
                     <li class="nav-item"><a href="<?= base_url('');?>Home/master_rekanan" class="nav-link">Master Rekanan</a></li>
-                    <li class="nav-item"><a href="<?= base_url();?>home/master_harga" class="nav-link">Master Harga</a></li>
-                    <li class="nav-item active"><a href="#" class="nav-link">Master Satuan</a></li>
+                    <li class="nav-item active"><a href="#" class="nav-link">Master Harga</a></li>
+                    <li class="nav-item"><a href="<?= base_url('');?>Home/master_satuan" class="nav-link">Master Satuan</a></li>
                   </ul>
             </li>
             <li class="nav-item dropdown">
@@ -66,17 +66,17 @@ endforeach;
       <div class="main-content">
         <section class="section">
           <div class="section-header">
-            <h1>Master Rekanan</h1>
+            <h1>Master Harga</h1>
           </div>
 
           <div class="section-body">
             <div class="card">
               <div class="card-header">
-                <h4>Pengelolaan Master Satuan</h4>
+                <h4>Pengelolaan Master Harga</h4>
               </div>
               <div class="card-body">
                 <div class="row">
-                <div class="col-md-4"><button id="tambah_satuan" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i> Tambah </button></div>
+                <!-- <div class="col-md-4"><button id="tambah_satuan" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i> Tambah </button></div> -->
                 </div>
               
                 
@@ -89,11 +89,12 @@ endforeach;
                               No
                             </th>
                             <th class="text-center" style="width:80px;">Aksi</th>
-                            <th class="text-center">Nama Satuan</th>
-                            <th class="text-center">Deskripsi Satuan</th>
+                            <th class="text-center">Nama Barang</th>
+                            <th class="text-center">Satuan</th>
+                            <!-- <th class="text-center">Harga Beli</th> -->
                           </tr>
                         </thead>
-                        <tbody id="data_master_satuan">                                 
+                        <tbody id="data_master_harga" style="text-align: center;">                                 
                          
                         </tbody>
                       </table>
@@ -140,33 +141,56 @@ endforeach;
   <script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
 </body>
 
-<div class="modal fade" id="modal_tambahsatuan" tabindex="-1" role="dialog" aria-labelledby="modal_tambahsatuan" aria-hidden="true">
+<div class="modal fade" id="modal_harga" tabindex="-1" role="dialog" aria-labelledby="modal_harga" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="modal_tambahsatuan">Tambah Satuan</h5>
+                        <h5 class="modal-title" id="modal_harga">Edit harga</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
                       <div class="modal-body">
-                        <input type="hidden" name="id_satuan" id="id_satuan" value="">
-                        <table class="table table-hover table-bordered">
+                        <input type="hidden" name="id_harga" id="id_harga" value="">
+                        <input type="hidden" name="id_barang" id="id_barang" value="">
+
+                        <table class="table table-hover table-bordered table-2">
+                          <thead>
                             <tr>
-                              <td>Nama Satuan</td>
+                                <th>No</th>
+                                <th>Aksi</th>
+                                <th>Harga Jual</th>
+                            </tr>
+                            </thead>
+                            <tbody id="dataharga" style="text-align: center;">                                 
+                         
+                            </tbody>
+                        </table>
+                        <br>
+                        <table class="table table-hover table-bordered table-3">
+                            <tr>
+                              <td>Nama Barang</td>
                               <td>:</td>
-                              <td><input class="form-control" type="text" name="nama_satuan" id="nama_satuan" placeholder="Pcs"></td>
+                              <td><input class="form-control" type="text" name="nama_barang" id="nama_barang" placeholder="Pcs" readonly></td>
                             </tr>
                             <tr>
-                              <td>Deskripsi Satuan</td>
+                              <td>Satuan</td>
                               <td>:</td>
-                              <td><input class="form-control" type="text" name="deskripsi_satuan" id="deskripsi_satuan"></td>
+                              <td><input class="form-control" type="text" name="nama_satuan" id="nama_satuan" readonly></td>
+                            </tr>
+                            <tr>
+                              <td>Harga</td>
+                              <td>:</td>
+                              <td><input class="form-control" type="text" name="harga_barang" id="harga_barang"></td>
+                            </tr>
+                            <tr>
+                              <td colspan="3"><button id="save_harga" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Tambah</button></td>
                             </tr>
                         </table>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button id="save_mastersatuan" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Tambah</button>
+                        <!-- <button id="save_harga" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Tambah</button> -->
                       </div>
                     </div>
                   </div>

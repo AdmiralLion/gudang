@@ -84,4 +84,12 @@ class Home extends CI_Controller {
         $data['JavaScriptTambahan'] = $this->load->view('v_master/master_satuan.js',$data,TRUE);
 		$this->load->view('v_master/v_master_satuan.php',$data);
     }
+
+    
+    public function master_harga()
+    {
+        $data['user'] = $this->get_user();
+        $data['JavaScriptTambahan'] = $this->load->view('v_master/master_harga.js',$data,TRUE);
+		$this->load->view('v_master/v_master_harga.php',$data);
+    }
 }

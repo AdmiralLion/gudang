@@ -129,5 +129,43 @@ class m_master extends CI_Model {
         $query = $this->db->query("SELECT * FROM m_satuan WHERE id = '$id'");
         return $query->result();
     }
+
+    public function get_databarang(){
+        $query = $this -> db -> query("SELECT mb.id,mb.nama_barang, ms.nama_satuan FROM m_barang mb JOIN m_satuan ms ON mb.satuan_barang = ms.id");
+        return $query -> result();
+    }
+
+    public function get_databarang2($id_barang){
+        $query = $this -> db -> query("SELECT mb.id,mb.nama_barang, ms.nama_satuan,mh.harga_jual FROM m_barang mb JOIN m_satuan ms ON mb.satuan_barang = ms.id LEFT JOIN m_harga mh ON mb.id = mh.id_barang WHERE mb.id = '$id_barang'");
+        return $query -> result();
+    }
     
+    public function get_harga($id_barang){
+        $query = $this->db->query("SELECT * FROM m_harga WHERE id_barang = '$id_barang'");
+        return $query -> result();
+    }
+
+    public function get_hargabarang($id){
+        $query = $this->db->query("SELECT * FROM m_harga WHERE id = '$id'");
+        return $query -> result();
+    }
+
+    public function insert_harga($id_barang,$nama_barang,$nama_satuan,$harga_barang){
+        $tgl = date('Y-m-d H:i:s');
+        $query = $this->db->query("INSERT INTO m_harga VALUES('','$id_barang','$nama_barang','$nama_satuan','$harga_barang','$tgl')");
+        return $query;
+    }
+
+    public function update_harga($id_harga,$id_barang,$nama_barang,$nama_satuan,$harga_barang){
+        $tgl = date('Y-m-d H:i:s');
+        $data = array(
+            'harga_jual' => $harga_barang,
+            'tgl_act' => $tgl
+         );
+         
+         $this->db->where('id', $id_harga);
+         $query = $this->db->update('m_harga', $data);
+
+        return $query;
+    }
 }

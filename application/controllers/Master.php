@@ -211,5 +211,78 @@ class Master extends CI_Controller {
         $data = $this->m_master->get_datamastersatuan($id);
         echo json_encode($data);
     }
+
+    public function getdatabarang()
+    {
+        $data = $this->m_master->get_databarang();
+        echo json_encode($data);
+    }
+
+    public function getdatabarang2()
+    {
+        $id_barang = $this->input->post('id');
+        $data = $this->m_master->get_databarang2($id_barang);
+        echo json_encode($data);
+    }
+
+
+    public function master_harga_act()
+    {
+        $id_harga = $this->input->post('id_harga');
+        $id_barang = $this->input->post('id_barang');
+        $nama_barang = $this->input->post('nama_barang');
+        $nama_satuan = $this->input->post('nama_satuan');
+        $harga_barang = $this->input->post('harga_barang');
+
+
+        if($id_harga == '' OR $id_harga == NULL){
+            $data['insert'] = $this -> m_master -> insert_harga($id_barang,$nama_barang,$nama_satuan,$harga_barang);
+            if($data['insert'] == 'true' OR $data['insert'] == TRUE OR $data['insert'] == 'TRUE'){
+                $response = [
+                    'status' => '200',
+                    'message' =>  'harga berhasil terinput'
+                ];
+            }else{
+                $response = [
+                    'status' => '400',
+                    'message' =>  'harga gagal terinput'
+                ];
     
+            }
+        }else{
+            $data['insert'] = $this -> m_master -> update_harga($id_harga,$id_barang,$nama_barang,$nama_satuan,$harga_barang);
+            if($data['insert'] == 'true' OR $data['insert'] == TRUE OR $data['insert'] == 'TRUE'){
+                $response = [
+                    'status' => '200',
+                    'message' =>  'harga berhasil teredit'
+                ];
+            }else{
+                $response = [
+                    'status' => '400',
+                    'message' =>  'harga gagal terinput'
+                ];
+
+            }
+        }
+
+        
+        header('Content-Type: application/json');
+
+        echo json_encode($response);
+        die();
+    }
+
+    public function getharga()
+    {
+        $id_barang = $this->input->post('id_barang');
+        $data = $this->m_master->get_harga($id_barang);
+        echo json_encode($data);
+    }
+    
+    public function gethargabarang()
+    {
+        $id = $this->input->post('id');
+        $data = $this->m_master->get_hargabarang($id);
+        echo json_encode($data);
+    }
 }
