@@ -1,5 +1,5 @@
 <?php
-class m_master extends CI_Model {
+class m_transaksi extends CI_Model {
 
 	/*private $table = 'rm_ms_ttd';*/
 	private $table = 'general_consent';
@@ -30,6 +30,11 @@ class m_master extends CI_Model {
     	// $db_rme 	= $this->load->database("lokal3", TRUE);
 
  	}
+
+    public function get_namarekanan(){
+        $query = $this->db->query("SELECT * FROM m_rekanan");
+        return $query->result();
+    }
 
      public function insert_barang($nama_barang,$satuan_barang,$jenis_barang){
         $tgl = date('Y-m-d H:i:s');
@@ -165,35 +170,6 @@ class m_master extends CI_Model {
          
          $this->db->where('id', $id_harga);
          $query = $this->db->update('m_harga', $data);
-
-        return $query;
-    }
-
-    public function get_mastermerk(){
-        $query = $this->db->query("SELECT * FROM m_merk");
-        return $query -> result();
-    }
-
-    public function get_datamastermerk($id){
-        $query = $this->db->query("SELECT * FROM m_merk WHERE id = '$id'");
-        return $query -> result();
-    }
-
-    public function insert_merk($nama_merk){
-        $tgl = date('Y-m-d H:i:s');
-        $query = $this->db->query("INSERT INTO m_merk VALUES('','$nama_merk','$tgl')");
-        return $query;
-    }
-
-    public function update_merk($id_merk,$nama_merk){
-        $tgl = date('Y-m-d H:i:s');
-        $data = array(
-            'nama_merk' => $nama_merk,
-            'tgl_act' => $tgl
-         );
-         
-         $this->db->where('id', $id_merk);
-         $query = $this->db->update('m_merk', $data);
 
         return $query;
     }

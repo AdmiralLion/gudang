@@ -8,7 +8,7 @@ class Home extends CI_Controller {
 		parent::__construct();
 		// $this->load->model('m_master_ttd');
 		// $this->load->model('m_rme');
-		// $this->load->model('m_rme_rj');
+		$this->load->model('m_transaksi');
 		$this->load->model('m_login');
 		// $this->load->helper('date');
 		// $this->load->library('upload');
@@ -91,5 +91,20 @@ class Home extends CI_Controller {
         $data['user'] = $this->get_user();
         $data['JavaScriptTambahan'] = $this->load->view('v_master/master_harga.js',$data,TRUE);
 		$this->load->view('v_master/v_master_harga.php',$data);
+    }
+
+    public function master_merk()
+    {
+        $data['user'] = $this->get_user();
+        $data['JavaScriptTambahan'] = $this->load->view('v_master/master_merk.js',$data,TRUE);
+		$this->load->view('v_master/v_master_merk.php',$data);
+    }
+
+    public function transaksi_masuk()
+    {
+        $data['user'] = $this->get_user();
+        $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
+        $data['JavaScriptTambahan'] = $this->load->view('v_transaksi/transaksi_masuk.js',$data,TRUE);
+		$this->load->view('v_transaksi/v_transaksi_masuk.php',$data);
     }
 }

@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Master extends CI_Controller {
+class Transaksi extends CI_Controller {
 
     function __construct()
 	{
 		parent::__construct();
 		// $this->load->model('m_master_ttd');
-		// $this->load->model('m_rme');
+		$this->load->model('m_transaksi');
 		$this->load->model('m_master');
 		$this->load->model('m_login');
 		// $this->load->helper('date');
@@ -284,61 +284,5 @@ class Master extends CI_Controller {
         $id = $this->input->post('id');
         $data = $this->m_master->get_hargabarang($id);
         echo json_encode($data);
-    }
-
-    public function getdatamastermerk()
-    {
-        $data = $this->m_master->get_mastermerk();
-        echo json_encode($data);
-    }
-
-    public function get_dataeditmastermerk()
-    {
-        $id = $this->input->post('id');
-        $data = $this->m_master->get_datamastermerk($id);
-        echo json_encode($data);
-    }
-
-    public function master_merk_act()
-    {
-        $id_merk = $this->input->post('id_merk');
-        $nama_merk = $this->input->post('nama_merk');
-
-
-        if($id_merk == '' OR $id_merk == NULL){
-            $data['insert'] = $this -> m_master -> insert_merk($nama_merk);
-            if($data['insert'] == 'true' OR $data['insert'] == TRUE OR $data['insert'] == 'TRUE'){
-                $response = [
-                    'status' => '200',
-                    'message' =>  'Merk berhasil terinput'
-                ];
-            }else{
-                $response = [
-                    'status' => '400',
-                    'message' =>  'Merk gagal terinput'
-                ];
-    
-            }
-        }else{
-            $data['insert'] = $this -> m_master -> update_merk($id_merk,$nama_merk);
-            if($data['insert'] == 'true' OR $data['insert'] == TRUE OR $data['insert'] == 'TRUE'){
-                $response = [
-                    'status' => '200',
-                    'message' =>  'harga berhasil teredit'
-                ];
-            }else{
-                $response = [
-                    'status' => '400',
-                    'message' =>  'harga gagal terinput'
-                ];
-
-            }
-        }
-
-        
-        header('Content-Type: application/json');
-
-        echo json_encode($response);
-        die();
     }
 }

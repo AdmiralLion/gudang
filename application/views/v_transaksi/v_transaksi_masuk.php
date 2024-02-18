@@ -41,17 +41,16 @@ endforeach;
               <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-heart"></i><span>Master data</span></a>
                   <ul class="dropdown-menu">
                     <li class="nav-item"><a href="<?= base_url('');?>Home/master_barang" class="nav-link">Master Barang</a></li>
-                    <li class="nav-item active"><a href="#" class="nav-link">Master Rekanan</a></li>
+                    <li class="nav-item"><a href="<?= base_url('');?>Home/master_rekanan" class="nav-link">Master Rekanan</a></li>
                     <li class="nav-item"><a href="<?= base_url('');?>home/master_harga" class="nav-link">Master Harga</a></li>
                     <li class="nav-item"><a href="<?= base_url('');?>Home/master_satuan" class="nav-link">Master Satuan</a></li>
-                    <li class="nav-item"><a href="<?= base_url('');?>Home/master_merk" class="nav-link">Master Merk</a></li>
                   </ul>
             </li>
             <li class="nav-item dropdown">
               <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-heart"></i><span>Transaksi</span></a>
                   <ul class="dropdown-menu">
                     <li class="nav-item"><a href="#" class="nav-link">Penjualan</a></li>
-                    <li class="nav-item"><a href="<?= base_url('');?>Home/transaksi_masuk" class="nav-link">Barang Masuk</a></li>
+                    <li class="nav-item active"><a href="#" class="nav-link">Barang Masuk</a></li>
                     <li class="nav-item"><a href="#" class="nav-link">Pengelolaan Stok</a></li>
                     <li class="nav-item"><a href="#" class="nav-link">...</a></li>
                   </ul>
@@ -67,35 +66,42 @@ endforeach;
       <div class="main-content">
         <section class="section">
           <div class="section-header">
-            <h1>Master Rekanan</h1>
+            <h1>Transaksi Masuk</h1>
           </div>
 
           <div class="section-body">
             <div class="card">
               <div class="card-header">
-                <h4>Pengelolaan Master Rekanan</h4>
+                <h4>TRANSAKSI MASUK</h4>
               </div>
               <div class="card-body">
                 <div class="row">
-                <div class="col-md-4"><button id="tambah_rekanan" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i> Tambah </button></div>
+                <div class="col-md-4"><button id="tambah_transaksimasuk" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i> Tambah </button></div>
                 </div>
               
                 
                 <br>
                 <div class="table-responsive">
-                      <table class="table table-striped table-1">
+                      <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                          Tanggal Transaksi : <input class="form-control datepicker" type="text" name="tgl_transaksi" id="tgl_transaksi">
+                        </div>
+                        <div class="col-md-4"></div>
+                      </div>
+                      <table class="table table-striped" id="table-1">
                         <thead>                                 
                           <tr>
                             <th class="text-center" style="width:10px;">
                               No
                             </th>
                             <th class="text-center" style="width:80px;">Aksi</th>
-                            <th class="text-center">Nama Rekanan</th>
-                            <th class="text-center">Alamat</th>
-                            <th class="text-center">No Telp</th>
+                            <th class="text-center">Kode Transaksi</th>
+                            <th class="text-center">Rekanan</th>
+                            <th class="text-center">Print</th>
                           </tr>
                         </thead>
-                        <tbody id="data_master_rekanan">                                 
+                        <tbody id="data_transaksimasuk">                                 
                          
                         </tbody>
                       </table>
@@ -131,6 +137,10 @@ endforeach;
 
   <script src="<?php echo base_url(); ?>assets/modules/datatables/datatables.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
+  <script src="<?php echo base_url(); ?>assets/modules/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+  <script src="<?php echo base_url(); ?>assets/modules/select2/dist/js/select2.full.min.js"></script>
+
   <script src="<?php echo base_url(); ?>assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/modules/jquery-ui/jquery-ui.min.js"></script>
 
@@ -142,43 +152,84 @@ endforeach;
   <script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
 </body>
 
-<div class="modal fade" id="modal_tambahrekanan" tabindex="-1" role="dialog" aria-labelledby="modal_tambahrekanan" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
+<div class="modal fade" id="modal_tambahtransaksimasuk" role="dialog" aria-labelledby="modal_tambahtransaksimasuk" aria-hidden="true">
+                  <div class="modal-dialog" style="min-width:100%;" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="modal_tambahrekanan">Tambah Rekanan</h5>
+                        <h5 class="modal-title" id="modal_tambahtransaksimasuk">Transaksi Masuk</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
                       <div class="modal-body">
-                        <input type="hidden" name="id_rekanan" id="id_rekanan" value="">
-                        <table class="table table-hover table-bordered">
-                            <tr>
-                              <td>Nama Rekanan</td>
-                              <td>:</td>
-                              <td><input class="form-control" type="text" name="nama_rekanan" id="nama_rekanan" placeholder="PT. JAYA MAKMUR"></td>
-                            </tr>
-                            <tr>
-                              <td>Alamat Rekanan</td>
-                              <td>:</td>
-                              <td><textarea name="alamat_rekanan" id="alamat_rekanan" class="form-control"></textarea></td>
-                            </tr>
-                            <tr>
-                              <td>No Telp</td>
-                              <td>:</td>
-                              <td><input class="form-control" type="text" name="notelp_rekanan" id="notelp_rekanan"></td>
-                            </tr>
-                            <tr>
-                              <td>Email</td>
-                              <td>:</td>
-                              <td><input class="form-control" type="text" name="email_rekanan" id="email_rekanan"></td>
-                            </tr>
-                        </table>
+                        <input type="hidden" name="id_transaksi" id="id_transaksi" value="">
+                        <div class="panel-body">
+                          <div class="row">
+                            <div class="col-md-3"><p style="text-align: right;">Pilih nama rekanan : </p></div>
+                            <div class="col-md-6">
+                              <select class="form-control select2" style="width:100%" name="nama_rekanan" id="nama_rekanan">
+                              <option>--Pilih Rekanan--</option>
+                              <?php foreach($nama_rekanan as $rows):
+                               echo '<option value="'.$rows->id.'">'.$rows->nama_rekanan.'</option>';
+                              endforeach;
+                              ?>
+                            </select></div>
+                          </div>
+                          <br>
+                          <div id="education_fields">
+          
+          </div>
+                        <div class="row">
+                        <div class="col-sm-3 nopadding">
+                          <div class="form-group">
+                            <input type="text" class="form-control" id="Schoolname" name="Schoolname[]" value="" placeholder="School name">
+                          </div>
+                        </div>
+                        <div class="col-sm-3 nopadding">
+                          <div class="form-group">
+                            <input type="text" class="form-control" id="Major" name="Major[]" value="" placeholder="Major">
+                          </div>
+                        </div>
+                        <div class="col-sm-3 nopadding">
+                          <div class="form-group">
+                            <input type="text" class="form-control" id="Degree" name="Degree[]" value="" placeholder="Degree">
+                          </div>
+                        </div>
+                        
+                        <div class="col-sm-1 nopadding">
+                          <div class="form-group">
+                            <div class="input-group">
+                              <select class="form-control" id="educationDate" name="educationDate[]">
+                              
+                                <option value="">Date</option>
+                                <option value="2015">2015</option>
+                                <option value="2016">2016</option>
+                                <option value="2017">2017</option>
+                                <option value="2018">2018</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-2 nopadding">
+                          <div class="form-group">
+                            <div class="input-group">
+                              <input type="text" class="form-control" name="harga_masuk[]" id="harga_masuk" placeholder="Harga">
+                              &nbsp; &nbsp;
+                              <div class="input-group-btn">
+                                <button class="btn btn-success" type="button"  onclick="education_fields();"> <span class="fa fa-plus" aria-hidden="true"></span> </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        </div>
+                      
                       </div>
+                      <div class="clear"></div>
+  
+  </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button id="save_masterrekanan" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Tambah</button>
+                        <button id="save_masterbarang" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Tambah</button>
                       </div>
                     </div>
                   </div>
