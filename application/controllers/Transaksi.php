@@ -16,7 +16,77 @@ class Transaksi extends CI_Controller {
 		 date_default_timezone_set('Asia/Jakarta');
 		
 	}
+
+    public function generate_kodetransmasuk()
+    {
+        $monthYear = date('m-Y');
+        $tampung = explode('-', $monthYear);
+        $bulan = $tampung[0];
+        $tahun = $tampung[1];
+
+        // Get the number of transactions occurred in the current month
+        $transactionCount = $this->m_transaksi->getkodetrans($bulan,$tahun);
+        foreach($transactionCount as $row):
+            $temp = $row->jumlah;
+        endforeach;
+        $jumlah = $temp + 1;
+        // Generate the transaction code
+        $transactionCode = 'SJ/J3/BHN/' . $jumlah;
     
+        return $transactionCode;
+    }
+    
+    public function transaksi_masuk_act()
+    {
+        $transaksi_temp = $this->input->post('transaksi_temp');
+        $id_transaksi = $this->input->post('id_transaksi');
+        $nama_barang = $this->input->post('nama_barang');
+        $nama_merk = $this->input->post('nama_merk');
+        $tahun_barang = $this->input->post('tahun_barang');
+        $seri_barang = $this->input->post('seri_barang');
+        $kode_bulan = $this->input->post('kode_bulan');
+        $kode_urut = $this->input->post('kode_urut');
+        $harga_masuk = $this->input->post('harga_masuk');
+        $id_user = $this->session->userdata('id_user');
+
+        foreach($transaksi_temp as $rows):
+            $id_transaksi = $rows['id_transaksi'];
+            $id_rekanan = $rows ['id_rekanan'];
+        endforeach;
+        if($id_transaksi == '' OR $id_transaksi == null){
+            $kd_transaksi = $this->generate_kodetransmasuk();
+            $data['insert'] = $this -> m_transaksi -> insert_transaksi($kd_transaksi,$id_rekanan,$id_user);
+            foreach($transaksi_temp as $row):
+                $nama_barang = $row['nama_barang'];
+                $nama_merk = $row['nama_merk'];
+                $tahun_barang = $row['tahun_barang'];
+                $seri_barang = $row['seri_barang'];
+                $kode_bulan = $row['kode_bulan'];
+                $kode_urut = $row['kode_urut'];
+                $harga_masuk = $row['harga_masuk'];
+                $data['insert_barang'] = $this -> m_transaksi -> insert_stok($kd_transaksi,$nama_barang,$nama_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$harga_masuk,$id_user);
+            endforeach;
+            if($data['insert_barang'] == 'true' OR $data['insert_barang'] == TRUE OR $data['insert_barang'] == 'TRUE'){
+                $response = [
+                    'status' => '200',
+                    'message' =>  'Barang berhasil terinput'
+                ];
+            }else{
+                $response = [
+                    'status' => '400',
+                    'message' =>  'Barang gagal terinput'
+                ];
+    
+            }
+        }
+        header('Content-Type: application/json');
+
+        echo json_encode($response);
+        die();
+        
+    }
+
+
 
     public function master_barang_act()
     {
@@ -285,4 +355,6 @@ class Transaksi extends CI_Controller {
         $data = $this->m_master->get_hargabarang($id);
         echo json_encode($data);
     }
+
+
 }

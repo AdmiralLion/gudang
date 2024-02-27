@@ -37,7 +37,7 @@ endforeach;
             <li class="nav-item">
               <a href="<?= base_url();?>home" class="nav-link"><i class="fas fa-fire"></i><span>Home</span></a>
             </li>
-            <li class="nav-item dropdown active">
+            <li class="nav-item dropdown">
               <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-heart"></i><span>Master data</span></a>
                   <ul class="dropdown-menu">
                     <li class="nav-item"><a href="<?= base_url('');?>Home/master_barang" class="nav-link">Master Barang</a></li>
@@ -46,7 +46,7 @@ endforeach;
                     <li class="nav-item"><a href="<?= base_url('');?>Home/master_satuan" class="nav-link">Master Satuan</a></li>
                   </ul>
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown active">
               <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-heart"></i><span>Transaksi</span></a>
                   <ul class="dropdown-menu">
                     <li class="nav-item"><a href="#" class="nav-link">Penjualan</a></li>
@@ -180,40 +180,59 @@ endforeach;
           
           </div>
                         <div class="row">
-                        <div class="col-sm-3 nopadding">
+                        <!-- <div class="col-md-3">
                           <div class="form-group">
-                            <input type="text" class="form-control" id="Schoolname" name="Schoolname[]" value="" placeholder="School name">
+                          <select class="select2" style="width:100%" id="nama_barang" name="nama_barang[]">
+                              
+                              <option value="">--Pilih Barang--</option>
+                              <?php foreach($nama_barang as $rows):
+                               echo '<option value="'.$rows->id.'">'.$rows->nama_barang.'</option>';
+                              endforeach;
+                              ?>
+                            </select>
                           </div>
                         </div>
                         <div class="col-sm-3 nopadding">
                           <div class="form-group">
-                            <input type="text" class="form-control" id="Major" name="Major[]" value="" placeholder="Major">
+                          <select class="select2" style="width:100%" id="tipe_barang" name="tipe_barang[]">
+                              
+                              <option value="">--Merk--</option>
+                              <?php foreach($nama_merk as $rows):
+                               echo '<option value="'.$rows->id.'">'.$rows->nama_merk.'</option>';
+                              endforeach;
+                              ?>
+                            </select>
+                            </select>
                           </div>
                         </div>
-                        <div class="col-sm-3 nopadding">
+                        <div class="col-sm-1 nopadding">
                           <div class="form-group">
-                            <input type="text" class="form-control" id="Degree" name="Degree[]" value="" placeholder="Degree">
+                          <input type="text" class="form-control" name="tahun_barang[]" id="tahun_barang" placeholder="Tahun">
                           </div>
                         </div>
                         
                         <div class="col-sm-1 nopadding">
                           <div class="form-group">
-                            <div class="input-group">
-                              <select class="form-control" id="educationDate" name="educationDate[]">
-                              
-                                <option value="">Date</option>
-                                <option value="2015">2015</option>
-                                <option value="2016">2016</option>
-                                <option value="2017">2017</option>
-                                <option value="2018">2018</option>
-                              </select>
-                            </div>
+                          <input type="text" class="form-control" name="seri_barang[]" id="seri_barang" placeholder="Seri">
                           </div>
                         </div>
-                        <div class="col-sm-2 nopadding">
+
+                        <div class="col-sm-1 nopadding">
+                          <div class="form-group">
+                          <input type="text" class="form-control" name="kode_bulan[]" id="kode_bulan" placeholder="Bulan">
+                          </div>
+                        </div>
+
+                        <div class="col-sm-1 nopadding">
+                          <div class="form-group">
+                          <input type="text" class="form-control" name="kode_urut[]" id="kode_urut" placeholder="Urut">
+                          </div>
+                        </div> -->
+                        <div class="col-sm-9">&nbsp;</div>
+                        <div class="col-sm-3 pull-right nopadding">
                           <div class="form-group">
                             <div class="input-group">
-                              <input type="text" class="form-control" name="harga_masuk[]" id="harga_masuk" placeholder="Harga">
+                              <input type="text" class="form-control" name="harga_total" id="harga_total" placeholder="Harga">
                               &nbsp; &nbsp;
                               <div class="input-group-btn">
                                 <button class="btn btn-success" type="button"  onclick="education_fields();"> <span class="fa fa-plus" aria-hidden="true"></span> </button>
@@ -229,7 +248,7 @@ endforeach;
   </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button id="save_masterbarang" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Tambah</button>
+                        <button id="save_transaksimasuk" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Tambah</button>
                       </div>
                     </div>
                   </div>

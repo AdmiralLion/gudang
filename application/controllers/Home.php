@@ -104,6 +104,8 @@ class Home extends CI_Controller {
     {
         $data['user'] = $this->get_user();
         $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
+        $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
+        $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
         $data['JavaScriptTambahan'] = $this->load->view('v_transaksi/transaksi_masuk.js',$data,TRUE);
 		$this->load->view('v_transaksi/v_transaksi_masuk.php',$data);
     }

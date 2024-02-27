@@ -31,8 +31,35 @@ class m_transaksi extends CI_Model {
 
  	}
 
+    public function getkodetrans($bulan,$tahun){
+        $query = $this->db->query("SELECT COUNT(id) as jumlah FROM b_transaksi_masuk WHERE MONTH(tgl_act) = '$bulan' AND YEAR(tgl_act) = '$tahun'");
+        return $query->result();
+    }
+
+    public function insert_transaksi($kd_transaksi,$id_rekanan,$id_user){
+        $tgl = date('Y-m-d H:i:s');
+        $query = $this->db->query("INSERT INTO b_transaksi_masuk VALUES('','$kd_transaksi','$id_rekanan','$id_user','$tgl')");
+        return $query;
+    }
+
+    public function insert_stok($kd_transaksi,$nama_barang,$nama_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$harga_masuk,$id_user){
+        $tgl = date('Y-m-d H:i:s');
+        $query = $this->db->query("INSERT INTO b_barang_masuk VALUES('','$kd_transaksi','$nama_barang','$nama_merk','$tahun_barang','$seri_barang','$kode_bulan','$kode_urut','$harga_masuk','$id_user','$tgl')");
+        return $query;
+    }
+
     public function get_namarekanan(){
         $query = $this->db->query("SELECT * FROM m_rekanan");
+        return $query->result();
+    }
+
+    public function get_namabarang(){
+        $query = $this->db->query("SELECT * FROM m_barang");
+        return $query->result();
+    }
+
+    public function get_namamerk(){
+        $query = $this->db->query("SELECT * FROM m_merk");
         return $query->result();
     }
 
