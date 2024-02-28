@@ -4,6 +4,11 @@ foreach($user as $row):
     $nama = $row -> nama_user;
 endforeach;
 ?>
+<!-- <style>
+  .ui-datepicker-calendar {
+    display: none;
+    }
+</style> -->
 
 <body class="layout-3">
 <div class="main-wrapper container">
@@ -50,8 +55,8 @@ endforeach;
               <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-heart"></i><span>Transaksi</span></a>
                   <ul class="dropdown-menu">
                     <li class="nav-item"><a href="#" class="nav-link">Penjualan</a></li>
-                    <li class="nav-item active"><a href="#" class="nav-link">Barang Masuk</a></li>
-                    <li class="nav-item"><a href="<?= base_url('');?>Home/stok_barang" class="nav-link">Pengelolaan Stok</a></li>
+                    <li class="nav-item"><a href="<?= base_url('');?>Home/transaksi_masuk" class="nav-link">Barang Masuk</a></li>
+                    <li class="nav-item active"><a href="#" class="nav-link">Pengelolaan Stok</a></li>
                     <li class="nav-item"><a href="#" class="nav-link">...</a></li>
                   </ul>
             </li>
@@ -66,17 +71,17 @@ endforeach;
       <div class="main-content">
         <section class="section">
           <div class="section-header">
-            <h1>Transaksi Masuk</h1>
+            <h1>Stok</h1>
           </div>
 
           <div class="section-body">
             <div class="card">
               <div class="card-header">
-                <h4>TRANSAKSI MASUK</h4>
+                <h4>STOK</h4>
               </div>
               <div class="card-body">
                 <div class="row">
-                <div class="col-md-4"><button id="tambah_transaksimasuk" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i> Tambah </button></div>
+                <!-- <div class="col-md-4"><button id="tambah_transaksimasuk" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i> Tambah </button></div> -->
                 </div>
               
                 
@@ -85,7 +90,7 @@ endforeach;
                       <div class="row">
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
-                          Tanggal Transaksi : <input class="form-control datepicker" type="text" name="tgl_transaksi" id="tgl_transaksi">
+                          Bulan Transaksi : <input class="form-control" type="text" name="tgl_transaksi" id="tgl_transaksi">
                         </div>
                         <div class="col-md-4"></div>
                       </div>
@@ -142,7 +147,10 @@ endforeach;
   <script src="<?php echo base_url(); ?>assets/modules/select2/dist/js/select2.full.min.js"></script>
 
   <script src="<?php echo base_url(); ?>assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
   <script src="<?php echo base_url(); ?>assets/modules/jquery-ui/jquery-ui.min.js"></script>
+
 
   <!-- Page Specific JS File -->
   <!-- <script src="<?php echo base_url(); ?>assets/js/page/modules-datatables.js"></script> -->

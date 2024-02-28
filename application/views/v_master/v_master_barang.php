@@ -53,7 +53,7 @@ endforeach;
                   <ul class="dropdown-menu">
                     <li class="nav-item"><a href="#" class="nav-link">Penjualan</a></li>
                     <li class="nav-item"><a href="<?= base_url('');?>Home/transaksi_masuk" class="nav-link">Barang Masuk</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Pengelolaan Stok</a></li>
+                    <li class="nav-item"><a href="<?= base_url('');?>Home/stok_barang" class="nav-link">Pengelolaan Stok</a></li>
                     <li class="nav-item"><a href="#" class="nav-link">...</a></li>
                   </ul>
             </li>

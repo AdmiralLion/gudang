@@ -109,4 +109,11 @@ class Home extends CI_Controller {
         $data['JavaScriptTambahan'] = $this->load->view('v_transaksi/transaksi_masuk.js',$data,TRUE);
 		$this->load->view('v_transaksi/v_transaksi_masuk.php',$data);
     }
+
+    public function stok_barang()
+    {
+        $data['user'] = $this->get_user();
+        $data['JavaScriptTambahan'] = $this->load->view('v_stok/stok_barang.js',$data,TRUE);
+		$this->load->view('v_stok/v_stok_barang.php',$data);
+    }
 }

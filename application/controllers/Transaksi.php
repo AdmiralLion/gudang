@@ -86,7 +86,25 @@ class Transaksi extends CI_Controller {
         
     }
 
+    public function getdatatransaksimasuk()
+    {
+        $tgl_transaksi = $this->input->post('tanggal_transaksi');
+        if($tgl_transaksi == '' OR $tgl_transaksi == null){
+            $tgl_transaksi = date('Y-m-d');
+        }else{
+            $tgl_transaksi = date('Y-m-d', strtotime($tgl_transaksi));
+        }
+        $data = $this->m_transaksi->get_transaksimasuk($tgl_transaksi);
+        echo json_encode($data);
+    }
 
+    public function print_transaksimasuk($id)
+    {
+        $id_user = $this->session->userdata('id_user');
+        $data['user'] = $this->m_master->getuser($id_user);
+        $data['get_barang'] = $this->m_transaksi->get_barang_masuk($id);
+		$this->load->view('v_transaksi/print_transaksi_masuk.php',$data);
+    }
 
     public function master_barang_act()
     {
