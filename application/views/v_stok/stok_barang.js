@@ -1,5 +1,5 @@
   $(document).ready(function () {
-    data_transaksimasuk();
+    data_stok();
     // reset_masterbarang();
     // ChangeWidth();
 
@@ -19,54 +19,7 @@
       $('#modal_tambahtransaksimasuk').modal('show');
     })
 
-      // $('#tgl_transaksi').datepicker(
-      //                {
-      //                    dateFormat: "mm/yy",
-      //                    startView: "months", 
-      //                    minViewMode: "months",
-      //                    changeMonth: true,
-      //                    changeYear: true,
-      //                    showButtonPanel: true,
-      //                    onClose: function(dateText, inst) {
- 
- 
-      //                        function isDonePressed(){
-      //                            return ($('#ui-datepicker-div').html().indexOf('ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all ui-state-hover') > -1);
-      //                        }
- 
-      //                        if (isDonePressed()){
-      //                            var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-      //                            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-      //                            $(this).datepicker('setDate', new Date(year, month, 1)).trigger('change');
-                                 
-      //                             $('#tgl_transaksi').focusout()//Added to remove focus from datepicker input box on selecting date
-      //                        }
-      //                    },
-      //                    beforeShow : function(input, inst) {
- 
-      //                        inst.dpDiv.addClass('month_year_datepicker')
- 
-      //                        if ((datestr = $(this).val()).length > 0) {
-      //                            year = datestr.substring(datestr.length-4, datestr.length);
-      //                            month = datestr.substring(0, 2);
-      //                            $(this).datepicker('option', 'defaultDate', new Date(year, month-1, 1));
-      //                            $(this).datepicker('setDate', new Date(year, month-1, 1));
-      //                            $(".ui-datepicker-calendar").hide();
-      //                        }
-      //                    }
-      //                });
- 
-    //   $("#tgl_transaksi").datepicker( {
-    //     format: "mm-yyyy",
-    //     startView: "months", 
-    //     minViewMode: "months"
-    // });
-
-    $("#tgl_transaksi").datepicker( {
-      format: "mm/yyyy",
-      startView: "year", 
-      minViewMode: "months"
-  });
+     
 
     $('.select2').select2({
       placeholder: 'Pilih nama rekanan',
@@ -82,13 +35,14 @@
       allowClear: true
     });
 
-    // $('#tgl_transaksi').change(function (){
-    //   data_transaksimasuk();
-    // });
+    $('#tgl_transaksi').change(function (){
+      data_stok();
+    });
 
 
-    function data_transaksimasuk(){
+    function data_stok(){
       var tanggal_transaksi = $('#tgl_transaksi').val();
+      console.log(tanggal_transaksi);
       // if(tanggal_transaksi == null || tanggal_transaksi == ''){
       //   var tanggal_transaksi = new Date().toJSON().slice(0, 10);
       // }
@@ -97,7 +51,7 @@
         data:{
           tanggal_transaksi:tanggal_transaksi
         },
-        url: "../Transaksi/getdatatransaksimasuk",
+        url: "../Transaksi/getstok",
         cache: false,
         success : function(data){
         console.log(data);
@@ -109,17 +63,26 @@
 
             $.each(data, function(i){
 
-
+                if(data[i].stok == 1){
+                  var cekstok = '<td style="text-align:center;">'+'<a href="#" class="btn btn-success btn-icon" >Ready</i>'+
+                '</td>';
+                }else if(data[i].stok == 2){
+                  var cekstok = '<td style="text-align:center;">'+'<a href="#" class="btn btn-danger btn-icon" >Kosong</i>'+
+                '</td>';
+                }
                 var btn_transaksimasuk = '<td style="text-align:center;">'+'<a href="<?php echo base_url();?>Transaksi/print_transaksimasuk/'+data[i].id+'" class="btn btn-info btn-icon" target="_blank"><i class="fa fa-print"></i>'+
                 '</td>';
 
                   n++;
                   html = [
                     n,
-                    data[i].kode_transaksi,
-                    data[i].nama_rekanan,
-                    data[i].tgl,
-                    btn_transaksimasuk
+                    data[i].nama_barang,
+                    data[i].nama_merk,
+                    data[i].tahun_barang,
+                    data[i].seri_barang,
+                    data[i].kode_bulan,
+                    data[i].kode_urut,
+                    cekstok
                   ];
           
                   // Add the row to DataTables
@@ -321,3 +284,11 @@ function education_fields() {
     // Update the value of the 'harga_total' field with the calculated total
     document.getElementById('harga_total').value = total;
 }
+
+$(function() {
+  $("#tgl_transaksi").datepicker( {
+      format: "mm-yyyy",
+      startView: "months", 
+      minViewMode: "months"
+  });
+  });

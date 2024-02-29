@@ -98,6 +98,18 @@ class Transaksi extends CI_Controller {
         echo json_encode($data);
     }
 
+    public function getstok()
+    {
+        $tgl_transaksi = $this->input->post('tanggal_transaksi');
+        if($tgl_transaksi == '' OR $tgl_transaksi == null){
+            $tgl_transaksi = date('m-Y');
+        }else{
+            // $tgl_transaksi = date('', strtotime($tgl_transaksi));
+        }
+        $data = $this->m_transaksi->get_stok($tgl_transaksi);
+        echo json_encode($data);
+    }
+
     public function print_transaksimasuk($id)
     {
         $id_user = $this->session->userdata('id_user');

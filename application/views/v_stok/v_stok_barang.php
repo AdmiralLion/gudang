@@ -4,11 +4,11 @@ foreach($user as $row):
     $nama = $row -> nama_user;
 endforeach;
 ?>
-<!-- <style>
-  .ui-datepicker-calendar {
-    display: none;
-    }
-</style> -->
+<head>
+<script src="<?php echo base_url(); ?>assets/modules/jquery.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+</head>
 
 <body class="layout-3">
 <div class="main-wrapper container">
@@ -90,7 +90,7 @@ endforeach;
                       <div class="row">
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
-                          Bulan Transaksi : <input class="form-control" type="text" name="tgl_transaksi" id="tgl_transaksi">
+                          Bulan Stok : <input class="form-control" type="text" name="tgl_transaksi" id="tgl_transaksi">
                         </div>
                         <div class="col-md-4"></div>
                       </div>
@@ -100,13 +100,16 @@ endforeach;
                             <th class="text-center" style="width:10px;">
                               No
                             </th>
-                            <th class="text-center">Kode Transaksi</th>
-                            <th class="text-center">Rekanan</th>
-                            <th class="text-center">Tgl Transaksi</th>
-                            <th class="text-center">Print</th>
+                            <th class="text-center">Nama barang</th>
+                            <th class="text-center">Nama merk</th>
+                            <th class="text-center">Tahun</th>
+                            <th class="text-center">Seri</th>
+                            <th class="text-center">Kode Bulan</th>
+                            <th class="text-center">Kode Urut</th>
+                            <th class="text-center">Stok</th>
                           </tr>
                         </thead>
-                        <tbody id="data_transaksimasuk" style="text-align: center;">                                 
+                        <tbody id="data_stok" style="text-align: center;">                                 
                          
                         </tbody>
                       </table>
@@ -126,7 +129,7 @@ endforeach;
 
 
         <!-- General JS Scripts -->
-  <script src="<?php echo base_url(); ?>assets/modules/jquery.min.js"></script>
+
   <script src="<?php echo base_url(); ?>assets/modules/popper.js"></script>
   <script src="<?php echo base_url(); ?>assets/modules/tooltip.js"></script>
   <script src="<?php echo base_url(); ?>assets/modules/bootstrap/js/bootstrap.min.js"></script>
@@ -147,9 +150,9 @@ endforeach;
   <script src="<?php echo base_url(); ?>assets/modules/select2/dist/js/select2.full.min.js"></script>
 
   <script src="<?php echo base_url(); ?>assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js"></script>
-  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
-  <script src="<?php echo base_url(); ?>assets/modules/jquery-ui/jquery-ui.min.js"></script>
+  <script src="<?php echo base_url(); ?>assets/modules/jquery-ui/jquery-ui.min.js"></script> -->
 
 
   <!-- Page Specific JS File -->

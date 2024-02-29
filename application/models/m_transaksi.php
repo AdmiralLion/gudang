@@ -62,12 +62,12 @@ class m_transaksi extends CI_Model {
         return $query->result();
     }
 
-    public function get_barang_bulan($tgl_stok){
+    public function get_stok($tgl_stok){
         $tgl = explode('-', $tgl_stok);
-        $bulan = $tgl[1];
-        $tahun = $tgl[2];
+        $bulan = $tgl[0];
+        $tahun = $tgl[1];
         $query = $this->db->query("SELECT btm.kode_transaksi, mb.nama_barang, ms.nama_satuan, m.nama_merk, bbm.tahun_barang, bbm.seri_barang, 
-        bbm.kode_bulan, bbm.kode_urut, bbm.harga_barang, DATE_FORMAT(btm.tgl_act,'%d-%m-%Y') AS tgl_transaksi, mr.nama_rekanan 
+        bbm.kode_bulan, bbm.kode_urut, bbm.harga_barang, DATE_FORMAT(btm.tgl_act,'%d-%m-%Y') AS tgl_transaksi, mr.nama_rekanan, bbm.stok 
         FROM b_transaksi_masuk btm JOIN b_barang_masuk bbm ON btm.kode_transaksi = bbm.kode_transaksi 
         JOIN m_barang mb ON bbm.id_barang = mb.id JOIN m_merk m ON bbm.id_merk = m.id JOIN m_rekanan mr ON btm.id_rekanan = mr.id
         JOIN m_satuan ms ON mb.satuan_barang = ms.id WHERE MONTH(btm.tgl_act) = '$bulan' AND YEAR(btm.tgl_act) = '$tahun'");
