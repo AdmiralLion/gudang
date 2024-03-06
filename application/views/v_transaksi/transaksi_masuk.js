@@ -176,10 +176,12 @@ console.log(transaksi_temp);
             console.log(pesan);
             if (response.status === '200') {
                 alert(response.message);
-                data_masterbarang();
+                data_transaksimasuk();
+                location.reload();
             } else {
                 alert(response.message);
-                data_masterbarang();
+                data_transaksimasuk();
+                location.reload();
                 return false;
             }
             throttled = false;

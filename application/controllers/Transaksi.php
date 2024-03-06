@@ -30,8 +30,9 @@ class Transaksi extends CI_Controller {
             $temp = $row->jumlah;
         endforeach;
         $jumlah = $temp + 1;
+
         // Generate the transaction code
-        $transactionCode = 'SJ/J3/BHN/' . $jumlah;
+        $transactionCode = 'SJ/J3/BHN/'.$bulan.'/'.$tahun.'/' . $jumlah;
     
         return $transactionCode;
     }
