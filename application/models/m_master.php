@@ -53,7 +53,14 @@ class m_master extends CI_Model {
     }
 
     public function get_masterbarang(){
-        $query = $this->db->query("SELECT * FROM m_barang");
+        $query = $this->db->query("SELECT * FROM m_barang JOIN m_satuan ON m_barang.satuan_barang = m_satuan.id");
+        return $query->result();
+    }
+
+    public function get_masterbarangready(){
+        $query = $this->db->query("SELECT bm.id,b.nama_barang,m.nama_merk,bm.tahun_barang,bm.seri_barang,bm.kode_bulan,bm.kode_urut,bm.harga_barang
+        FROM b_barang_masuk bm INNER JOIN m_barang b ON bm.id_barang = b.id INNER JOIN m_merk m ON bm.id_merk = m.id
+        WHERE bm.stok = '1'");
         return $query->result();
     }
 

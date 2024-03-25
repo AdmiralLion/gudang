@@ -4,11 +4,6 @@ foreach($user as $row):
     $nama = $row -> nama_user;
 endforeach;
 ?>
-<head>
-<script src="<?php echo base_url(); ?>assets/modules/jquery.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-<link rel="stylesheet" href="<?php echo base_url(); ?>assets/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
-</head>
 
 <body class="layout-3">
 <div class="main-wrapper container">
@@ -54,9 +49,9 @@ endforeach;
             <li class="nav-item dropdown active">
               <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-heart"></i><span>Transaksi</span></a>
                   <ul class="dropdown-menu">
-                    <li class="nav-item"><a href="<?= base_url('');?>Home/transaksi_keluar" class="nav-link">Penjualan</a></li>
-                    <li class="nav-item"><a href="<?= base_url('');?>Home/transaksi_masuk" class="nav-link">Barang Masuk</a></li>
-                    <li class="nav-item active"><a href="#" class="nav-link">Pengelolaan Stok</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Penjualan</a></li>
+                    <li class="nav-item active"><a href="<?= base_url('');?>Home/transaksi_masuk" class="nav-link">Barang Masuk</a></li>
+                    <li class="nav-item"><a href="<?= base_url('');?>Home/stok_barang" class="nav-link">Pengelolaan Stok</a></li>
                     <li class="nav-item"><a href="#" class="nav-link">...</a></li>
                   </ul>
             </li>
@@ -71,17 +66,17 @@ endforeach;
       <div class="main-content">
         <section class="section">
           <div class="section-header">
-            <h1>Stok</h1>
+            <h1>Transaksi Keluar</h1>
           </div>
 
           <div class="section-body">
             <div class="card">
               <div class="card-header">
-                <h4>STOK</h4>
+                <h4>TRANSAKSI KELUAR</h4>
               </div>
               <div class="card-body">
                 <div class="row">
-                <!-- <div class="col-md-4"><button id="tambah_transaksimasuk" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i> Tambah </button></div> -->
+                <div class="col-md-4"><button id="tambah_transaksikeluar" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i> Tambah </button></div>
                 </div>
               
                 
@@ -90,7 +85,7 @@ endforeach;
                       <div class="row">
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
-                          Bulan Stok : <input class="form-control" type="text" name="tgl_transaksi" id="tgl_transaksi">
+                          Tanggal Transaksi : <input class="form-control datepicker" type="text" name="tgl_transaksi" id="tgl_transaksi">
                         </div>
                         <div class="col-md-4"></div>
                       </div>
@@ -100,16 +95,13 @@ endforeach;
                             <th class="text-center" style="width:10px;">
                               No
                             </th>
-                            <th class="text-center">Nama barang</th>
-                            <th class="text-center">Nama merk</th>
-                            <th class="text-center">Tahun</th>
-                            <th class="text-center">Seri</th>
-                            <th class="text-center">Kode Bulan</th>
-                            <th class="text-center">Kode Urut</th>
-                            <th class="text-center">Stok</th>
+                            <th class="text-center">Kode Transaksi</th>
+                            <th class="text-center">Pembeli</th>
+                            <th class="text-center">Tgl Transaksi</th>
+                            <th class="text-center">Print</th>
                           </tr>
                         </thead>
-                        <tbody id="data_stok" style="text-align: center;">                                 
+                        <tbody id="data_transaksikeluar" style="text-align: center;">                                 
                          
                         </tbody>
                       </table>
@@ -129,7 +121,7 @@ endforeach;
 
 
         <!-- General JS Scripts -->
-
+  <script src="<?php echo base_url(); ?>assets/modules/jquery.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/modules/popper.js"></script>
   <script src="<?php echo base_url(); ?>assets/modules/tooltip.js"></script>
   <script src="<?php echo base_url(); ?>assets/modules/bootstrap/js/bootstrap.min.js"></script>
@@ -150,10 +142,7 @@ endforeach;
   <script src="<?php echo base_url(); ?>assets/modules/select2/dist/js/select2.full.min.js"></script>
 
   <script src="<?php echo base_url(); ?>assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js"></script>
-  <!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-
-  <script src="<?php echo base_url(); ?>assets/modules/jquery-ui/jquery-ui.min.js"></script> -->
-
+  <script src="<?php echo base_url(); ?>assets/modules/jquery-ui/jquery-ui.min.js"></script>
 
   <!-- Page Specific JS File -->
   <!-- <script src="<?php echo base_url(); ?>assets/js/page/modules-datatables.js"></script> -->
@@ -163,11 +152,11 @@ endforeach;
   <script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
 </body>
 
-<div class="modal fade" id="modal_tambahtransaksimasuk" role="dialog" aria-labelledby="modal_tambahtransaksimasuk" aria-hidden="true">
+<div class="modal fade" id="modal_tambahtransaksikeluar" role="dialog" aria-labelledby="modal_tambahtransaksikeluar" aria-hidden="true">
                   <div class="modal-dialog" style="min-width:100%;" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="modal_tambahtransaksimasuk">Transaksi Masuk</h5>
+                        <h5 class="modal-title" id="modal_tambahtransaksikeluar">Transaksi Keluar</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
@@ -176,15 +165,17 @@ endforeach;
                         <input type="hidden" name="id_transaksi" id="id_transaksi" value="">
                         <div class="panel-body">
                           <div class="row">
-                            <div class="col-md-3"><p style="text-align: right;">Pilih nama rekanan : </p></div>
+                            <div class="col-md-3"><p style="text-align: right;">Nama Pembeli : </p></div>
                             <div class="col-md-6">
-                              <select class="form-control select2" style="width:100%" name="nama_rekanan" id="nama_rekanan">
+                              <input type="text" class="form-control" name="nama_rekanan" id="nama_rekanan" placeholder="CV MAJU BERSAMA">
+                              <!-- <select class="form-control select2" style="width:100%" name="nama_rekanan" id="nama_rekanan">
                               <option>--Pilih Rekanan--</option>
                               <?php foreach($nama_rekanan as $rows):
                                echo '<option value="'.$rows->id.'">'.$rows->nama_rekanan.'</option>';
                               endforeach;
                               ?>
-                            </select></div>
+                            </select> -->
+                          </div>
                           </div>
                           <br>
                           <div id="education_fields">
@@ -259,7 +250,7 @@ endforeach;
   </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button id="save_transaksimasuk" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Tambah</button>
+                        <button id="save_transaksikeluar" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Tambah</button>
                       </div>
                     </div>
                   </div>

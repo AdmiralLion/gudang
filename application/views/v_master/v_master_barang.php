@@ -51,7 +51,7 @@ endforeach;
             <li class="nav-item dropdown">
               <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-heart"></i><span>Transaksi</span></a>
                   <ul class="dropdown-menu">
-                    <li class="nav-item"><a href="#" class="nav-link">Penjualan</a></li>
+                    <li class="nav-item"><a href="<?= base_url('');?>Home/transaksi_keluar" class="nav-link">Penjualan</a></li>
                     <li class="nav-item"><a href="<?= base_url('');?>Home/transaksi_masuk" class="nav-link">Barang Masuk</a></li>
                     <li class="nav-item"><a href="<?= base_url('');?>Home/stok_barang" class="nav-link">Pengelolaan Stok</a></li>
                     <li class="nav-item"><a href="#" class="nav-link">...</a></li>
@@ -96,7 +96,7 @@ endforeach;
                             <th class="text-center">Jenis Barang</th>
                           </tr>
                         </thead>
-                        <tbody id="data_master_barang">                                 
+                        <tbody id="data_master_barang" style="text-align:center">                                 
                          
                         </tbody>
                       </table>

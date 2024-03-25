@@ -165,7 +165,8 @@ class Transaksi extends CI_Controller {
 
     public function getdatamasterbarang()
     {
-        $data = $this->m_master->get_masterbarang();
+        $data['master_barang'] = $this->m_master->get_masterbarang();
+        $data['master_merk'] = $this->m_master->get_mastermerk();
         echo json_encode($data);
     }
 
@@ -173,6 +174,13 @@ class Transaksi extends CI_Controller {
     {
         $id = $this->input->post('id');
         $data = $this->m_master->get_datamasterbarang($id);
+        echo json_encode($data);
+    }
+
+    public function getdatamasterbarangready()
+    {
+        $data['master_barang'] = $this->m_master->get_masterbarangready();
+        // $data['mastermerk'] = $this->m_master->get_mastermerk();
         echo json_encode($data);
     }
 
@@ -384,6 +392,81 @@ class Transaksi extends CI_Controller {
     {
         $id = $this->input->post('id');
         $data = $this->m_master->get_hargabarang($id);
+        echo json_encode($data);
+    }
+
+    public function generate_kodetranskeluar()
+    {
+        $monthYear = date('m-Y');
+        $tampung = explode('-', $monthYear);
+        $bulan = $tampung[0];
+        $tahun = $tampung[1];
+
+        // Get the number of transactions occurred in the current month
+        $transactionCount = $this->m_transaksi->getkodetranskeluar($bulan,$tahun);
+        foreach($transactionCount as $row):
+            $temp = $row->jumlah;
+        endforeach;
+        $jumlah = $temp + 1;
+
+        // Generate the transaction code
+        $transactionCode = 'SJ/J3/KLR/'.$bulan.'/'.$tahun.'/' . $jumlah;
+    
+        return $transactionCode;
+    }
+    
+    public function transaksi_keluar_act()
+    {
+        $transaksi_temp = $this->input->post('transaksi_temp');
+        $id_transaksi = $this->input->post('id_transaksi');
+        $harga_keluar = $this->input->post('harga_keluar');
+        $id_user = $this->session->userdata('id_user');
+
+        foreach($transaksi_temp as $rows):
+            $id_transaksi = $rows['id_transaksi'];
+            $nama_rekanan = $rows ['nama_rekanan'];
+        endforeach;
+        if($id_transaksi == '' OR $id_transaksi == null){
+            $kd_transaksi = $this->generate_kodetranskeluar();
+            foreach($transaksi_temp as $row):
+                $nama_barang = $row['nama_barang'];
+                $data['detail'] = $this->m_transaksi->get_detailbarang_keluar($nama_barang);
+                $harga_keluar = $row['harga_keluar'];
+                foreach($data['detail'] as $det):
+                    $data['transaksi_keluar'] = $this -> m_transaksi -> insert_barang_keluar($kd_transaksi,$det -> id_barang,$det -> id_merk ,$det -> tahun_barang,$det -> seri_barang,$det -> kode_bulan,$det -> kode_urut,$det -> harga_barang,$harga_keluar,$id_user);
+                    $data['update_stok'] = $this -> m_transaksi -> update_stok($nama_barang);
+                endforeach;
+            endforeach;
+            $data['insert'] = $this -> m_transaksi -> insert_transaksi_keluar($kd_transaksi,$nama_rekanan,$id_user);
+            if($data['transaksi_keluar'] == 'true' OR $data['transaksi_keluar'] == TRUE OR $data['transaksi_keluar'] == 'TRUE'){
+                $response = [
+                    'status' => '200',
+                    'message' =>  'Barang Berhasil Terjual'
+                ];
+            }else{
+                $response = [
+                    'status' => '400',
+                    'message' =>  'Barang Gagal Terjual'
+                ];
+    
+            }
+        }
+        header('Content-Type: application/json');
+
+        echo json_encode($response);
+        die();
+        
+    }
+
+    public function getdatatransaksikeluar()
+    {
+        $tgl_transaksi = $this->input->post('tanggal_transaksi');
+        if($tgl_transaksi == '' OR $tgl_transaksi == null){
+            $tgl_transaksi = date('Y-m-d');
+        }else{
+            $tgl_transaksi = date('Y-m-d', strtotime($tgl_transaksi));
+        }
+        $data = $this->m_transaksi->get_transaksikeluar($tgl_transaksi);
         echo json_encode($data);
     }
 

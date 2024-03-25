@@ -1,5 +1,5 @@
   $(document).ready(function () {
-    data_transaksimasuk();
+    data_transaksikeluar();
     // reset_masterbarang();
     // ChangeWidth();
 
@@ -15,30 +15,30 @@
     $("#table-1").dataTable();
 
 
-    $('#tambah_transaksimasuk').on('click', function() {
-      $('#modal_tambahtransaksimasuk').modal('show');
+    $('#tambah_transaksikeluar').on('click', function() {
+      $('#modal_tambahtransaksikeluar').modal('show');
     })
 
     $('.select2').select2({
       placeholder: 'Pilih nama rekanan',
       width: "100%",
-      dropdownParent: $('#modal_tambahtransaksimasuk'),
+      dropdownParent: $('#modal_tambahtransaksikeluar'),
       allowClear: true
     });
 
     $('.select2').select2({
       placeholder: 'tes',
       width: "100%",
-      dropdownParent: $('#modal_tambahtransaksimasuk'),
+      dropdownParent: $('#modal_tambahtransaksikeluar'),
       allowClear: true
     });
 
     $('#tgl_transaksi').change(function (){
-      data_transaksimasuk();
+      data_transaksikeluar();
     });
 
 
-    function data_transaksimasuk(){
+    function data_transaksikeluar(){
       var tanggal_transaksi = $('#tgl_transaksi').val();
       // if(tanggal_transaksi == null || tanggal_transaksi == ''){
       //   var tanggal_transaksi = new Date().toJSON().slice(0, 10);
@@ -48,7 +48,7 @@
         data:{
           tanggal_transaksi:tanggal_transaksi
         },
-        url: "../Transaksi/getdatatransaksimasuk",
+        url: "../Transaksi/getdatatransaksikeluar",
         cache: false,
         success : function(data){
         console.log(data);
@@ -61,16 +61,16 @@
             $.each(data, function(i){
 
 
-                var btn_transaksimasuk = '<td style="text-align:center;">'+'<a href="<?php echo base_url();?>Transaksi/print_transaksimasuk/'+data[i].id+'" class="btn btn-info btn-icon" target="_blank"><i class="fa fa-print"></i>'+
+                var btn_transaksikeluar = '<td style="text-align:center;">'+'<a href="<?php echo base_url();?>Transaksi/print_transaksikeluar/'+data[i].id+'" class="btn btn-info btn-icon" target="_blank"><i class="fa fa-print"></i>'+
                 '</td>';
 
                   n++;
                   html = [
                     n,
                     data[i].kode_transaksi,
-                    data[i].nama_rekanan,
+                    data[i].nama_pembeli,
                     data[i].tgl,
-                    btn_transaksimasuk
+                    btn_transaksikeluar
                   ];
           
                   // Add the row to DataTables
@@ -133,32 +133,22 @@
         }
 });
 
-    $('#save_transaksimasuk').on('click', function() {
+    $('#save_transaksikeluar').on('click', function() {
       var id_transaksi = $('#id_transaksi').val();
-      var id_rekanan = $('#nama_rekanan').val();
+      var nama_rekanan = $('#nama_rekanan').val();
       var transaksi_temp = [];
 
       $('.form-group').each(function() {
         var nama_barang = $(this).find('#nama_barang').val();
-        var nama_merk = $(this).find('#nama_merk').val();
-        var tahun_barang = $(this).find('#tahun_barang').val();
-        var seri_barang = $(this).find('#seri_barang').val();
-        var kode_bulan = $(this).find('#kode_bulan').val();
-        var kode_urut = $(this).find('#kode_urut').val();
-        var harga_masuk = $(this).find('#harga_masuk').val();
+        var harga_keluar = $(this).find('#harga_keluar').val();
         console.log(nama_barang);
-        console.log(harga_masuk);
-        if (nama_barang != undefined && harga_masuk != undefined){
+        console.log(harga_keluar);
+        if (nama_barang != undefined && harga_keluar != undefined){
           transaksi_temp.push({
             id_transaksi: id_transaksi,
-            id_rekanan: id_rekanan,
+            nama_rekanan: nama_rekanan,
             nama_barang: nama_barang,
-            nama_merk: nama_merk,
-            tahun_barang: tahun_barang,
-            seri_barang: seri_barang,
-            kode_bulan: kode_bulan,
-            kode_urut: kode_urut,
-            harga_masuk: harga_masuk
+            harga_keluar: harga_keluar
         });
         }
         // Push values into corresponding arrays
@@ -167,7 +157,7 @@
 console.log(transaksi_temp);
       $.ajax({
         type: 'POST',
-        url: "../Transaksi/transaksi_masuk_act",//dilanjut besok
+        url: "../Transaksi/transaksi_keluar_act",//dilanjut besok
         data: { transaksi_temp: transaksi_temp },
         }).done(function(response) {
           
@@ -176,11 +166,11 @@ console.log(transaksi_temp);
             console.log(pesan);
             if (response.status === '200') {
                 alert(response.message);
-                data_transaksimasuk();
+                data_transaksikeluar();
                 location.reload();
             } else {
                 alert(response.message);
-                data_transaksimasuk();
+                data_transaksikeluar();
                 location.reload();
                 return false;
             }
@@ -210,44 +200,37 @@ function education_fields() {
   var rdiv = 'removeclass'+room;
   $.ajax({
     type:"POST",
-    url: "../Transaksi/getdatamasterbarang",
+    url: "../Transaksi/getdatamasterbarangready",
     cache: false,
     success : function(response){
     var response = $.parseJSON(response);
     console.log(response);
     var masterbarang = response.master_barang;
-    var mastermerk = response.master_merk;
+    var mastermerk = response.mastermerk;
     var options1 = '';
     var options2 = '';
 
     masterbarang.forEach(function(item) {
-      options1 += '<option value="' + item.id + '">' + item.nama_barang + '</option>';
+      options1 += '<option value="' + item.id + '" data-harga="' + item.harga_barang + '">' + item.nama_barang + ' Merk '+ item.nama_merk + ' Tahun ' + item.tahun_barang + ' Seri ' + item.seri_barang + ' Kode Bulan ' + item.kode_bulan + ' Kode Urut ' + item.kode_urut+'</option>';
   });
 
-  mastermerk.forEach(function(item2) {
-    options2 += '<option value="' + item2.id + '">' + item2.nama_merk + '</option>';
-});
+//   mastermerk.forEach(function(item2) {
+//     options2 += '<option value="' + item2.id + '">' + item2.nama_merk + '</option>';
+// });
 
   
 
   // $('#nama_barang').append(options1);
     divtest.innerHTML = '<div class="row">'+
-    '<div class="col-sm-3 nopadding"><div class="form-group"> <label for="Barang">Barang :</label><br><select class="select2" style="width:100%" id="nama_barang" name="nama_barang[]">' +'<option value="">--Barang--</option>'+
+    '<div class="col-sm-8 nopadding"><div class="form-group"> <label for="Barang">Barang :</label><br><select class="select2" style="width:100%" id="nama_barang" name="nama_barang[]" onchange="setHarga(this)">' +'<option value="">--Barang--</option>'+
                 options1 +
-                '</select></div></div>'+
-    '<div class="col-sm-3 nopadding"><div class="form-group"> <label for="Merk">Merk :</label><br><select class="select2" style="width:100%" id="nama_merk" name="nama_merk[]">' +'<option value="">--Merk--</option>'+
-    options2 +
-    '</select></div></div>'+
-    '<div class="col-sm-1 nopadding"><div class="form-group"> <input type="text" class="form-control" id="tahun_barang" name="tahun_barang[]" value="" placeholder="Tahun"></div></div>'+
-    '<div class="col-sm-1 nopadding"><div class="form-group"> <input type="text" class="form-control" id="seri_barang" name="seri_barang[]" value="" placeholder="Seri"></div></div>'+
-    '<div class="col-sm-1 nopadding"><div class="form-group"> <input type="text" class="form-control" id="kode_bulan" name="kode_bulan[]" value="" placeholder="Bulan"></div></div>'+
-    '<div class="col-sm-1 nopadding"><div class="form-group"> <input type="text" class="form-control" id="kode_urut" name="kode_urut[]" value="" placeholder="Urut"></div></div>'+
-    '<div class="col-sm-2 nopadding"><div class="form-group"><div class="input-group"><input type="text" placeholder="Harga" class="form-control" name="harga_masuk[]" id="harga_masuk" onkeyup="hitung_harga()"> &nbsp; &nbsp;<div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_education_fields('+ room +');"> <span class="fa fa-minus" aria-hidden="true"></span> </button></div></div></div></div><div class="clear"></div></div>';
+    '</select></div></div>'+'<div class="col-sm-2 nopadding"><div class="form-group"><label for="Harga">Harga Masuk :</label><br><div class="input-group"><input type="text" placeholder="Harga" class="form-control" name="harga_masuk[]" id="harga_masuk" readonly></div></div></div>'+
+    '<div class="col-sm-2 nopadding"><div class="form-group"> <label for="Harga Keluar">Harga Keluar :</label><br><div class="input-group"><input type="text" placeholder="Harga" class="form-control" name="harga_keluar[]" id="harga_keluar" onkeyup="hitung_harga()"> &nbsp; &nbsp;<div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_education_fields('+ room +');"> <span class="fa fa-minus" aria-hidden="true"></span> </button></div></div></div></div><div class="clear"></div></div>';
     objTo.appendChild(divtest)
     $('.select2').select2({
       placeholder: '--Pilih--',
       width: "100%",
-      dropdownParent: $('#modal_tambahtransaksimasuk'),
+      dropdownParent: $('#modal_tambahtransaksikeluar'),
       allowClear: true
     });
     }
@@ -259,17 +242,24 @@ function education_fields() {
      $('.removeclass'+rid).remove();
    }
 
+   function setHarga(select) {
+    var hargaMasukInput = $(select).closest('.row').find('#harga_masuk');
+    var selectedOption = $(select).find('option:selected');
+    var hargaMasukValue = selectedOption.data('harga');
+    hargaMasukInput.val(hargaMasukValue);
+}
+
 
    function hitung_harga() {
-    // Get all elements with name 'harga_masuk[]'
-    var harga_masuk_fields = document.getElementsByName('harga_masuk[]');
+    // Get all elements with name 'harga_keluar[]'
+    var harga_keluar_fields = document.getElementsByName('harga_keluar[]');
     
     var total = 0;
 
-    // Iterate through all harga_masuk fields and sum up their values
-    for (var i = 0; i < harga_masuk_fields.length; i++) {
-        var harga_masuk_value = parseFloat(harga_masuk_fields[i].value) || 0; // Parse float, default to 0 if NaN
-        total += harga_masuk_value;
+    // Iterate through all harga_keluar fields and sum up their values
+    for (var i = 0; i < harga_keluar_fields.length; i++) {
+        var harga_keluar_value = parseFloat(harga_keluar_fields[i].value) || 0; // Parse float, default to 0 if NaN
+        total += harga_keluar_value;
     }
 
     // Update the value of the 'harga_total' field with the calculated total

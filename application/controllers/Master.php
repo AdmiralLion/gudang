@@ -64,10 +64,12 @@ class Master extends CI_Controller {
 
     public function getdatamasterbarang()
     {
-        $data['masterbarang'] = $this->m_master->get_masterbarang();
-        $data['mastermerk'] = $this->m_master->get_mastermerk();
+        $data = $this->m_master->get_masterbarang();
+        // $data['mastermerk'] = $this->m_master->get_mastermerk();
         echo json_encode($data);
     }
+
+
 
     public function get_dataeditmasterbarang()
     {
