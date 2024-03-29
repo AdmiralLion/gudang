@@ -1,5 +1,5 @@
   $(document).ready(function () {
-    data_transaksikeluar();
+    data_retursupplier();
     // reset_masterbarang();
     // ChangeWidth();
 
@@ -15,30 +15,30 @@
     $("#table-1").dataTable();
 
 
-    $('#tambah_transaksikeluar').on('click', function() {
-      $('#modal_tambahtransaksikeluar').modal('show');
+    $('#tambah_retursupplier').on('click', function() {
+      $('#modal_tambahretursupplier').modal('show');
     })
 
     $('.select2').select2({
-      placeholder: 'Pilih nama rekanan',
+      placeholder: 'Pilih nama supplier',
       width: "100%",
-      dropdownParent: $('#modal_tambahtransaksikeluar'),
+      dropdownParent: $('#modal_tambahretursupplier'),
       allowClear: true
     });
 
     $('.select2').select2({
       placeholder: 'tes',
       width: "100%",
-      dropdownParent: $('#modal_tambahtransaksikeluar'),
+      dropdownParent: $('#modal_tambahretursupplier'),
       allowClear: true
     });
 
     $('#tgl_transaksi').change(function (){
-      data_transaksikeluar();
+      data_retursupplier();
     });
 
 
-    function data_transaksikeluar(){
+    function data_retursupplier(){
       var tanggal_transaksi = $('#tgl_transaksi').val();
       // if(tanggal_transaksi == null || tanggal_transaksi == ''){
       //   var tanggal_transaksi = new Date().toJSON().slice(0, 10);
@@ -48,7 +48,7 @@
         data:{
           tanggal_transaksi:tanggal_transaksi
         },
-        url: "../Transaksi/getdatatransaksikeluar",
+        url: "../Transaksi/getdataretursupplier",
         cache: false,
         success : function(data){
         console.log(data);
@@ -61,16 +61,16 @@
             $.each(data, function(i){
 
 
-                var btn_transaksikeluar = '<td style="text-align:center;">'+'<a href="<?php echo base_url();?>Transaksi/print_transaksikeluar/'+data[i].id+'" class="btn btn-info btn-icon" target="_blank"><i class="fa fa-print"></i>'+
+                var btn_retursupplier = '<td style="text-align:center;">'+'<a href="<?php echo base_url();?>Transaksi/print_retursupplier/'+data[i].id+'" class="btn btn-info btn-icon" target="_blank"><i class="fa fa-print"></i>'+
                 '</td>';
 
                   n++;
                   html = [
                     n,
-                    data[i].kode_transaksi,
-                    data[i].nama_pembeli,
+                    data[i].kd_retur,
+                    data[i].nama_rekanan,
                     data[i].tgl,
-                    btn_transaksikeluar
+                    btn_retursupplier
                   ];
           
                   // Add the row to DataTables
@@ -133,31 +133,29 @@
         }
 });
 
-    $('#save_transaksikeluar').on('click', function() {
-      var id_transaksi = $('#id_transaksi').val();
-      var nama_rekanan = $('#nama_rekanan').val();
+    $('#save_retursupplier').on('click', function() {
+      var id_retur = $('#id_retur').val();
+      var nama_supplier = $('#nama_supplier').val();
       var transaksi_temp = [];
 
       $('.form-group').each(function() {
         var nama_barang = $(this).find('#nama_barang').val();
-        var harga_keluar = $(this).find('#harga_keluar').val();
-        console.log(nama_barang);
-        console.log(harga_keluar);
-        if (nama_barang != undefined && harga_keluar != undefined){
+        var harga_masuk = $(this).find('#harga_masuk').val();
+        if (nama_barang != undefined && harga_masuk != undefined){
           transaksi_temp.push({
-            id_transaksi: id_transaksi,
-            nama_rekanan: nama_rekanan,
+            id_retur: id_retur,
+            nama_supplier: nama_supplier,
             nama_barang: nama_barang,
-            harga_keluar: harga_keluar
+            harga_masuk: harga_masuk
         });
         }
         // Push values into corresponding arrays
         
     });
-console.log(transaksi_temp);
+    console.log(transaksi_temp);
       $.ajax({
         type: 'POST',
-        url: "../Transaksi/transaksi_keluar_act",//dilanjut besok
+        url: "../Transaksi/retur_supplier_act",//dilanjut besok
         data: { transaksi_temp: transaksi_temp },
         }).done(function(response) {
           
@@ -166,11 +164,11 @@ console.log(transaksi_temp);
             console.log(pesan);
             if (response.status === '200') {
                 alert(response.message);
-                data_transaksikeluar();
+                data_retursupplier();
                 location.reload();
             } else {
                 alert(response.message);
-                data_transaksikeluar();
+                data_retursupplier();
                 location.reload();
                 return false;
             }
@@ -186,6 +184,7 @@ console.log(transaksi_temp);
       }
  
 }
+
 
 });
 
@@ -224,18 +223,18 @@ function education_fields() {
     divtest.innerHTML = '<div class="row">'+
     '<div class="col-sm-8 nopadding"><div class="form-group"> <label for="Barang">Barang :</label><br><select class="select2" style="width:100%" id="nama_barang" name="nama_barang[]" onchange="setHarga(this)">' +'<option value="">--Barang--</option>'+
                 options1 +
-    '</select></div></div>'+'<div class="col-sm-2 nopadding"><div class="form-group"><label for="Harga">Harga Masuk :</label><br><div class="input-group"><input type="text" placeholder="Harga" class="form-control" name="harga_masuk[]" id="harga_masuk" readonly></div></div></div>'+
-    '<div class="col-sm-2 nopadding"><div class="form-group"> <label for="Harga Keluar">Harga Keluar :</label><br><div class="input-group"><input type="text" placeholder="Harga" class="form-control" name="harga_keluar[]" id="harga_keluar" onkeyup="hitung_harga()"> &nbsp; &nbsp;<div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_education_fields('+ room +');"> <span class="fa fa-minus" aria-hidden="true"></span> </button></div></div></div></div><div class="clear"></div></div>';
+    '</select></div></div>'+'<div class="col-sm-4 nopadding"><div class="form-group"><label for="Harga">Harga Masuk :</label><br><div class="input-group"><input type="text" placeholder="Harga" class="form-control" name="harga_masuk[]" id="harga_masuk" onchange="hitung_harga()" readonly> &nbsp; &nbsp;<div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_education_fields('+ room +');"> <span class="fa fa-minus" aria-hidden="true"></span> </button></div></div></div></div><div class="clear"></div></div>';
     objTo.appendChild(divtest)
     $('.select2').select2({
       placeholder: '--Pilih--',
       width: "100%",
-      dropdownParent: $('#modal_tambahtransaksikeluar .modal-content'),
+      dropdownParent: $('#modal_tambahretursupplier .modal-content'),
       allowClear: true
     });
     }
     });
     
+ 
    
 }
    function remove_education_fields(rid) {
@@ -250,10 +249,14 @@ function education_fields() {
 }
 
 
+setInterval(function() {
+  hitung_harga();
+}, 1000);
+
    function hitung_harga() {
     // Get all elements with name 'harga_keluar[]'
-    var harga_keluar_fields = document.getElementsByName('harga_keluar[]');
-    
+    var harga_keluar_fields = document.getElementsByName('harga_masuk[]');
+    console.log('tes');
     var total = 0;
 
     // Iterate through all harga_keluar fields and sum up their values

@@ -126,4 +126,24 @@ class Home extends CI_Controller {
         $data['JavaScriptTambahan'] = $this->load->view('v_transaksi/transaksi_keluar.js',$data,TRUE);
 		$this->load->view('v_transaksi/v_transaksi_keluar.php',$data);
     }
+
+    public function retur_jual()
+    {
+        $data['user'] = $this->get_user();
+        $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
+        $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
+        $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
+        $data['JavaScriptTambahan'] = $this->load->view('v_retur/retur_penjualan.js',$data,TRUE);
+		$this->load->view('v_retur/v_retur_penjualan.php',$data);
+    }
+
+    public function retur_supplier()
+    {
+        $data['user'] = $this->get_user();
+        $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
+        $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
+        $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
+        $data['JavaScriptTambahan'] = $this->load->view('v_retur/retur_supplier.js',$data,TRUE);
+		$this->load->view('v_retur/v_retur_supplier.php',$data);
+    }
 }

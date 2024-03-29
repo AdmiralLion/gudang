@@ -238,14 +238,14 @@ class m_transaksi extends CI_Model {
         return $query;
     }
 
-    public function insert_barang_keluar($kd_transaksi,$id_barang,$id_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$harga_masuk,$harga_keluar,$id_user){
+    public function insert_barang_keluar($kd_transaksi,$id_stok,$id_barang,$id_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$harga_masuk,$harga_keluar,$id_user){
         $tgl = date('Y-m-d H:i:s');
-        $query = $this->db->query("INSERT INTO b_barang_keluar VALUES('','$kd_transaksi','$id_barang','$id_merk','$tahun_barang','$seri_barang','$kode_bulan','$kode_urut','$harga_masuk',$harga_keluar,'$id_user','$tgl')");
+        $query = $this->db->query("INSERT INTO b_barang_keluar VALUES('','$kd_transaksi','$id_stok','$id_barang','$id_merk','$tahun_barang','$seri_barang','$kode_bulan','$kode_urut','$harga_masuk',$harga_keluar,null,'$id_user','$tgl')");
         return $query;
     }
 
     public function get_detailbarang_keluar($id){
-        $query = $this->db->query("SELECT b.id id_barang, m.id id_merk, b.nama_barang,m.nama_merk,bm.tahun_barang,bm.seri_barang,bm.kode_bulan,bm.kode_urut,bm.harga_barang
+        $query = $this->db->query("SELECT b.id id_barang,bm.kode_transaksi,bm.id id_transaksi, m.id id_merk, b.nama_barang,m.nama_merk,bm.tahun_barang,bm.seri_barang,bm.kode_bulan,bm.kode_urut,bm.harga_barang
         FROM b_barang_masuk bm INNER JOIN m_barang b ON bm.id_barang = b.id INNER JOIN m_merk m ON bm.id_merk = m.id
         WHERE bm.stok = '1' AND bm.id = '$id'");
         return $query->result();
@@ -257,8 +257,78 @@ class m_transaksi extends CI_Model {
         return $query;
     }
 
+    public function update_stokready($id){
+        $tgl = date('Y-m-d H:i:s');
+        $query = $this->db->query("UPDATE b_barang_masuk SET stok = '1' WHERE id = '$id'");
+        $query2 = $this->db->query("UPDATE b_barang_keluar SET is_retur = '1' WHERE id_stok = '$id'");
+        return $query;
+    }
+
     public function get_transaksikeluar($tanggal_transaksi){
         $query = $this->db->query("SELECT btk.id, btk.kode_transaksi,DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') AS tgl, btk.nama_pembeli FROM b_transaksi_keluar btk WHERE DATE(btk.tgl_act) = '$tanggal_transaksi'");
+        // var_dump($tanggal_transaksi);
+        // die();
+        return $query->result();
+    }
+
+    public function get_barang_keluar($id){
+        $query = $this->db->query("SELECT btk.kode_transaksi,bbk.id_stok,mb.nama_barang,ms.nama_satuan,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,
+        bbk.kode_urut,bbk.harga_jual, btk.nama_pembeli, DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') as tgl_act FROM b_transaksi_keluar btk 
+        JOIN b_barang_keluar bbk ON btk.kode_transaksi = bbk.kode_transaksi JOIN m_barang mb ON bbk.id_barang = mb.id 
+        JOIN m_merk m ON bbk.id_merk = m.id JOIN m_satuan ms ON mb.satuan_barang = ms.id
+        WHERE btk.id = '$id'");
+        return $query->result();
+    }
+
+    public function insert_retur_supplier($kd_transaksi,$nama_supplier,$kode_transaksimasuk,$id_transaksimasuk,$id_barang,$harga_masuk,$id_user){
+        $tgl = date('Y-m-d H:i:s');
+        $query = $this->db->query("INSERT INTO b_retur_masuk VALUES('','$kd_transaksi','$id_transaksimasuk','$kode_transaksimasuk','$id_barang','$nama_supplier','$harga_masuk','$id_user','$tgl')");
+        return $query;
+    }
+
+    public function get_retursupplier($tanggal_transaksi){
+        $query = $this->db->query("SELECT bts.id, bts.kd_retur,DATE_FORMAT(bts.tgl_retur,'%d-%m-%Y') AS tgl,r.nama_rekanan FROM b_retur_masuk bts JOIN m_rekanan r on bts.id_supplier = r.id WHERE DATE(bts.tgl_retur) = '$tanggal_transaksi' GROUP BY bts.kd_retur");
+        return $query->result();
+    }
+
+    public function getkoderetursupplier($bulan,$tahun){
+        $query = $this->db->query("SELECT COUNT(id) as jumlah FROM b_retur_masuk WHERE MONTH(tgl_retur) = '$bulan' AND YEAR(tgl_retur) = '$tahun'");
+        return $query->result();
+    }
+
+    public function get_barang_keluar2($id){
+        $query = $this->db->query("SELECT btk.kode_transaksi,bbk.id_stok,mb.nama_barang,ms.nama_satuan,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,
+        bbk.kode_urut,bbk.harga_jual, btk.nama_pembeli, DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') as tgl_act FROM b_transaksi_keluar btk 
+        JOIN b_barang_keluar bbk ON btk.kode_transaksi = bbk.kode_transaksi JOIN m_barang mb ON bbk.id_barang = mb.id 
+        JOIN m_merk m ON bbk.id_merk = m.id JOIN m_satuan ms ON mb.satuan_barang = ms.id
+        WHERE btk.id = '$id' AND bbk.is_retur IS NULL");
+        return $query->result();
+    }
+
+    public function get_barang_keluar3($id){
+        $query = $this->db->query("SELECT btk.kode_transaksi,bbk.id_stok,mb.nama_barang,ms.nama_satuan,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,
+        bbk.kode_urut,bbk.harga_jual, btk.nama_pembeli, DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') as tgl_act FROM b_transaksi_keluar btk 
+        JOIN b_barang_keluar bbk ON btk.kode_transaksi = bbk.kode_transaksi JOIN m_barang mb ON bbk.id_barang = mb.id 
+        JOIN m_merk m ON bbk.id_merk = m.id JOIN m_satuan ms ON mb.satuan_barang = ms.id
+        WHERE bbk.id_stok = '$id' AND is_retur IS NULL");
+        return $query->result();
+    }
+
+    public function getkodereturstok($bulan,$tahun){
+        $query = $this->db->query("SELECT COUNT(id) as jumlah FROM b_retur_keluar WHERE MONTH(tgl_retur) = '$bulan' AND YEAR(tgl_retur) = '$tahun'");
+        return $query->result();
+    }
+
+    public function insert_retur_stok($kd_transaksi,$kode_transkeluar,$id_barang,$nama_pembeli,$harga_jual,$id_user){
+        $tgl = date('Y-m-d H:i:s');
+        $query = $this->db->query("INSERT INTO b_retur_keluar VALUES('','$kd_transaksi','$kode_transkeluar','$id_barang','$nama_pembeli','$harga_jual','$id_user','$tgl')");
+        return $query;
+    }
+
+    public function get_datareturstok($tanggal_transaksi){
+        $query = $this->db->query("SELECT btk.id, btk.kd_retur,DATE_FORMAT(btk.tgl_retur,'%d-%m-%Y') AS tgl, btk.nama_pembeli,u.nama_user FROM b_retur_keluar btk JOIN a_user u on btk.user_act = u.id WHERE DATE(btk.tgl_retur) = '$tanggal_transaksi'");
+        // var_dump($tanggal_transaksi);
+        // die();
         return $query->result();
     }
 }

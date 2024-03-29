@@ -433,7 +433,7 @@ class Transaksi extends CI_Controller {
                 $data['detail'] = $this->m_transaksi->get_detailbarang_keluar($nama_barang);
                 $harga_keluar = $row['harga_keluar'];
                 foreach($data['detail'] as $det):
-                    $data['transaksi_keluar'] = $this -> m_transaksi -> insert_barang_keluar($kd_transaksi,$det -> id_barang,$det -> id_merk ,$det -> tahun_barang,$det -> seri_barang,$det -> kode_bulan,$det -> kode_urut,$det -> harga_barang,$harga_keluar,$id_user);
+                    $data['transaksi_keluar'] = $this -> m_transaksi -> insert_barang_keluar($kd_transaksi,$det->id_transaksi,$det -> id_barang,$det -> id_merk ,$det -> tahun_barang,$det -> seri_barang,$det -> kode_bulan,$det -> kode_urut,$det -> harga_barang,$harga_keluar,$id_user);
                     $data['update_stok'] = $this -> m_transaksi -> update_stok($nama_barang);
                 endforeach;
             endforeach;
@@ -460,7 +460,7 @@ class Transaksi extends CI_Controller {
 
     public function getdatatransaksikeluar()
     {
-        $tgl_transaksi = $this->input->post('tanggal_transaksi');
+        $tgl_transaksi = $this->input->post('tgl_retur');
         if($tgl_transaksi == '' OR $tgl_transaksi == null){
             $tgl_transaksi = date('Y-m-d');
         }else{
@@ -469,6 +469,182 @@ class Transaksi extends CI_Controller {
         $data = $this->m_transaksi->get_transaksikeluar($tgl_transaksi);
         echo json_encode($data);
     }
+
+    public function getallbarangkeluar()
+    {
+        $id = $this->input->post('id');
+        $data = $this->m_transaksi->get_barang_keluar2($id);
+        echo json_encode($data);
+    }
+
+
+    public function print_transaksikeluar($id)
+    {
+        $id_user = $this->session->userdata('id_user');
+        $data['user'] = $this->m_master->getuser($id_user);
+        $data['get_barang'] = $this->m_transaksi->get_barang_keluar($id);
+		$this->load->view('v_transaksi/print_transaksi_keluar.php',$data);
+    }
+
+
+    public function generate_koderetursupplier()
+    {
+        $monthYear = date('m-Y');
+        $tampung = explode('-', $monthYear);
+        $bulan = $tampung[0];
+        $tahun = $tampung[1];
+
+        // Get the number of transactions occurred in the current month
+        $transactionCount = $this->m_transaksi->getkoderetursupplier($bulan,$tahun);
+        foreach($transactionCount as $row):
+            $temp = $row->jumlah;
+        endforeach;
+        $jumlah = $temp + 1;
+
+        // Generate the transaction code
+        $transactionCode = 'SJ/A1/RTR/'.$bulan.'/'.$tahun.'/' . $jumlah;
+    
+        return $transactionCode;
+    }
+    
+    public function retur_supplier_act()
+    {
+        $transaksi_temp = $this->input->post('transaksi_temp');
+        $id_retur = $this->input->post('id_retur');
+        $harga_masuk = $this->input->post('harga_masuk');
+        $id_user = $this->session->userdata('id_user');
+
+        foreach($transaksi_temp as $rows):
+            $id_retur = $rows['id_retur'];
+            $nama_supplier = $rows ['nama_supplier'];
+        endforeach;
+        if($id_retur == '' OR $id_retur == null){
+            $kd_transaksi = $this->generate_koderetursupplier();
+            foreach($transaksi_temp as $row):
+                $nama_barang = $row['nama_barang'];
+                $data['detail'] = $this->m_transaksi->get_detailbarang_keluar($nama_barang);
+                $harga_masuk = $row['harga_masuk'];
+                foreach($data['detail'] as $det):
+                    $data['retur_supplier'] = $this -> m_transaksi -> insert_retur_supplier($kd_transaksi,$nama_supplier,$det-> kode_transaksi,$det->id_transaksi,$det -> id_barang,$harga_masuk,$id_user);
+                    $data['update_stok'] = $this -> m_transaksi -> update_stok($nama_barang);
+                endforeach;
+            endforeach;
+            // $data['insert'] = $this -> m_transaksi -> insert_transaksi_keluar($kd_transaksi,$nama_rekanan,$id_user);
+            if($data['retur_supplier'] == 'true' OR $data['retur_supplier'] == TRUE OR $data['retur_supplier'] == 'TRUE'){
+                $response = [
+                    'status' => '200',
+                    'message' =>  'Barang Berhasil Retur Ke Supplier'
+                ];
+            }else{
+                $response = [
+                    'status' => '400',
+                    'message' =>  'Barang Gagal Retur Ke Supplier'
+                ];
+    
+            }
+        }
+        header('Content-Type: application/json');
+
+        echo json_encode($response);
+        die();
+        
+    }
+
+    public function getdataretursupplier()
+    {
+        $tgl_transaksi = $this->input->post('tanggal_transaksi');
+        if($tgl_transaksi == '' OR $tgl_transaksi == null){
+            $tgl_transaksi = date('Y-m-d');
+        }else{
+            $tgl_transaksi = date('Y-m-d', strtotime($tgl_transaksi));
+        }
+        $data = $this->m_transaksi->get_retursupplier($tgl_transaksi);
+        echo json_encode($data);
+    }
+
+
+    public function print_retursupplier($id)
+    {
+        $id_user = $this->session->userdata('id_user');
+        $data['user'] = $this->m_master->getuser($id_user);
+        $data['get_barang'] = $this->m_transaksi->get_barang_keluar($id);
+		$this->load->view('v_transaksi/print_transaksi_keluar.php',$data);
+    }
+
+    public function generate_kodereturstok()
+    {
+        $monthYear = date('m-Y');
+        $tampung = explode('-', $monthYear);
+        $bulan = $tampung[0];
+        $tahun = $tampung[1];
+
+        // Get the number of transactions occurred in the current month
+        $transactionCount = $this->m_transaksi->getkodereturstok($bulan,$tahun);
+        foreach($transactionCount as $row):
+            $temp = $row->jumlah;
+        endforeach;
+        $jumlah = $temp + 1;
+
+        // Generate the transaction code
+        $transactionCode = 'SJ/A2/RTR/'.$bulan.'/'.$tahun.'/' . $jumlah;
+    
+        return $transactionCode;
+    }
+
+    public function retur_stok()
+    {
+        $id_user = $this->session->userdata('id_user');
+        $id = $this->input->post('id');
+        $kd_transaksi = $this->generate_kodereturstok();
+        $data['detail_brg'] = $this -> m_transaksi -> get_barang_keluar3($id);
+        // var_dump($data['detail_brg']);
+        // die();
+        foreach($data['detail_brg'] as $row):
+            $data['log_retur'] = $this -> m_transaksi -> insert_retur_stok($kd_transaksi,$row -> kode_transaksi,$id,$row -> nama_pembeli, $row -> harga_jual,$id_user);
+        endforeach;
+        if($data['log_retur'] == 'true' OR $data['log_retur'] == TRUE OR $data['log_retur'] == 'TRUE'){
+            $data['retur'] = $this->m_transaksi->update_stokready($id);
+            if($data['retur'] == 'true' OR $data['retur'] == TRUE OR $data['retur'] == 'TRUE'){
+            $response = [
+                'status' => '200',
+                'message' =>  'Barang Berhasil Retur Ke Gudang'
+            ];
+            }else{
+                $response = [
+                    'status' => '400',
+                    'message' =>  'Barang Gagal Retur Ke Gudang'
+                ];
+            }
+        }else{
+            $response = [
+                'status' => '400',
+                'message' =>  'Barang Gagal Retur Ke Gudang'
+            ];
+
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }
+
+    public function getdatareturstok()
+    {
+        $tgl_transaksi = $this->input->post('tanggal_transaksi');
+        if($tgl_transaksi == '' OR $tgl_transaksi == null){
+            $tgl_transaksi = date('Y-m-d');
+        }else{
+            $tgl_transaksi = date('Y-m-d', strtotime($tgl_transaksi));
+        }
+        $data = $this->m_transaksi->get_datareturstok($tgl_transaksi);
+        echo json_encode($data);
+    }
+
+    // public function getdatapenjualan()
+    // {
+    //     $data['master_barang'] = $this->m_master->get_masterbarang();
+    //     $data['master_merk'] = $this->m_master->get_mastermerk();
+    //     echo json_encode($data);
+    // }
 
 
 }

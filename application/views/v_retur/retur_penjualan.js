@@ -1,5 +1,5 @@
   $(document).ready(function () {
-    data_transaksimasuk();
+    // data_returpenjualan();
     // reset_masterbarang();
     // ChangeWidth();
 
@@ -15,30 +15,79 @@
     $("#table-1").dataTable();
 
 
-    $('#tambah_transaksimasuk').on('click', function() {
-      $('#modal_tambahtransaksimasuk').modal('show');
+    $('#tambah_returpenjualan').on('click', function() {
+      $('#modal_tambahreturpenjualan').modal('show');
     })
 
     $('.select2').select2({
       placeholder: 'Pilih nama rekanan',
       width: "100%",
-      dropdownParent: $('#modal_tambahtransaksimasuk'),
+      dropdownParent: $('#modal_tambahreturpenjualan'),
       allowClear: true
     });
 
     $('.select2').select2({
       placeholder: 'tes',
       width: "100%",
-      dropdownParent: $('#modal_tambahtransaksimasuk'),
+      dropdownParent: $('#modal_tambahreturpenjualan'),
       allowClear: true
     });
 
     $('#tgl_transaksi').change(function (){
-      data_transaksimasuk();
+      data_returpenjualan();
     });
 
+    $('#tgl_retur').change(function (){
+      get_returtgl();
+    });
 
-    function data_transaksimasuk(){
+    function get_returtgl(){
+      var tgl_retur = $('#tgl_retur').val();
+      // if(tanggal_transaksi == null || tanggal_transaksi == ''){
+      //   var tanggal_transaksi = new Date().toJSON().slice(0, 10);
+      // }
+      $.ajax({
+        type:"POST",
+        data:{
+          tgl_retur:tgl_retur
+        },
+        url: "../Transaksi/getdatatransaksikeluar",
+        cache: false,
+        success : function(data){
+        console.log(data);
+        var html;
+                var i;
+                var n =0;
+                    var data = $.parseJSON(data);
+                    $("#table-2").DataTable().clear();
+
+            $.each(data, function(i){
+
+
+                var btn_barang = '<td style="text-align:center;">'+'<a id="tampil_barang" data="'+data[i].id+'"" class="btn btn-info btn-icon tampil_barang"><i class="fa fa-download"> Cek!!</i>'+
+                '</td>';
+
+                  n++;
+                  html = [
+                    n,
+                    data[i].kode_transaksi,
+                    data[i].nama_pembeli,
+                    data[i].tgl,
+                    btn_barang
+                  ];
+          
+                  // Add the row to DataTables
+                  $("#table-2").DataTable().row.add(html);
+                
+                });
+                    
+            $("#table-2").DataTable().draw();
+
+              }
+        });
+    }
+
+    function data_returpenjualan(){
       var tanggal_transaksi = $('#tgl_transaksi').val();
       // if(tanggal_transaksi == null || tanggal_transaksi == ''){
       //   var tanggal_transaksi = new Date().toJSON().slice(0, 10);
@@ -48,7 +97,7 @@
         data:{
           tanggal_transaksi:tanggal_transaksi
         },
-        url: "../Transaksi/getdatatransaksimasuk",
+        url: "../Transaksi/getdatareturstok",
         cache: false,
         success : function(data){
         console.log(data);
@@ -61,16 +110,17 @@
             $.each(data, function(i){
 
 
-                var btn_transaksimasuk = '<td style="text-align:center;">'+'<a href="<?php echo base_url();?>Transaksi/print_transaksimasuk/'+data[i].id+'" class="btn btn-info btn-icon" target="_blank"><i class="fa fa-print"></i>'+
+                var btn_returstoko = '<td style="text-align:center;">'+'<a href="<?php echo base_url();?>Transaksi/print_returstok/'+data[i].id+'" class="btn btn-info btn-icon" target="_blank"><i class="fa fa-print"></i>'+
                 '</td>';
 
                   n++;
                   html = [
                     n,
-                    data[i].kode_transaksi,
-                    data[i].nama_rekanan,
+                    data[i].kd_retur,
+                    data[i].nama_pembeli,
+                    data[i].nama_user,
                     data[i].tgl,
-                    btn_transaksimasuk
+                    btn_returstoko
                   ];
           
                   // Add the row to DataTables
@@ -83,6 +133,85 @@
               }
         });
     }
+
+    $('#data_barangpenjualan').on('click','.tampil_barang', function () {
+      var id = $(this).attr('data');
+      $.ajax({
+          type: 'POST',
+          url: "../Transaksi/getallbarangkeluar",//dilanjut besok
+          data: {
+            id:id
+          },
+          success : function(data){
+            console.log(data);
+            var html;
+                    var i;
+                    var n =0;
+                        var data = $.parseJSON(data);
+                        $("#table-3").DataTable().clear();
+    
+                $.each(data, function(i){
+    
+                  $("#table-3").attr("style", "display:block");
+                    var btn_returstok = '<td style="text-align:center;">'+'<a id="retur_barang" data="'+data[i].id_stok+'" class="btn btn-info btn-icon retur_barang"><i class="fa fa-download"> Retur</i>'+
+                    '</td>';
+    
+                      n++;
+                      html = [
+                        n,
+                        data[i].kode_transaksi,
+                        data[i].nama_barang,
+                        data[i].nama_merk,
+                        data[i].tahun_barang,
+                        data[i].seri_barang,
+                        data[i].nama_pembeli,
+                        data[i].harga_jual,
+                        data[i].tgl_act,
+                        btn_returstok
+                      ];
+              
+                      // Add the row to DataTables
+                      $("#table-3").DataTable().row.add(html);
+                    
+                    });
+                        
+                $("#table-3").DataTable().draw();
+    
+                  }
+        })
+  });
+
+  $('#data_allbarang').on('click','.retur_barang', function () {
+    var id = $(this).attr('data');
+    console.log(id);
+    var table = 'b_barang_masuk';
+    let text = "Anda yakin untuk meretur stok barang tersebut ?";
+    if (confirm(text) == true) {
+      $.ajax({
+        type: 'POST',
+        url: "../Transaksi/retur_stok",//dilanjut besok
+        data: {
+          id:id,
+          table:table
+        }
+      }).done(function(response) {
+        console.log(response);
+        var pesan = response.message;
+        console.log(pesan);
+        if (response.status === '200') {
+          alert(response.message);
+          get_returtgl();
+          $("#table-3").DataTable();
+          $("#table-3").attr("style", "display:none");
+      } else {
+          alert(response.message);
+          get_returtgl();
+          $("#table-3").DataTable();
+          $("#table-3").attr("style", "display:none");
+        }
+      });
+        }
+});
 
     $('#data_master_barang').on('click','.barang_edit', function () {
       var id = $(this).attr('data');
@@ -133,9 +262,9 @@
         }
 });
 
-    $('#save_transaksimasuk').on('click', function() {
-      var id_transaksi = $('#id_transaksi').val();
-      var id_rekanan = $('#nama_rekanan').val();
+    $('#save_returpenjualan').on('click', function() {
+      var id_retur = $('#id_retur').val();
+      // var id_rekanan = $('#nama_rekanan').val();
       var transaksi_temp = [];
 
       $('.form-group').each(function() {
@@ -210,7 +339,7 @@ function education_fields() {
   var rdiv = 'removeclass'+room;
   $.ajax({
     type:"POST",
-    url: "../Transaksi/getdatamasterbarang",
+    url: "../Transaksi/getdatapenjualan",
     cache: false,
     success : function(response){
     var response = $.parseJSON(response);
@@ -247,7 +376,7 @@ function education_fields() {
     $('.select2').select2({
       placeholder: '--Pilih--',
       width: "100%",
-      dropdownParent: $('#modal_tambahtransaksimasuk .modal-content'),
+      dropdownParent: $('#modal_tambahtransaksimasuk'),
       allowClear: true
     });
     }

@@ -49,11 +49,11 @@ endforeach;
             <li class="nav-item dropdown active">
               <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-heart"></i><span>Transaksi</span></a>
                   <ul class="dropdown-menu">
-                    <li class="nav-item active"><a href="#" class="nav-link">Penjualan</a></li>
-                    <li class="nav-item "><a href="<?= base_url('');?>Home/transaksi_masuk" class="nav-link">Barang Masuk</a></li>
+                    <li class="nav-item"><a href="<?= base_url('');?>Home/transaksi_keluar" class="nav-link">Penjualan</a></li>
+                    <li class="nav-item"><a href="<?= base_url('');?>Home/transaksi_masuk" class="nav-link">Barang Masuk</a></li>
                     <li class="nav-item"><a href="<?= base_url('');?>Home/stok_barang" class="nav-link">Pengelolaan Stok</a></li>
                     <li class="nav-item"><a href="<?= base_url('');?>Home/retur_jual" class="nav-link">Retur Penjualan</a></li>
-                    <li class="nav-item"><a href="<?= base_url('');?>Home/retur_supplier" class="nav-link">Retur Supplier</a></li>
+                    <li class="nav-item active"><a href="#" class="nav-link">Retur Supplier</a></li>
                   </ul>
             </li>
             <li class="nav-item">
@@ -67,17 +67,17 @@ endforeach;
       <div class="main-content">
         <section class="section">
           <div class="section-header">
-            <h1>Transaksi Keluar</h1>
+            <h1>Retur Supplier</h1>
           </div>
 
           <div class="section-body">
             <div class="card">
               <div class="card-header">
-                <h4>TRANSAKSI KELUAR</h4>
+                <h4>RETUR SUPPLIER</h4>
               </div>
               <div class="card-body">
                 <div class="row">
-                <div class="col-md-4"><button id="tambah_transaksikeluar" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i> Tambah </button></div>
+                <div class="col-md-4"><button id="tambah_retursupplier" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i> Tambah </button></div>
                 </div>
               
                 
@@ -96,20 +96,17 @@ endforeach;
                             <th class="text-center" style="width:10px;">
                               No
                             </th>
-                            <th class="text-center">Kode Transaksi</th>
-                            <th class="text-center">Pembeli</th>
-                            <th class="text-center">Tgl Transaksi</th>
+                            <th class="text-center">Kode Retur</th>
+                            <th class="text-center">Supplier</th>
+                            <th class="text-center">Tgl Retur</th>
                             <th class="text-center">Print</th>
                           </tr>
                         </thead>
-                        <tbody id="data_transaksikeluar" style="text-align: center;">                                 
+                        <tbody id="data_retursupplier" style="text-align: center;">                                 
                          
                         </tbody>
                       </table>
                     </div>
-              </div>
-              <div class="card-footer bg-whitesmoke">
-                This is card footer
               </div>
             </div>
           </div>
@@ -153,29 +150,29 @@ endforeach;
   <script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
 </body>
 
-<div class="modal fade" id="modal_tambahtransaksikeluar" role="dialog" aria-labelledby="modal_tambahtransaksikeluar" aria-hidden="true">
+<div class="modal fade" id="modal_tambahretursupplier" role="dialog" aria-labelledby="modal_tambahretursupplier" aria-hidden="true">
                   <div class="modal-dialog" style="min-width:100%;" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="modal_tambahtransaksikeluar">Transaksi Keluar</h5>
+                        <h5 class="modal-title" id="modal_tambahretursupplier">Retur Supplier</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
                       <div class="modal-body">
-                        <input type="hidden" name="id_transaksi" id="id_transaksi" value="">
+                        <input type="hidden" name="id_retur" id="id_retur" value="">
                         <div class="panel-body">
                           <div class="row">
-                            <div class="col-md-3"><p style="text-align: right;">Nama Pembeli : </p></div>
+                            <div class="col-md-3"><p style="text-align: right;">Nama Supplier : </p></div>
                             <div class="col-md-6">
-                              <input type="text" class="form-control" name="nama_rekanan" id="nama_rekanan" placeholder="CV MAJU BERSAMA">
-                              <!-- <select class="form-control select2" style="width:100%" name="nama_rekanan" id="nama_rekanan">
+                              <!-- <input type="text" class="form-control" name="nama_rekanan" id="nama_rekanan" placeholder="CV MAJU BERSAMA"> -->
+                              <select class="form-control select2" style="width:100%" name="nama_supplier" id="nama_supplier">
                               <option>--Pilih Rekanan--</option>
                               <?php foreach($nama_rekanan as $rows):
                                echo '<option value="'.$rows->id.'">'.$rows->nama_rekanan.'</option>';
                               endforeach;
                               ?>
-                            </select> -->
+                            </select>
                           </div>
                           </div>
                           <br>
@@ -235,7 +232,7 @@ endforeach;
                         <div class="col-sm-3 pull-right nopadding">
                           <div class="form-group">
                             <div class="input-group">
-                              <input type="text" class="form-control" name="harga_total" id="harga_total" placeholder="Harga">
+                              <input type="text" class="form-control" name="harga_total" id="harga_total" placeholder="Jumlah Retur">
                               &nbsp; &nbsp;
                               <div class="input-group-btn">
                                 <button class="btn btn-success" type="button"  onclick="education_fields();"> <span class="fa fa-plus" aria-hidden="true"></span> </button>
@@ -251,7 +248,7 @@ endforeach;
   </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button id="save_transaksikeluar" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Tambah</button>
+                        <button id="save_retursupplier" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Retur</button>
                       </div>
                     </div>
                   </div>
