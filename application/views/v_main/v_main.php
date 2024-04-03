@@ -38,7 +38,7 @@ endforeach;
               <a href="#" data-toggle="dropdown" class="nav-link"><i class="fas fa-fire"></i><span>Home</span></a>
             </li>
             <li class="nav-item dropdown">
-              <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-heart"></i><span>Master data</span></a>
+              <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-star"></i><span>Master data</span></a>
                   <ul class="dropdown-menu">
                     <li class="nav-item"><a href="<?= base_url('');?>home/master_barang" class="nav-link">Master Barang</a></li>
                     <li class="nav-item"><a href="<?= base_url('');?>home/master_rekanan" class="nav-link">Master Rekanan</a></li>
@@ -48,7 +48,7 @@ endforeach;
                   </ul>
             </li>
             <li class="nav-item dropdown">
-              <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-heart"></i><span>Transaksi</span></a>
+              <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-store"></i><span>Transaksi</span></a>
                   <ul class="dropdown-menu">
                     <li class="nav-item"><a href="<?= base_url('');?>Home/transaksi_keluar" class="nav-link">Penjualan</a></li>
                     <li class="nav-item"><a href="<?= base_url('');?>Home/transaksi_masuk" class="nav-link">Barang Masuk</a></li>
@@ -58,7 +58,7 @@ endforeach;
                   </ul>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link"><i class="fas fa-fire"></i><span>Laporan</span></a>
+              <a href="<?= base_url('');?>Home/laporan" class="nav-link"><i class="fas fa-calendar"></i><span>Laporan</span></a>
             </li>
           </ul>
         </div>

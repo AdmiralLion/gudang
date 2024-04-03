@@ -146,4 +146,14 @@ class Home extends CI_Controller {
         $data['JavaScriptTambahan'] = $this->load->view('v_retur/retur_supplier.js',$data,TRUE);
 		$this->load->view('v_retur/v_retur_supplier.php',$data);
     }
+
+    public function laporan()
+    {
+        $data['user'] = $this->get_user();
+        $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
+        $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
+        $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
+        $data['JavaScriptTambahan'] = $this->load->view('v_laporan/laporan.js',$data,TRUE);
+		$this->load->view('v_laporan/v_laporan.php',$data);
+    }
 }
