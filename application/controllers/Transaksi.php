@@ -600,7 +600,7 @@ class Transaksi extends CI_Controller {
         // var_dump($data['detail_brg']);
         // die();
         foreach($data['detail_brg'] as $row):
-            $data['log_retur'] = $this -> m_transaksi -> insert_retur_stok($kd_transaksi,$row -> kode_transaksi,$id,$row -> nama_pembeli, $row -> harga_jual,$id_user);
+            $data['log_retur'] = $this -> m_transaksi -> insert_retur_stok($kd_transaksi,$row -> id,$row -> kode_transaksi,$id,$row -> nama_pembeli, $row -> harga_jual,$id_user);
         endforeach;
         if($data['log_retur'] == 'true' OR $data['log_retur'] == TRUE OR $data['log_retur'] == 'TRUE'){
             $data['retur'] = $this->m_transaksi->update_stokready($id);

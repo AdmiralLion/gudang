@@ -1,5 +1,5 @@
 <?php
-class m_transaksi extends CI_Model {
+class m_laporan extends CI_Model {
 
 	/*private $table = 'rm_ms_ttd';*/
 	private $table = 'general_consent';
@@ -319,9 +319,9 @@ class m_transaksi extends CI_Model {
         return $query->result();
     }
 
-    public function insert_retur_stok($kd_transaksi,$id_keluar,$kode_transkeluar,$id_barang,$nama_pembeli,$harga_jual,$id_user){
+    public function insert_retur_stok($kd_transaksi,$kode_transkeluar,$id_barang,$nama_pembeli,$harga_jual,$id_user){
         $tgl = date('Y-m-d H:i:s');
-        $query = $this->db->query("INSERT INTO b_retur_keluar VALUES('','$kd_transaksi','$id_keluar','$kode_transkeluar','$id_barang','$nama_pembeli','$harga_jual','$id_user','$tgl')");
+        $query = $this->db->query("INSERT INTO b_retur_keluar VALUES('','$kd_transaksi','$kode_transkeluar','$id_barang','$nama_pembeli','$harga_jual','$id_user','$tgl')");
         return $query;
     }
 
@@ -331,4 +331,89 @@ class m_transaksi extends CI_Model {
         // die();
         return $query->result();
     }
+
+    public function lap_barang_masuk($jangka_waktu, $tgl){
+        if($jangka_waktu == 'Harian'){
+            $tambahanquer = "DATE(bm.tgl_act) ='".$tgl."'";
+        }else{
+            $tgls = explode('-', $tgl);
+            $bulan = $tgls[0];
+            $tahun = $tgls[1];
+            $tambahanquer = "MONTH(bm.tgl_act) = '".$bulan."' AND YEAR(bm.tgl_act) = '".$tahun."'";
+        }
+        $query = $this->db->query("SELECT bm.`kode_transaksi`,b.nama_barang,m.nama_merk,bm.tahun_barang,bm.seri_barang,bm.kode_bulan,bm.kode_urut,
+        bm.harga_barang,u.`nama_user`
+        FROM b_barang_masuk bm INNER JOIN m_barang b ON bm.id_barang = b.id INNER JOIN m_merk m ON bm.id_merk = m.id
+        INNER JOIN a_user u ON bm.`user_act` = u.`id` WHERE $tambahanquer");
+        return $query->result();
+
+    }
+
+    public function lap_barang_keluar($jangka_waktu, $tgl){
+       if($jangka_waktu == 'Harian'){
+            $tambahanquer = "DATE(bbk.tgl_act) ='".$tgl."'";
+        }else{
+            $tgls = explode('-', $tgl);
+            $bulan = $tgls[0];
+            $tahun = $tgls[1];
+            $tambahanquer = "MONTH(bbk.tgl_act) ='".$bulan."' AND YEAR(bbk.tgl_act) = '".$tahun."'";
+        }
+        $query = $this->db->query("SELECT bbk.`kode_transaksi`,b.nama_barang,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,bbk.kode_urut,
+        bbk.harga_jual,u.`nama_user`,is_retur FROM b_barang_keluar bbk INNER JOIN m_barang b ON bbk.id_barang = b.id 
+        INNER JOIN m_merk m ON bbk.id_merk = m.id INNER JOIN a_user u ON bbk.`user_act` = u.`id` WHERE $tambahanquer");
+        return $query->result();
+    }
+
+    public function lap_retur_supplier($jangka_waktu, $tgl){
+        if($jangka_waktu == 'Harian'){
+            $tambahanquer = "DATE(tgl_retur) ='".$tgl."'";
+        }else{
+            $tgls = explode('-', $tgl);
+            $bulan = $tgls[0];
+            $tahun = $tgls[1];
+            $tambahanquer = "MONTH(tgl_retur) ='".$bulan."' AND YEAR(tgl_retur) = '".$tahun."'";
+        }
+        $query = $this->db->query("SELECT kd_retur,kd_transaksi, b.nama_barang,bm.tahun_barang,bm.seri_barang,bm.kode_bulan,bm.kode_urut,
+        bm.harga_barang,u.`nama_user`,tgl_retur,bm.tgl_act AS tgl_masuk FROM b_retur_masuk rm 
+        INNER JOIN b_barang_masuk bm ON rm.id_transaksi = bm.id
+        INNER JOIN m_barang b ON rm.id_barang = b.id INNER JOIN m_rekanan r ON rm.id_supplier = r.id
+        INNER JOIN a_user u ON rm.`user_act` = u.`id` WHERE $tambahanquer");
+        return $query->result();
+    }
+
+    public function lap_retur_penjualan($jangka_waktu, $tgl){
+        if($jangka_waktu == 'Harian'){
+            $tambahanquer = "DATE(tgl_retur) ='".$tgl."'";
+        }else{
+            $tgls = explode('-', $tgl);
+            $bulan = $tgls[0];
+            $tahun = $tgls[1];
+            $tambahanquer = "MONTH(tgl_retur) ='".$bulan."' AND YEAR(tgl_retur) = '".$tahun."'";
+        }
+        $query = $this->db->query("SELECT kd_retur,kd_transaksi, b.nama_barang,bk.tahun_barang,bk.seri_barang,bk.kode_bulan,bk.kode_urut,
+        bk.harga_jual,u.`nama_user`,tgl_retur,bk.tgl_act AS tgl_keluar FROM b_retur_keluar rk 
+        bk JOIN b_barang_keluar bk ON rk.id_transaksi = bk.id
+        INNER JOIN m_barang b ON rk.id_barang = b.id 
+        INNER JOIN a_user u ON rk.`user_act` = u.`id`  WHERE $tambahanquer");
+        return $query->result();
+    }
+
+    public function lap_penghasilan($jangka_waktu, $tgl){
+        if($jangka_waktu == 'Harian'){
+            $tambahanquer = "DATE(bbk.tgl_act) ='".$tgl."'";
+        }else{
+            $tgls = explode('-', $tgl);
+            $bulan = $tgls[0];
+            $tahun = $tgls[1];
+            $tambahanquer = "MONTH(bbk.tgl_act) ='".$bulan."' AND YEAR(bbk.tgl_act) = '".$tahun."'";
+        }
+        $query = $this->db->query("SELECT  bbk.`kode_transaksi`,b.nama_barang,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,bbk.kode_urut,
+        bbk.harga_jual,bbk.harga_masuk,u.`nama_user` FROM b_transaksi_keluar btk JOIN b_barang_keluar bbk ON btk.kode_transaksi = bbk.kode_transaksi
+        INNER JOIN m_barang b ON bbk.id_barang = b.id 
+        INNER JOIN m_merk m ON bbk.id_merk = m.id INNER JOIN a_user u ON bbk.`user_act` = u.`id`
+        WHERE bbk.is_retur IS NULL AND $tambahanquer");
+        return $query->result();
+    }
+
+   
 }

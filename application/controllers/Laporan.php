@@ -10,6 +10,7 @@ class Laporan extends CI_Controller {
 		$this->load->model('m_transaksi');
 		$this->load->model('m_master');
 		$this->load->model('m_login');
+        $this->load->model('m_laporan');
 		// $this->load->helper('date');
 		// $this->load->library('upload');
         $this->db = $this->load->database('default', TRUE);
@@ -40,52 +41,56 @@ class Laporan extends CI_Controller {
     }
 
 
-    public function lap_barang_masuk(){
-        $data['user'] = $this->get_user();
-        $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
-        $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
-        $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
-        $data['JavaScriptTambahan'] = $this->load->view('v_laporan/laporan_barang_masuk.js',$data,TRUE);
-		$this->load->view('v_laporan/v_laporan_barang_masuk.php',$data);
+    public function print_barang_masuk(){
+        $jangka_waktu = $_GET['jangka_waktu'];
+        $tgl = $_GET['tgl'];
+        $id_user = $this->session->userdata('id_user');
+        $data['user'] = $this->m_master->getuser($id_user);
+        $data['get_barang'] = $this->m_laporan->lap_barang_masuk($jangka_waktu,$tgl);
+        var_dump($data);
+        die();
+		$this->load->view('v_laporan/print_barang_masuk.php',$data);
     }
 
-    public function lap_barang_keluar(){
-        $data['user'] = $this->get_user();
-        $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
-        $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
-        $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
-        $data['JavaScriptTambahan'] = $this->load->view('v_laporan/laporan_barang_keluar.js',$data,TRUE);
-		$this->load->view('v_laporan/v_laporan_barang_keluar.php',$data);
-    }
-
-
-    public function lap_retur_supplier(){
-        $data['user'] = $this->get_user();
-        $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
-        $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
-        $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
-        $data['JavaScriptTambahan'] = $this->load->view('v_laporan/laporan_retursupplier.js',$data,TRUE);
-		$this->load->view('v_laporan/v_laporan_retursupplier.php',$data);
+    public function print_barang_keluar(){
+        $jangka_waktu = $_GET['jangka_waktu'];
+        $tgl = $_GET['tgl'];
+        $id_user = $this->session->userdata('id_user');
+        $data['user'] = $this->m_master->getuser($id_user);
+        $data['get_barang'] = $this->m_laporan->lap_barang_keluar($jangka_waktu,$tgl);
+        var_dump($data);
+        die();
+		$this->load->view('v_laporan/print_barang_keluar.php',$data);
     }
 
 
-    public function lap_retur_penjualan(){
-        $data['user'] = $this->get_user();
-        $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
-        $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
-        $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
-        $data['JavaScriptTambahan'] = $this->load->view('v_laporan/laporan_returpenjualan.js',$data,TRUE);
-		$this->load->view('v_laporan/v_laporan_returpenjualan.php',$data);
+    public function print_retur_supplier(){
+        $jangka_waktu = $_GET['jangka_waktu'];
+        $tgl = $_GET['tgl'];
+        $id_user = $this->session->userdata('id_user');
+        $data['user'] = $this->m_master->getuser($id_user);
+        $data['get_barang'] = $this->m_laporan->lap_retur_supplier($jangka_waktu,$tgl);
+		$this->load->view('v_laporan/print_retur_supplier.php',$data);
     }
 
 
-    public function lap_penghasilan(){
-        $data['user'] = $this->get_user();
-        $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
-        $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
-        $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
-        $data['JavaScriptTambahan'] = $this->load->view('v_laporan/laporan_penghasilan.js',$data,TRUE);
-		$this->load->view('v_laporan/v_laporan_penghasilan.php',$data);
+    public function print_retur_penjualan(){
+        $jangka_waktu = $_GET['jangka_waktu'];
+        $tgl = $_GET['tgl'];
+        $id_user = $this->session->userdata('id_user');
+        $data['user'] = $this->m_master->getuser($id_user);
+        $data['get_barang'] = $this->m_laporan->lap_retur_penjualan($jangka_waktu,$tgl);
+		$this->load->view('v_laporan/print_retur_penjualan.php',$data);
+    }
+
+
+    public function print_penghasilan(){
+        $jangka_waktu = $_GET['jangka_waktu'];
+        $tgl = $_GET['tgl'];
+        $id_user = $this->session->userdata('id_user');
+        $data['user'] = $this->m_master->getuser($id_user);
+        $data['get_barang'] = $this->m_laporan->lap_penghasilan($jangka_waktu,$tgl);
+		$this->load->view('v_laporan/print_penghasilan.php',$data);
     }
 
 
