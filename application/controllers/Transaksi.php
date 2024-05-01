@@ -648,11 +648,12 @@ class Transaksi extends CI_Controller {
 
     public function getdatahutang()
     {
-        $tgl_transaksi = $this->input->post('tgl_transaksi');
+        $tgl_transaksi = $this->input->post('tanggal_transaksi');
         if($tgl_transaksi == '' OR $tgl_transaksi == null){
             $tgl_transaksi = date('m-Y');
         }else{
             // $tgl_transaksi = date('Y-m-d', strtotime($tgl_transaksi));
+            // $tgl_transaksi = date('m-Y');
         }
         $data = $this->m_transaksi->get_datahutang($tgl_transaksi);
         echo json_encode($data);
