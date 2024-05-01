@@ -61,5 +61,15 @@ class Login extends CI_Controller {
         die();
     }
 
+    public function logout() {
+        // Lakukan proses logout di sini
+        // Contoh:
+        $this->session->unset_userdata('id_user');
+        // Jika menggunakan session lain, unset juga di sini
+
+        // Setelah logout, bisa redirect ke halaman lain
+        // atau kirim response ke client
+        echo json_encode(['status' => 'success', 'message' => 'Logout berhasil']);
+    }
 
 }

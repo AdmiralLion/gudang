@@ -3,6 +3,27 @@
     // reset_masterbarang();
     // ChangeWidth();
 
+    $('#btnlogout').click(function() {
+      $.ajax({
+          type: 'POST',
+          url: '<?php echo base_url("Login/logout"); ?>',
+          dataType: 'json',
+          success: function(response) {
+              if (response.status === 'success') {
+                  // Logout berhasil, lakukan redirect atau tindakan lainnya
+                  alert('Berhasil Logout');
+                  window.location.replace('<?php echo base_url("login"); ?>');
+              } else {
+                  // Handle jika logout gagal
+                  alert('Logout gagal. Silakan coba lagi.');
+              }
+          },
+          error: function(xhr, status, error) {
+              // Handle jika terjadi error saat request
+              console.error(xhr.responseText);
+          }
+      });
+  });
 
     function reset_masterbarang()
     {
@@ -156,22 +177,23 @@
                 });
 
           $.each(historiHutang, function(i, item) {
-            var html2 = [
-                m,
-                item.kode_hutang,
-                item.kode_transaksi,
-                item.pembayaran,
-                item.nama_user,
-                item.tgl
-            ];
-          
+            m++;
+            var html2 = '<tr>'
+            +'<td style="text-align:center;">' + m + '</td>'
+              +'<td style="text-align:center;">' + item.kode_hutang + '</td>'
+              +'<td style="text-align:center;">' + item.kode_transaksi + '</td>'
+              +'<td style="text-align:center;">' + item.pembayaran + '</td>'
+              +'<td style="text-align:center;">' + item.nama_user + '</td>'
+              +'<td style="text-align:center;">' + item.tgl + '</td>'
+              + '</tr>';
+
+              $('#histori_hutang').append(html2);
+
                   // Add the row to DataTables
-                  $("#table-3").DataTable().row.add(html2);
                 
                 });
                     
             $("#table-2").DataTable().draw();
-            $("#table-3").DataTable().draw();
 
         });
         $('#modal_pelunasan').modal('show');
