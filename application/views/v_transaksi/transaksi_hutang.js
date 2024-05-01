@@ -1,5 +1,5 @@
   $(document).ready(function () {
-    data_transaksikeluar();
+    data_transaksihutang();
     // reset_masterbarang();
     // ChangeWidth();
 
@@ -34,11 +34,20 @@
     });
 
     $('#tgl_transaksi').change(function (){
-      data_transaksikeluar();
+      data_transaksihutang();
     });
 
+    $("#tutup").click(function(){
+      location.reload();
+    });
 
-    function data_transaksikeluar(){
+    $("#tgl_transaksi").datepicker( {
+      format: "mm-yyyy",
+      startView: "months", 
+      minViewMode: "months"
+  });
+
+    function data_transaksihutang(){
       var tanggal_transaksi = $('#tgl_transaksi').val();
       // if(tanggal_transaksi == null || tanggal_transaksi == ''){
       //   var tanggal_transaksi = new Date().toJSON().slice(0, 10);
@@ -48,7 +57,7 @@
         data:{
           tanggal_transaksi:tanggal_transaksi
         },
-        url: "../Transaksi/getdatatransaksikeluar",
+        url: "../Transaksi/getdatahutang",
         cache: false,
         success : function(data){
         console.log(data);
@@ -61,8 +70,26 @@
             $.each(data, function(i){
 
 
-                var btn_transaksikeluar = '<td style="text-align:center;">'+'<a href="<?php echo base_url();?>Transaksi/print_transaksikeluar/'+data[i].id+'" class="btn btn-info btn-icon" target="_blank"><i class="fa fa-print"></i>'+
+              var btn_hutang =
+              '<td style="text-align:center;">' +
+              '<button  type="button" class="btn btn-primary btn-icon  bayar_hutang" data="' +
+              data[i].kode_transaksi +
+              '"><i class="fa fa-money-bill-wave"></i></button >' +
+              '</td>';
+
+              if(data[i].is_lunas == 1){
+                var btn_indikator = '<td style="text-align:center;">' +
+                  '<button  type="button" class="btn btn-success btn-icon " data="' +
+                  data[i].id +
+                  '">Lunas</button >' +
                 '</td>';
+              }else{
+                var btn_indikator =  '<td style="text-align:center;">' +
+                  '<button  type="button" class="btn btn-danger btn-icon " data="' +
+                  data[i].id +
+                  '">Belum Lunas</button >' +
+                '</td>';
+              }
 
                   n++;
                   html = [
@@ -70,7 +97,8 @@
                     data[i].kode_transaksi,
                     data[i].nama_pembeli,
                     data[i].tgl,
-                    btn_transaksikeluar
+                    btn_indikator,
+                    btn_hutang
                   ];
           
                   // Add the row to DataTables
@@ -84,24 +112,69 @@
         });
     }
 
-    $('#data_master_barang').on('click','.barang_edit', function () {
-      var id = $(this).attr('data');
+    $('#data_transaksihutang').on('click','.bayar_hutang', function () {
+      var kode_transaksi = $(this).attr('data');
       $.ajax({
           type: 'POST',
-          url: "../Master/get_dataeditmasterbarang",//dilanjut besok
+          url: "../Transaksi/data_hutang",//dilanjut besok
           data: {
-            id:id
+            kode_transaksi:kode_transaksi
           }
         }).done(function(data) {
-          var data3 = $.parseJSON(data);
-          $.each(data3, function (i) {
-            $('#id_barang').val(data3[i].id);
-            $('#nama_barang').val(data3[i].nama_barang);
-            $('#satuan_barang').val(data3[i].satuan_barang);
-            $('#jenis_barang').val(data3[i].jenis_barang);
-          });
+          var n =0;
+          var m =0;
+
+          var data4 = $.parseJSON(data);
+          var listData = data4.list_data;
+          var historiHutang = data4.histori_hutang;
+          var data2 = data4.bayar;
+          console.log(historiHutang);
+
+          // Accessing individual elements from 'bayar'
+          var pay = data2.pay;
+          var kodeTransaksi = data2.kode_transaksi;
+          // Use the retrieved values as needed
+          $('#sudah_bayar').val(pay);
+          $('#kode_transaksi').val(kodeTransaksi);
+          $('#tot_seluruh').val(data2.total_harga);
+          $('#belum_bayar').val(data2.harus_bayar);
+          $.each(listData, function(i, item) {
+            $('#nama_pembeli').val(item.nama_pembeli);
+            var row_barang = '<td style="text-align:center;">' + item.nama_barang + ' - ' + item.nama_merk  + ' - ' + item.tahun_barang  + ' - ' + item.seri_barang  + ' - ' + item.kode_bulan  + ' - ' + item.kode_urut + '</td>';
+            n++;
+            var html = [
+                n,
+                item.kode_transaksi,
+                row_barang,
+                item.tgl_act,
+                item.harga_jual
+            ];
+          
+                  // Add the row to DataTables
+                  $("#table-2").DataTable().row.add(html);
+                
+                });
+
+          $.each(historiHutang, function(i, item) {
+            var html2 = [
+                m,
+                item.kode_hutang,
+                item.kode_transaksi,
+                item.pembayaran,
+                item.nama_user,
+                item.tgl
+            ];
+          
+                  // Add the row to DataTables
+                  $("#table-3").DataTable().row.add(html2);
+                
+                });
+                    
+            $("#table-2").DataTable().draw();
+            $("#table-3").DataTable().draw();
+
         });
-        $('#modal_tambahbarang').modal('show');
+        $('#modal_pelunasan').modal('show');
   });
 
   $('#data_master_barang').on('click','.barang_hapus', function () {
@@ -133,34 +206,21 @@
         }
 });
 
-    $('#save_transaksikeluar').on('click', function() {
-      var id_transaksi = $('#id_transaksi').val();
-      var nama_rekanan = $('#nama_rekanan').val();
-      var transaksi_temp = [];
+    $('#save_transaksiutang').on('click', function() {
+      var kode_transaksi = $('#kode_transaksi').val();
+      var nama_pembeli = $('#nama_pembeli').val();
+      var akan_bayar = $('#akan_bayar').val();
+      var belum_bayar = $('#belum_bayar').val();
 
-      $('.form-group').each(function() {
-        var nama_barang = $(this).find('#nama_barang').val();
-        var harga_keluar = $(this).find('#harga_keluar').val();
-        var hutang = $(this).find('#hutang').val();
-        console.log(nama_barang);
-        console.log(harga_keluar);
-        if (nama_barang != undefined && harga_keluar != undefined){
-          transaksi_temp.push({
-            id_transaksi: id_transaksi,
-            nama_rekanan: nama_rekanan,
-            nama_barang: nama_barang,
-            hutang: hutang,
-            harga_keluar: harga_keluar
-        });
-        }
-        // Push values into corresponding arrays
-        
-    });
-console.log(transaksi_temp);
       $.ajax({
         type: 'POST',
-        url: "../Transaksi/transaksi_keluar_act",//dilanjut besok
-        data: { transaksi_temp: transaksi_temp },
+        url: "../Transaksi/transaksi_hutang_act",//dilanjut besok
+        data: { 
+          kode_transaksi: kode_transaksi,
+          nama_pembeli: nama_pembeli, 
+          belum_bayar: belum_bayar,
+          akan_bayar: akan_bayar
+        },
         }).done(function(response) {
           
             var pesan = response.message;
@@ -168,11 +228,11 @@ console.log(transaksi_temp);
             console.log(pesan);
             if (response.status === '200') {
                 alert(response.message);
-                data_transaksikeluar();
+                data_transaksihutang();
                 location.reload();
             } else {
                 alert(response.message);
-                data_transaksikeluar();
+                data_transaksihutang();
                 location.reload();
                 return false;
             }

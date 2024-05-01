@@ -15,6 +15,10 @@ class Laporan extends CI_Controller {
 		// $this->load->library('upload');
         $this->db = $this->load->database('default', TRUE);
 		 date_default_timezone_set('Asia/Jakarta');
+         $data['user'] = $this->get_user();
+         if(count($data['user']) == 0){
+             redirect('login');
+         }
 		
 	}
 
@@ -47,9 +51,9 @@ class Laporan extends CI_Controller {
         $id_user = $this->session->userdata('id_user');
         $data['user'] = $this->m_master->getuser($id_user);
         $data['get_barang'] = $this->m_laporan->lap_barang_masuk($jangka_waktu,$tgl);
-        var_dump($data);
-        die();
-		$this->load->view('v_laporan/print_barang_masuk.php',$data);
+        // var_dump($data);
+        // die();
+		$this->load->view('v_laporan/print_laporan_barang_masuk.php',$data);
     }
 
     public function print_barang_keluar(){
@@ -58,9 +62,9 @@ class Laporan extends CI_Controller {
         $id_user = $this->session->userdata('id_user');
         $data['user'] = $this->m_master->getuser($id_user);
         $data['get_barang'] = $this->m_laporan->lap_barang_keluar($jangka_waktu,$tgl);
-        var_dump($data);
-        die();
-		$this->load->view('v_laporan/print_barang_keluar.php',$data);
+        // var_dump($data);
+        // die();
+		$this->load->view('v_laporan/print_laporan_barang_keluar.php',$data);
     }
 
 
@@ -70,7 +74,7 @@ class Laporan extends CI_Controller {
         $id_user = $this->session->userdata('id_user');
         $data['user'] = $this->m_master->getuser($id_user);
         $data['get_barang'] = $this->m_laporan->lap_retur_supplier($jangka_waktu,$tgl);
-		$this->load->view('v_laporan/print_retur_supplier.php',$data);
+		$this->load->view('v_laporan/print_laporan_retursupplier.php',$data);
     }
 
 
@@ -80,7 +84,7 @@ class Laporan extends CI_Controller {
         $id_user = $this->session->userdata('id_user');
         $data['user'] = $this->m_master->getuser($id_user);
         $data['get_barang'] = $this->m_laporan->lap_retur_penjualan($jangka_waktu,$tgl);
-		$this->load->view('v_laporan/print_retur_penjualan.php',$data);
+		$this->load->view('v_laporan/print_laporan_returpenjualan.php',$data);
     }
 
 
@@ -90,7 +94,7 @@ class Laporan extends CI_Controller {
         $id_user = $this->session->userdata('id_user');
         $data['user'] = $this->m_master->getuser($id_user);
         $data['get_barang'] = $this->m_laporan->lap_penghasilan($jangka_waktu,$tgl);
-		$this->load->view('v_laporan/print_penghasilan.php',$data);
+		$this->load->view('v_laporan/print_laporan_penghasilan.php',$data);
     }
 
 

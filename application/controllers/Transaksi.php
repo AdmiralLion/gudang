@@ -421,7 +421,7 @@ class Transaksi extends CI_Controller {
         $id_transaksi = $this->input->post('id_transaksi');
         $harga_keluar = $this->input->post('harga_keluar');
         $id_user = $this->session->userdata('id_user');
-
+        $cekhutang = '0';
         foreach($transaksi_temp as $rows):
             $id_transaksi = $rows['id_transaksi'];
             $nama_rekanan = $rows ['nama_rekanan'];
@@ -431,13 +431,20 @@ class Transaksi extends CI_Controller {
             foreach($transaksi_temp as $row):
                 $nama_barang = $row['nama_barang'];
                 $data['detail'] = $this->m_transaksi->get_detailbarang_keluar($nama_barang);
+                $tamp_hutang = $row['hutang'];
+                if($tamp_hutang == 'Iya'){
+                    $hutang = '1';
+                    $cekhutang = '1';
+                }else{
+                    $hutang = '0';
+                }
                 $harga_keluar = $row['harga_keluar'];
                 foreach($data['detail'] as $det):
-                    $data['transaksi_keluar'] = $this -> m_transaksi -> insert_barang_keluar($kd_transaksi,$det->id_transaksi,$det -> id_barang,$det -> id_merk ,$det -> tahun_barang,$det -> seri_barang,$det -> kode_bulan,$det -> kode_urut,$det -> harga_barang,$harga_keluar,$id_user);
+                    $data['transaksi_keluar'] = $this -> m_transaksi -> insert_barang_keluar($kd_transaksi,$det->id_transaksi,$det -> id_barang,$det -> id_merk ,$det -> tahun_barang,$det -> seri_barang,$det -> kode_bulan,$det -> kode_urut,$det -> harga_barang,$hutang,$harga_keluar,$id_user);
                     $data['update_stok'] = $this -> m_transaksi -> update_stok($nama_barang);
                 endforeach;
             endforeach;
-            $data['insert'] = $this -> m_transaksi -> insert_transaksi_keluar($kd_transaksi,$nama_rekanan,$id_user);
+            $data['insert'] = $this -> m_transaksi -> insert_transaksi_keluar($kd_transaksi,$nama_rekanan,$id_user,$cekhutang);
             if($data['transaksi_keluar'] == 'true' OR $data['transaksi_keluar'] == TRUE OR $data['transaksi_keluar'] == 'TRUE'){
                 $response = [
                     'status' => '200',
@@ -637,6 +644,119 @@ class Transaksi extends CI_Controller {
         }
         $data = $this->m_transaksi->get_datareturstok($tgl_transaksi);
         echo json_encode($data);
+    }
+
+    public function getdatahutang()
+    {
+        $tgl_transaksi = $this->input->post('tgl_transaksi');
+        if($tgl_transaksi == '' OR $tgl_transaksi == null){
+            $tgl_transaksi = date('m-Y');
+        }else{
+            // $tgl_transaksi = date('Y-m-d', strtotime($tgl_transaksi));
+        }
+        $data = $this->m_transaksi->get_datahutang($tgl_transaksi);
+        echo json_encode($data);
+    }
+
+    public function data_hutang()
+    {
+        $kode_transaksi = $this->input->post('kode_transaksi');
+        $data['list_data'] = $this->m_transaksi->get_data_hutang($kode_transaksi);
+        $data['histori_hutang'] = $this->m_transaksi->get_list_hutang($kode_transaksi);
+        $data2['tampung'] = $this->m_transaksi->get_list_hutang($kode_transaksi);
+        $pembayaran = 0;
+        $totalharga = 0;
+        $harusbayar = 0;
+        foreach($data2['tampung'] as $row):
+            if($row -> pembayaran > 0){
+                $pembayaran += $row -> pembayaran;
+            }
+        endforeach;
+        foreach($data['list_data'] as $row):
+            if($row -> is_hutang == 0){
+                $pembayaran += $row -> harga_jual;
+            }
+            $totalharga += $row -> harga_jual;
+        endforeach;
+        $harusbayar = $totalharga - $pembayaran;
+        $data['bayar'] = [
+            'pay' => $pembayaran,
+            'total_harga' => $totalharga,
+            'harus_bayar' => $harusbayar,
+            'kode_transaksi' => $kode_transaksi
+        ];
+        echo json_encode($data);
+    }
+
+    public function generate_kodehutang()
+    {
+        $monthYear = date('m-Y');
+        $tampung = explode('-', $monthYear);
+        $bulan = $tampung[0];
+        $tahun = $tampung[1];
+
+        // Get the number of transactions occurred in the current month
+        $transactionCount = $this->m_transaksi->getkodehutang($bulan,$tahun);
+        foreach($transactionCount as $row):
+            $temp = $row->jumlah;
+        endforeach;
+        $jumlah = $temp + 1;
+
+        // Generate the transaction code
+        $transactionCode = 'SJ/J3/HTG/'.$bulan.'/'.$tahun.'/' . $jumlah;
+    
+        return $transactionCode;
+    }
+
+    public function transaksi_hutang_act()
+    {
+        $kode_transaksi = $this->input->post('kode_transaksi');
+        $nama_pembeli = $this->input->post('nama_pembeli');
+        $belum_bayar = $this->input->post('belum_bayar');
+        $akan_bayar = $this->input->post('akan_bayar');
+        $id_user = $this->session->userdata('id_user');
+        $kode_hutang = $this-> generate_kodehutang();
+
+            if($belum_bayar == $akan_bayar){
+                $data['insert'] = $this -> m_transaksi -> insert_hutang($kode_hutang,$kode_transaksi,$nama_pembeli,$akan_bayar,$id_user);
+                $data['update'] = $this -> m_transaksi -> update_hutang($kode_transaksi);
+                if($data['insert'] == 'true' OR $data['insert'] == TRUE OR $data['insert'] == 'TRUE'){
+                    $response = [
+                        'status' => '200',
+                        'message' =>  'Pembayaran Hutang berhasil'
+                    ];
+                }else{
+                    $response = [
+                        'status' => '400',
+                        'message' =>  'Pembayaran Hutang gagal terinput'
+                    ];
+                }
+            }else if($belum_bayar < $akan_bayar){
+                $response = [
+                    'status' => '400',
+                    'message' =>  'Nilai Pembayaran Lebih Besar dari jumlah hutang'
+                ];
+            }else{
+                $data['insert'] = $this -> m_transaksi -> insert_hutang($kode_hutang,$kode_transaksi,$nama_pembeli,$akan_bayar,$id_user);
+                    if($data['insert'] == 'true' OR $data['insert'] == TRUE OR $data['insert'] == 'TRUE'){
+                        $response = [
+                            'status' => '200',
+                            'message' =>  'Pembayaran Hutang berhasil'
+                        ];
+                    }else{
+                        $response = [
+                            'status' => '400',
+                            'message' =>  'Pembayaran Hutang gagal terinput'
+                        ];
+                }
+            }
+            
+
+        
+        header('Content-Type: application/json');
+
+        echo json_encode($response);
+        die();
     }
 
     // public function getdatapenjualan()

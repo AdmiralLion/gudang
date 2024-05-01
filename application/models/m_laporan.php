@@ -342,7 +342,7 @@ class m_laporan extends CI_Model {
             $tambahanquer = "MONTH(bm.tgl_act) = '".$bulan."' AND YEAR(bm.tgl_act) = '".$tahun."'";
         }
         $query = $this->db->query("SELECT bm.`kode_transaksi`,b.nama_barang,m.nama_merk,bm.tahun_barang,bm.seri_barang,bm.kode_bulan,bm.kode_urut,
-        bm.harga_barang,u.`nama_user`
+        bm.harga_barang,u.`nama_user`,DATE_FORMAT(bm.tgl_act,'%d-%m-%Y %H:%i:%s') AS tgl 
         FROM b_barang_masuk bm INNER JOIN m_barang b ON bm.id_barang = b.id INNER JOIN m_merk m ON bm.id_merk = m.id
         INNER JOIN a_user u ON bm.`user_act` = u.`id` WHERE $tambahanquer");
         return $query->result();
@@ -359,7 +359,7 @@ class m_laporan extends CI_Model {
             $tambahanquer = "MONTH(bbk.tgl_act) ='".$bulan."' AND YEAR(bbk.tgl_act) = '".$tahun."'";
         }
         $query = $this->db->query("SELECT bbk.`kode_transaksi`,b.nama_barang,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,bbk.kode_urut,
-        bbk.harga_jual,u.`nama_user`,is_retur FROM b_barang_keluar bbk INNER JOIN m_barang b ON bbk.id_barang = b.id 
+        bbk.harga_jual,u.`nama_user`,is_retur,DATE_FORMAT(bbk.tgl_act,'%d-%m-%Y %H:%i:%s') AS tgl  FROM b_barang_keluar bbk INNER JOIN m_barang b ON bbk.id_barang = b.id 
         INNER JOIN m_merk m ON bbk.id_merk = m.id INNER JOIN a_user u ON bbk.`user_act` = u.`id` WHERE $tambahanquer");
         return $query->result();
     }
@@ -373,10 +373,12 @@ class m_laporan extends CI_Model {
             $tahun = $tgls[1];
             $tambahanquer = "MONTH(tgl_retur) ='".$bulan."' AND YEAR(tgl_retur) = '".$tahun."'";
         }
-        $query = $this->db->query("SELECT kd_retur,kd_transaksi, b.nama_barang,bm.tahun_barang,bm.seri_barang,bm.kode_bulan,bm.kode_urut,
+        $query = $this->db->query("SELECT kd_retur,kd_transaksi, b.nama_barang,bm.tahun_barang,bm.seri_barang,bm.kode_bulan,bm.kode_urut,m.nama_merk,
         bm.harga_barang,u.`nama_user`,tgl_retur,bm.tgl_act AS tgl_masuk FROM b_retur_masuk rm 
         INNER JOIN b_barang_masuk bm ON rm.id_transaksi = bm.id
-        INNER JOIN m_barang b ON rm.id_barang = b.id INNER JOIN m_rekanan r ON rm.id_supplier = r.id
+        INNER JOIN m_barang b ON rm.id_barang = b.id
+        INNER JOIN m_merk m ON bm.id_merk = m.id
+         INNER JOIN m_rekanan r ON rm.id_supplier = r.id
         INNER JOIN a_user u ON rm.`user_act` = u.`id` WHERE $tambahanquer");
         return $query->result();
     }
@@ -390,10 +392,11 @@ class m_laporan extends CI_Model {
             $tahun = $tgls[1];
             $tambahanquer = "MONTH(tgl_retur) ='".$bulan."' AND YEAR(tgl_retur) = '".$tahun."'";
         }
-        $query = $this->db->query("SELECT kd_retur,kd_transaksi, b.nama_barang,bk.tahun_barang,bk.seri_barang,bk.kode_bulan,bk.kode_urut,
+        $query = $this->db->query("SELECT kd_retur,kd_transaksi, b.nama_barang,bk.tahun_barang,bk.seri_barang,bk.kode_bulan,bk.kode_urut,m.nama_merk,
         bk.harga_jual,u.`nama_user`,tgl_retur,bk.tgl_act AS tgl_keluar FROM b_retur_keluar rk 
-        bk JOIN b_barang_keluar bk ON rk.id_transaksi = bk.id
+         JOIN b_barang_keluar bk ON rk.id_transaksi = bk.id
         INNER JOIN m_barang b ON rk.id_barang = b.id 
+        INNER JOIN m_merk m ON bk.id_merk = m.id
         INNER JOIN a_user u ON rk.`user_act` = u.`id`  WHERE $tambahanquer");
         return $query->result();
     }
@@ -408,7 +411,7 @@ class m_laporan extends CI_Model {
             $tambahanquer = "MONTH(bbk.tgl_act) ='".$bulan."' AND YEAR(bbk.tgl_act) = '".$tahun."'";
         }
         $query = $this->db->query("SELECT  bbk.`kode_transaksi`,b.nama_barang,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,bbk.kode_urut,
-        bbk.harga_jual,bbk.harga_masuk,u.`nama_user` FROM b_transaksi_keluar btk JOIN b_barang_keluar bbk ON btk.kode_transaksi = bbk.kode_transaksi
+        bbk.harga_jual,bbk.harga_masuk,u.`nama_user`,DATE_FORMAT(btk.tgl_act,'%d-%m-%Y %H:%i:%s') AS tgl FROM b_transaksi_keluar btk JOIN b_barang_keluar bbk ON btk.kode_transaksi = bbk.kode_transaksi
         INNER JOIN m_barang b ON bbk.id_barang = b.id 
         INNER JOIN m_merk m ON bbk.id_merk = m.id INNER JOIN a_user u ON bbk.`user_act` = u.`id`
         WHERE bbk.is_retur IS NULL AND $tambahanquer");

@@ -14,6 +14,10 @@ class Home extends CI_Controller {
 		// $this->load->library('upload');
 		//  $this->db3 = $this->load->database('lokal3', TRUE);
 		 date_default_timezone_set('Asia/Jakarta');
+         $data['user'] = $this->get_user();
+        if(count($data['user']) == 0){
+            redirect('login');
+        }
 		
 	}
     
@@ -125,6 +129,16 @@ class Home extends CI_Controller {
         $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
         $data['JavaScriptTambahan'] = $this->load->view('v_transaksi/transaksi_keluar.js',$data,TRUE);
 		$this->load->view('v_transaksi/v_transaksi_keluar.php',$data);
+    }
+
+    public function transaksi_hutang()
+    {
+        $data['user'] = $this->get_user();
+        $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
+        $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
+        $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
+        $data['JavaScriptTambahan'] = $this->load->view('v_transaksi/transaksi_hutang.js',$data,TRUE);
+		$this->load->view('v_transaksi/v_hutang.php',$data);
     }
 
     public function retur_jual()

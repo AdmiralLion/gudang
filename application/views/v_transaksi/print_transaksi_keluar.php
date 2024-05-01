@@ -65,13 +65,17 @@ $tglnow = date('d-m-Y H:i:s');
                 <th>No. Seri</th>
                 <th>Kode Bulan</th>
                 <th>Kode Urut</th>
+                <th>Pembayaran</th>
                 <th style="width: 150px;">Harga</th>
             </tr>
             <!-- Loop through transaction items and display each row -->
             <?php $no = 1;
             $totalharga = 0;
+            $totalhutang = 0;
+            $totaltunai = 0;
              foreach ($get_barang as $item): 
-                $totalharga += $item->harga_jual;?>
+                $totalharga += $item->harga_jual;
+                ?>
                 <tr style="text-align: center;">
                     <td><?= $no++;?></td>
                     <td><?= $item -> nama_barang;?></td>
@@ -81,13 +85,29 @@ $tglnow = date('d-m-Y H:i:s');
                     <td><?= $item -> seri_barang;?></td>
                     <td><?= $item -> kode_bulan;?></td>
                     <td><?= $item -> kode_urut;?></td>
+                    <td><?php if($item -> is_hutang == '1'){
+                                    $totalhutang += $item->harga_jual;
+                                    echo 'Hutang';
+                                }else{
+                                    $totaltunai += $item->harga_jual;
+                                    echo 'Tunai';
+                                };?>
+                    </td>
                     <td>Rp. <?= $item -> harga_jual;?></td>
 
                 </tr>
             <?php endforeach; ?>
             <tr>
-                <td colspan="7" style="padding:10px;">&nbsp;</td>
-                <td colspan="2" style="padding:10px;">Total Harga: Rp.<?php echo $totalharga; ?></td>
+                <td colspan="6" style="padding:10px;">&nbsp;</td>
+                <td colspan="4" style="padding:10px;">Total Yang Belum Dibayarkan: Rp.<?php echo $totalhutang; ?></td>
+            </tr>
+            <tr>
+                <td colspan="6" style="padding:10px;">&nbsp;</td>
+                <td colspan="4" style="padding:10px;">Total Yang Sudah Dibayarkan: Rp.<?php echo $totaltunai; ?></td>
+            </tr>
+            <tr>
+                <td colspan="6" style="padding:10px;">&nbsp;</td>
+                <td colspan="4" style="padding:10px;">Total Harga: Rp.<?php echo $totalharga; ?></td>
             </tr>
         </table>
         <br>

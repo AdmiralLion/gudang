@@ -232,15 +232,15 @@ class m_transaksi extends CI_Model {
         return $query->result();
     }
 
-    public function insert_transaksi_keluar($kd_transaksi,$nama_pembeli,$id_user){
+    public function insert_transaksi_keluar($kd_transaksi,$nama_pembeli,$id_user,$cekhutang){
         $tgl = date('Y-m-d H:i:s');
-        $query = $this->db->query("INSERT INTO b_transaksi_keluar VALUES('','$kd_transaksi','$nama_pembeli','$id_user','$tgl')");
+        $query = $this->db->query("INSERT INTO b_transaksi_keluar VALUES('','$kd_transaksi','$nama_pembeli','$cekhutang',null,'$id_user','$tgl')");
         return $query;
     }
 
-    public function insert_barang_keluar($kd_transaksi,$id_stok,$id_barang,$id_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$harga_masuk,$harga_keluar,$id_user){
+    public function insert_barang_keluar($kd_transaksi,$id_stok,$id_barang,$id_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$harga_masuk,$hutang,$harga_keluar,$id_user){
         $tgl = date('Y-m-d H:i:s');
-        $query = $this->db->query("INSERT INTO b_barang_keluar VALUES('','$kd_transaksi','$id_stok','$id_barang','$id_merk','$tahun_barang','$seri_barang','$kode_bulan','$kode_urut','$harga_masuk',$harga_keluar,null,'$id_user','$tgl')");
+        $query = $this->db->query("INSERT INTO b_barang_keluar VALUES('','$kd_transaksi','$id_stok','$id_barang','$id_merk','$tahun_barang','$seri_barang','$kode_bulan','$kode_urut','$harga_masuk',$harga_keluar,null,'$hutang','$id_user','$tgl')");
         return $query;
     }
 
@@ -273,7 +273,7 @@ class m_transaksi extends CI_Model {
 
     public function get_barang_keluar($id){
         $query = $this->db->query("SELECT btk.kode_transaksi,bbk.id_stok,mb.nama_barang,ms.nama_satuan,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,
-        bbk.kode_urut,bbk.harga_jual, btk.nama_pembeli, DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') as tgl_act FROM b_transaksi_keluar btk 
+        bbk.kode_urut,bbk.harga_jual, btk.nama_pembeli,bbk.is_hutang, DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') as tgl_act FROM b_transaksi_keluar btk 
         JOIN b_barang_keluar bbk ON btk.kode_transaksi = bbk.kode_transaksi JOIN m_barang mb ON bbk.id_barang = mb.id 
         JOIN m_merk m ON bbk.id_merk = m.id JOIN m_satuan ms ON mb.satuan_barang = ms.id
         WHERE btk.id = '$id'");
@@ -329,6 +329,58 @@ class m_transaksi extends CI_Model {
         $query = $this->db->query("SELECT btk.id, btk.kd_retur,DATE_FORMAT(btk.tgl_retur,'%d-%m-%Y') AS tgl, btk.nama_pembeli,u.nama_user FROM b_retur_keluar btk JOIN a_user u on btk.user_act = u.id WHERE DATE(btk.tgl_retur) = '$tanggal_transaksi'");
         // var_dump($tanggal_transaksi);
         // die();
+        return $query->result();
+    }
+
+    public function get_datahutang($tanggal_transaksi){
+        $tgl = explode('-', $tanggal_transaksi);
+        $bulan = $tgl[0];
+        $tahun = $tgl[1];
+        $query = $this->db->query("SELECT btk.id, btk.kode_transaksi,DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') AS tgl, btk.nama_pembeli,btk.is_lunas FROM b_transaksi_keluar btk WHERE MONTH(btk.tgl_act) = '$bulan' AND YEAR(btk.tgl_act) = '$tahun' AND btk.is_hutang = '1'");
+        // var_dump($tanggal_transaksi);
+        // die();
+        return $query->result();
+    }
+
+    public function get_data_hutang($kode_transaksi){
+        $query = $this->db->query("SELECT btk.kode_transaksi,bbk.id_stok,mb.nama_barang,ms.nama_satuan,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan, 
+        bbk.kode_urut,bbk.harga_jual, btk.nama_pembeli,bbk.is_hutang, DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') AS tgl_act 
+        FROM b_transaksi_keluar btk JOIN b_barang_keluar bbk ON btk.kode_transaksi = bbk.kode_transaksi 
+        JOIN m_barang mb ON bbk.id_barang = mb.id JOIN m_merk m ON bbk.id_merk = m.id JOIN m_satuan ms ON mb.satuan_barang = ms.id 
+        WHERE bbk.kode_transaksi = '$kode_transaksi'");
+        // var_dump($tanggal_transaksi);
+        // die();
+        return $query->result();
+    }
+
+    public function get_list_hutang($kode_transaksi){
+        $query = $this->db->query("SELECT bth.*, u.nama_user,DATE_FORMAT(bth.tgl_act,'%d-%m-%Y %H:%i:%s') AS tgl  FROM b_transaksi_hutang bth JOIN a_user u ON bth.user_act = u.id WHERE bth.kode_transaksi = '$kode_transaksi'");
+        // var_dump($tanggal_transaksi);
+        // die();
+        return $query->result();
+    }
+
+    public function insert_hutang($kode_hutang,$kode_transaksi,$nama_pembeli,$akan_bayar,$id_user){
+        $tgl = date('Y-m-d H:i:s');
+        $query = $this->db->query("INSERT INTO b_transaksi_hutang VALUES('','$kode_hutang','$kode_transaksi','$nama_pembeli','$akan_bayar','$id_user','$tgl')");
+        return $query;
+    }
+
+    public function update_hutang($kode_transaksi){
+        $tgl = date('Y-m-d H:i:s');
+        $data = array(
+            'is_lunas' => '1',
+            'is_hutang' => '0'
+         );
+         
+         $this->db->where('kode_transaksi', $kode_transaksi);
+         $query = $this->db->update('b_transaksi_keluar', $data);
+
+        return $query;
+    }
+
+    public function getkodehutang($bulan,$tahun){
+        $query = $this->db->query("SELECT COUNT(id) as jumlah FROM b_transaksi_hutang WHERE MONTH(tgl_act) = '$bulan' AND YEAR(tgl_act) = '$tahun'");
         return $query->result();
     }
 }

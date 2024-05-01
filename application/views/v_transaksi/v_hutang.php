@@ -4,6 +4,11 @@ foreach($user as $row):
     $nama = $row -> nama_user;
 endforeach;
 ?>
+<head>
+<script src="<?php echo base_url(); ?>assets/modules/jquery.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+</head>
 
 <body class="layout-3">
 <div class="main-wrapper container">
@@ -49,12 +54,12 @@ endforeach;
             <li class="nav-item dropdown active">
               <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-store"></i><span>Transaksi</span></a>
                   <ul class="dropdown-menu">
-                    <li class="nav-item"><a href="<?= base_url('');?>Home/transaksi_keluar" class="nav-link">Penjualan</a></li>
-                    <li class="nav-item active"><a href="#" class="nav-link">Barang Masuk</a></li>
+                    <li class="nav-item "><a href="<?= base_url('');?>Home/transaksi_keluar" class="nav-link">Penjualan</a></li>
+                    <li class="nav-item "><a href="<?= base_url('');?>Home/transaksi_masuk" class="nav-link">Barang Masuk</a></li>
                     <li class="nav-item"><a href="<?= base_url('');?>Home/stok_barang" class="nav-link">Pengelolaan Stok</a></li>
                     <li class="nav-item"><a href="<?= base_url('');?>Home/retur_jual" class="nav-link">Retur Penjualan</a></li>
                     <li class="nav-item"><a href="<?= base_url('');?>Home/retur_supplier" class="nav-link">Retur Supplier</a></li>
-                    <li class="nav-item "><a href="<?= base_url('');?>Home/transaksi_hutang" class="nav-link">Pembayaran Hutang</a></li>
+                    <li class="nav-item active"><a href="#" class="nav-link">Pembayaran Hutang</a></li>
                   </ul>
             </li>
             <li class="nav-item">
@@ -68,17 +73,17 @@ endforeach;
       <div class="main-content">
         <section class="section">
           <div class="section-header">
-            <h1>Transaksi Masuk</h1>
+            <h1>Pembayaran Hutang</h1>
           </div>
 
           <div class="section-body">
             <div class="card">
               <div class="card-header">
-                <h4>TRANSAKSI MASUK</h4>
+                <h4>Pembayaran Hutang</h4>
               </div>
               <div class="card-body">
                 <div class="row">
-                <div class="col-md-4"><button id="tambah_transaksimasuk" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i> Tambah </button></div>
+                <!-- <div class="col-md-4"><button id="tambah_transaksikeluar" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i> Tambah </button></div> -->
                 </div>
               
                 
@@ -87,7 +92,7 @@ endforeach;
                       <div class="row">
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
-                          Tanggal Transaksi : <input class="form-control datepicker" type="text" name="tgl_transaksi" id="tgl_transaksi">
+                          Tanggal Transaksi : <input class="form-control" type="text" name="tgl_transaksi" id="tgl_transaksi" >
                         </div>
                         <div class="col-md-4"></div>
                       </div>
@@ -98,12 +103,13 @@ endforeach;
                               No
                             </th>
                             <th class="text-center">Kode Transaksi</th>
-                            <th class="text-center">Rekanan</th>
+                            <th class="text-center">Pembeli</th>
                             <th class="text-center">Tgl Transaksi</th>
-                            <th class="text-center">Print</th>
+                            <th class="text-center">Indikator</th>
+                            <th class="text-center">Pelunasan</th>
                           </tr>
                         </thead>
-                        <tbody id="data_transaksimasuk" style="text-align: center;">                                 
+                        <tbody id="data_transaksihutang" style="text-align: center;">                                 
                          
                         </tbody>
                       </table>
@@ -123,7 +129,6 @@ endforeach;
 
 
         <!-- General JS Scripts -->
-  <script src="<?php echo base_url(); ?>assets/modules/jquery.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/modules/popper.js"></script>
   <script src="<?php echo base_url(); ?>assets/modules/tooltip.js"></script>
   <script src="<?php echo base_url(); ?>assets/modules/bootstrap/js/bootstrap.min.js"></script>
@@ -154,103 +159,101 @@ endforeach;
   <script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
 </body>
 
-<div class="modal fade" id="modal_tambahtransaksimasuk" role="dialog" aria-labelledby="modal_tambahtransaksimasuk" aria-hidden="true">
+<div class="modal fade" id="modal_pelunasan" role="dialog" aria-labelledby="modal_pelunasan" aria-hidden="true">
                   <div class="modal-dialog" style="min-width:100%;" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="modal_tambahtransaksimasuk">Transaksi Masuk</h5>
+                        <h5 class="modal-title" id="modal_pelunasan">Transaksi Hutang</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
                       <div class="modal-body">
-                        <input type="hidden" name="id_transaksi" id="id_transaksi" value="">
+                        <input type="hidden" name="kode_transaksi" id="kode_transaksi" value="">
                         <div class="panel-body">
-                          <div class="row">
-                            <div class="col-md-3"><p style="text-align: right;">Pilih nama rekanan : </p></div>
-                            <div class="col-md-6">
-                              <select class="form-control select2" style="width:100%" name="nama_rekanan" id="nama_rekanan">
-                              <option>--Pilih Rekanan--</option>
-                              <?php foreach($nama_rekanan as $rows):
-                               echo '<option value="'.$rows->id.'">'.$rows->nama_rekanan.'</option>';
-                              endforeach;
-                              ?>
-                            </select></div>
-                          </div>
                           <br>
-                          <div id="education_fields">
-          
-          </div>
-                        <div class="row">
-                        <!-- <div class="col-md-3">
-                          <div class="form-group">
-                          <select class="select2" style="width:100%" id="nama_barang" name="nama_barang[]">
-                              
-                              <option value="">--Pilih Barang--</option>
-                              <?php foreach($nama_barang as $rows):
-                               echo '<option value="'.$rows->id.'">'.$rows->nama_barang.'</option>';
-                              endforeach;
-                              ?>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-sm-3 nopadding">
-                          <div class="form-group">
-                          <select class="select2" style="width:100%" id="tipe_barang" name="tipe_barang[]">
-                              
-                              <option value="">--Merk--</option>
-                              <?php foreach($nama_merk as $rows):
-                               echo '<option value="'.$rows->id.'">'.$rows->nama_merk.'</option>';
-                              endforeach;
-                              ?>
-                            </select>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-sm-1 nopadding">
-                          <div class="form-group">
-                          <input type="text" class="form-control" name="tahun_barang[]" id="tahun_barang" placeholder="Tahun">
-                          </div>
-                        </div>
-                        
-                        <div class="col-sm-1 nopadding">
-                          <div class="form-group">
-                          <input type="text" class="form-control" name="seri_barang[]" id="seri_barang" placeholder="Seri">
-                          </div>
-                        </div>
-
-                        <div class="col-sm-1 nopadding">
-                          <div class="form-group">
-                          <input type="text" class="form-control" name="kode_bulan[]" id="kode_bulan" placeholder="Bulan">
-                          </div>
-                        </div>
-
-                        <div class="col-sm-1 nopadding">
-                          <div class="form-group">
-                          <input type="text" class="form-control" name="kode_urut[]" id="kode_urut" placeholder="Urut">
-                          </div>
-                        </div> -->
-                        <div class="col-sm-9">&nbsp;</div>
-                        <div class="col-sm-3 pull-right nopadding">
-                          <div class="form-group">
-                            <div class="input-group">
-                              <input type="text" class="form-control" name="harga_total" id="harga_total" placeholder="Harga">
-                              &nbsp; &nbsp;
-                              <div class="input-group-btn">
-                                <button class="btn btn-success" type="button"  onclick="education_fields();"> <span class="fa fa-plus" aria-hidden="true"></span> </button>
-                              </div>
+                          <div class="row">
+                            <div class="col-md-1">
+                            <h6>Nama Pembeli : </h6>
+                            </div>
+                            <div class="col-md-4">
+                            <input class="form-control" readonly type="text" name="nama_pembeli" id="nama_pembeli">
                             </div>
                           </div>
+                          <br>
+                          <table style="width: 100%;" class="table table-striped" id="table-3">
+                            <tr>
+                              <th colspan="6" style="text-align: center;">
+                                  LIST PEMBAYARAN HUTANG
+                              </th>
+                            </tr>
+                            <tr>
+                              <th>No</th>
+                              <th>Kode Hutang</th>
+                              <th>Kode Transaksi</th>
+                              <th>Nominal</th>
+                              <th>Pegawai</th>
+                              <th>Tanggal Pembayaran</th>
+                            </tr>
+                            <tbody id="histori_hutang">
+
+                            </tbody>
+                          </table>
+                          <br>
+                        <table class="table table-striped" id="table-2">
+                          <thead>                                 
+                            <tr>
+                              <th class="text-center" style="width:10px;">
+                                No
+                              </th>
+                              <th class="text-center">Kode Transaksi</th>
+                              <th class="text-center">Nama Barang</th>
+                              <th class="text-center">Tgl Transaksi</th>
+                              <th class="text-center">Harga</th>
+                            </tr>
+                          </thead>
+                          <tbody id="data_transaksihutang" style="text-align: center;">                                 
+                          
+                          </tbody>
+                          <tr>
+                            <td colspan="3" style="text-align: right;">
+                              Total Harga Keseluruhan :
+                            </td>
+                            <td colspan="2" style="text-align: right;">
+                                <input class="form-control" type="text" name="tot_seluruh" id="tot_seluruh" readonly>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan="3" style="text-align: right;">
+                              jumlah yang belum dibayar :
+                            </td>
+                            <td colspan="2">
+                                <input class="form-control" type="text" name="belum_bayar" id="belum_bayar" readonly>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan="3" style="text-align: right;">
+                              jumlah yang sudah dibayar :
+                            </td>
+                            <td colspan="2">
+                                <input class="form-control" type="text" name="sudah_bayar" id="sudah_bayar" readonly>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan="3" style="text-align: right;">
+                              jumlah yang akan dibayar :
+                            </td>
+                            <td colspan="2">
+                                <input class="form-control" type="text" name="akan_bayar" id="akan_bayar">
+                            </td>
+                          </tr>
+                        </table>
+                          <br>
                         </div>
-                        </div>
-                      
-                      </div>
-                      <div class="clear"></div>
-  
-  </div>
+                      </div>  
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button id="save_transaksimasuk" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Tambah</button>
+                        <button type="button" id="tutup" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="save_transaksiutang" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Tambah</button>
                       </div>
                     </div>
                   </div>

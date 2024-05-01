@@ -1,257 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<?php $tgl = $_GET['tgl']; ?>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laporan Retur Penjualan</title>
+<style>
+    /* Style the table for printing */
+    table {
+            width: 80%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        /* Style the letterhead */
+        .letterhead {
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: sans-serif !important;
 
-<?php $this->load->view('v_main/header.php'); 
-foreach($user as $row):
-    $nama = $row -> nama_user;
-endforeach;
-?>
+        }
+        .letterhead h1 {
+            margin: 0;
+            font-family: sans-serif !important;
+        }
 
-<body class="layout-3">
-<div class="main-wrapper container">
-      <div class="navbar-bg"></div>
-      <nav class="navbar navbar-expand-lg main-navbar">
-        <a href="index.html" class="navbar-brand sidebar-gone-hide">PT TES 123</a>
-        <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i class="fas fa-bars"></i></a>
-        <form class="form-inline ml-auto">
-         <!-- empty -->
-        </form>
-        <ul class="navbar-nav navbar-right">
-          <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <img alt="image" src="<?= base_url();?>assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
-            <div class="d-sm-none d-lg-inline-block">Hi, <?= $nama;?></div></a>
-            <div class="dropdown-menu dropdown-menu-right">
-              <!-- <div class="dropdown-title">Logged in <?= $last_activity;?> min ago</div> -->
-              <a href="#" class="dropdown-item has-icon">
-                <i class="fas fa-cog"></i> Settings
-              </a>
-              <div class="dropdown-divider"></div>
-              <a href="#" class="dropdown-item has-icon text-danger">
-                <i class="fas fa-sign-out-alt"></i> Logout
-              </a>
-            </div>
-          </li>
-        </ul>
-      </nav>
-      <nav class="navbar navbar-secondary navbar-expand-lg">
-        <div class="container">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a href="<?= base_url();?>home" class="nav-link"><i class="fas fa-fire"></i><span>Home</span></a>
-            </li>
-            <li class="nav-item dropdown">
-              <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-heart"></i><span>Master data</span></a>
-                  <ul class="dropdown-menu">
-                    <li class="nav-item"><a href="<?= base_url('');?>Home/master_barang" class="nav-link">Master Barang</a></li>
-                    <li class="nav-item"><a href="<?= base_url('');?>Home/master_rekanan" class="nav-link">Master Rekanan</a></li>
-                    <li class="nav-item"><a href="<?= base_url('');?>home/master_harga" class="nav-link">Master Harga</a></li>
-                    <li class="nav-item"><a href="<?= base_url('');?>Home/master_satuan" class="nav-link">Master Satuan</a></li>
-                  </ul>
-            </li>
-            <li class="nav-item dropdown active">
-              <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-heart"></i><span>Transaksi</span></a>
-                  <ul class="dropdown-menu">
-                    <li class="nav-item"><a href="<?= base_url('');?>Home/transaksi_keluar" class="nav-link">Penjualan</a></li>
-                    <li class="nav-item"><a href="<?= base_url('');?>Home/transaksi_masuk" class="nav-link">Barang Masuk</a></li>
-                    <li class="nav-item"><a href="<?= base_url('');?>Home/stok_barang" class="nav-link">Pengelolaan Stok</a></li>
-                    <li class="nav-item"><a href="<?= base_url('');?>Home/retur_jual" class="nav-link">Retur Penjualan</a></li>
-                    <li class="nav-item"><a href="<?= base_url('');?>Home/retur_supplier" class="nav-link">Retur Supplier</a></li>
-                  </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link active"><i class="fas fa-fire"></i><span>Laporan</span></a>
-            </li>
-          </ul>
-        </div>
-      </nav>
+        .center {
+          margin-left: auto;
+          margin-right: auto;
+        }
 
-      <!-- Main Content -->
-      <div class="main-content">
-        <section class="section">
-          <div class="section-header">
-            <h1>LAPORAN</h1>
-          </div>
+        button{
+            height:60px; 
+            width:100px; 
+            margin: -20px -50px; 
+            position:relative;
+            top:50%; 
+            left:50%;
+        }
+    @media print {
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        /* Style the letterhead */
+        .letterhead {
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: sans-serif !important;
 
-          <div class="section-body">
-            <div class="card">
-              <div class="card-header">
-                <h4>LAPORAN GUDANG</h4>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-6">
-                    <button class="btn btn-outline btn-icon btn-info" style="width:100%;" id="btn1"><i class="fas fa-report">1. Laporan  Barang Masuk</i>
-                    </button>
-                  </div>
-                  <div class="col-md-6">
-                    <button class="btn btn-outline btn-icon btn-info" style="width:100%;" id="btn2"><i class="fas fa-report">2. Laporan  Barang Keluar</i>
-                    </button>
-                  </div>
-                </div>
-                <br><br>
-                <div class="row">
-                  <div class="col-md-6">
-                    <button class="btn btn-outline btn-icon btn-info" style="width:100%;" id="btn3"><i class="fas fa-report">3. Laporan Retur Supplier</i>
-                    </button>
-                  </div>
-                  <div class="col-md-6">
-                    <button class="btn btn-outline btn-icon btn-info" style="width:100%;" id="btn4"><i class="fas fa-report">4. Laporan Retur Penjualan</i>
-                    </button>
-                  </div>
-                </div>
-                <br><br>
-                <div class="row">
-                  <div class="col-md-6">
-                    <button class="btn btn-outline btn-icon btn-info" style="width:100%;" id="btn5"><i class="fas fa-report">5. Laporan Penghasilan</i>
-                    </button>
-                  </div>
-                  <div class="col-md-6">
-                    <button class="btn btn-outline btn-icon btn-info" style="width:100%;" id="btn6"><i class="fas fa-report">6. Laporan Retur Penjualan</i>
-                    </button>
-                  </div>
-                </div>
-                </div>
-              <div class="card-footer bg-whitesmoke">
-                This is card footer
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-      <?php
-      $this->load->view('v_main/footer.php');
-      ?>
-    </div>
+        }
+        .letterhead h1 {
+            margin: 0;
+            font-family: sans-serif !important;
+        }
 
+        .center {
+          margin-left: auto;
+          margin-right: auto;
+        }
+    }
+</style>
+</head>
+<body>
 
-        <!-- General JS Scripts -->
-  <script src="<?php echo base_url(); ?>assets/modules/jquery.min.js"></script>
-  <script src="<?php echo base_url(); ?>assets/modules/popper.js"></script>
-  <script src="<?php echo base_url(); ?>assets/modules/tooltip.js"></script>
-  <script src="<?php echo base_url(); ?>assets/modules/bootstrap/js/bootstrap.min.js"></script>
-  <script src="<?php echo base_url(); ?>assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
-  <script src="<?php echo base_url(); ?>assets/modules/moment.min.js"></script>
-  <script src="<?php echo base_url(); ?>assets/js/stisla.js"></script>
-  <script>
-<?php echo $JavaScriptTambahan; ?>  
+<!-- Letterhead -->
+<div class="letterhead">
+    <h1>CV ABS</h1>
+    <p>ALAMAT KECIPIK BARU NO 99</p>
+    <p>Laporan Retur Penjualan</p>
+    <p>Periode : <?= $tgl;?></p>
+</div>
+
+<!-- Table to print -->
+
+<table id="myTable" class="center">
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Kode Retur</th>
+            <th>Kode Transaksi</th>
+            <th>Nama Barang</th>
+            <th>Merk</th>
+            <th>Tahun Barang</th>
+            <th>Seri Barang</th>
+            <th>Kode bulan</th>
+            <th>Kode Urut</th>
+            <th>Harga Jual</th>
+            <th>User Input</th>
+            <th>Tanggal Retur</th>
+            <th>Tanggal Keluar</th>
+        </tr>
+    </thead>
+    <tbody>
+      <?php $no = 1;
+            $tglskrg = date('d-m-Y H:i:s');
+
+      foreach($get_barang as $row):
+        ?>
+        <tr>
+            <td style="text-align:center;"><?= $no++;?></td>
+            <td style="text-align:center;"><?= $row -> kd_retur;?></td>
+            <td style="text-align:center;"><?= $row -> kd_transaksi;?></td>
+            <td style="text-align:center;"><?= $row -> nama_barang;?></td>
+            <td style="text-align:center;"><?= $row -> nama_merk;?></td>
+            <td style="text-align:center;"><?= $row -> tahun_barang;?></td>
+            <td style="text-align:center;"><?= $row -> seri_barang;?></td>
+            <td style="text-align:center;"><?= $row -> kode_bulan;?></td>
+            <td style="text-align:center;"><?= $row -> kode_urut;?></td>
+            <td style="text-align:center;"><?= $row -> harga_jual;?></td>
+            <td style="text-align:center;"><?= $row -> nama_user;?></td>
+            <td style="text-align:center;"><?= $row -> tgl_retur;?></td>
+            <td style="text-align:center;"><?= $row -> tgl_keluar;?></td>
+        </tr>
+        <?php endforeach; ?>
+        <tr>
+          <td colspan="13" style="text-align: right;">
+          Yang Mencetak <br>
+          Gresik, <?= $tglskrg;?><br><br><br> <br><br>
+          <?php foreach($user as $rows):
+          echo $rows -> nama_user;
+          endforeach;?>
+          </td>
+        </tr>
+        <!-- Add more rows here -->
+    </tbody>
+</table>
+<br><br>
+<!-- Button to trigger printing -->
+<button class="cenbut" onclick="printTable()">Print Laporan</button>
+
+<script>
+function printTable() {
+    // Copy the table content to a new window
+    var printWindow = window.open('', '_blank');
+    printWindow.document.write('<html><head><title>Print Table with Letterhead</title></head><body>');
+    printWindow.document.write('<div class="letterhead"><h1>CV ABS</h1><p>ALAMAT KECIPIK BARU NO 99</p></div>');
+    printWindow.document.write('<h2>Laporan Tabel</h2>');
+    printWindow.document.write(document.getElementById('myTable').outerHTML);
+    printWindow.document.write('</body></html>');
+
+    // Style the new window
+    printWindow.document.head.innerHTML += '<style>' + 
+        '@media print {table {width: 100%;border-collapse: collapse;}th, td {border: 1px solid #ddd;padding: 8px;}th {background-color: #f2f2f2;}tr:nth-child(even) {background-color: #f2f2f2;} .letterhead {text-align: center;margin-bottom: 20px;}.letterhead h1 {margin: 0;}}</style>';
+
+    // Trigger printing
+    printWindow.print();
+    printWindow.close();
+}
 </script>
-  <!-- JS Libraies -->
 
-  <script src="<?= base_url();?>assets/modules/prism/prism.js"></script>
-
-  <script src="<?php echo base_url(); ?>assets/modules/datatables/datatables.min.js"></script>
-  <script src="<?php echo base_url(); ?>assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
-  <script src="<?php echo base_url(); ?>assets/modules/bootstrap-daterangepicker/daterangepicker.js"></script>
-
-  <script src="<?php echo base_url(); ?>assets/modules/select2/dist/js/select2.full.min.js"></script>
-
-  <script src="<?php echo base_url(); ?>assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js"></script>
-  <script src="<?php echo base_url(); ?>assets/modules/jquery-ui/jquery-ui.min.js"></script>
-
-  <!-- Page Specific JS File -->
-  <!-- <script src="<?php echo base_url(); ?>assets/js/page/modules-datatables.js"></script> -->
-  
-  <!-- Template JS File -->
-  <script src="<?php echo base_url(); ?>assets/js/scripts.js"></script>
-  <script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
 </body>
-
-<div class="modal fade" id="modal_tambahtransaksimasuk" role="dialog" aria-labelledby="modal_tambahtransaksimasuk" aria-hidden="true">
-                  <div class="modal-dialog" style="min-width:100%;" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="modal_tambahtransaksimasuk">Transaksi Masuk</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <input type="hidden" name="id_transaksi" id="id_transaksi" value="">
-                        <div class="panel-body">
-                          <div class="row">
-                            <div class="col-md-3"><p style="text-align: right;">Pilih nama rekanan : </p></div>
-                            <div class="col-md-6">
-                              <select class="form-control select2" style="width:100%" name="nama_rekanan" id="nama_rekanan">
-                              <option>--Pilih Rekanan--</option>
-                              <?php foreach($nama_rekanan as $rows):
-                               echo '<option value="'.$rows->id.'">'.$rows->nama_rekanan.'</option>';
-                              endforeach;
-                              ?>
-                            </select></div>
-                          </div>
-                          <br>
-                          <div id="education_fields">
-          
-          </div>
-                        <div class="row">
-                        <!-- <div class="col-md-3">
-                          <div class="form-group">
-                          <select class="select2" style="width:100%" id="nama_barang" name="nama_barang[]">
-                              
-                              <option value="">--Pilih Barang--</option>
-                              <?php foreach($nama_barang as $rows):
-                               echo '<option value="'.$rows->id.'">'.$rows->nama_barang.'</option>';
-                              endforeach;
-                              ?>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-sm-3 nopadding">
-                          <div class="form-group">
-                          <select class="select2" style="width:100%" id="tipe_barang" name="tipe_barang[]">
-                              
-                              <option value="">--Merk--</option>
-                              <?php foreach($nama_merk as $rows):
-                               echo '<option value="'.$rows->id.'">'.$rows->nama_merk.'</option>';
-                              endforeach;
-                              ?>
-                            </select>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-sm-1 nopadding">
-                          <div class="form-group">
-                          <input type="text" class="form-control" name="tahun_barang[]" id="tahun_barang" placeholder="Tahun">
-                          </div>
-                        </div>
-                        
-                        <div class="col-sm-1 nopadding">
-                          <div class="form-group">
-                          <input type="text" class="form-control" name="seri_barang[]" id="seri_barang" placeholder="Seri">
-                          </div>
-                        </div>
-
-                        <div class="col-sm-1 nopadding">
-                          <div class="form-group">
-                          <input type="text" class="form-control" name="kode_bulan[]" id="kode_bulan" placeholder="Bulan">
-                          </div>
-                        </div>
-
-                        <div class="col-sm-1 nopadding">
-                          <div class="form-group">
-                          <input type="text" class="form-control" name="kode_urut[]" id="kode_urut" placeholder="Urut">
-                          </div>
-                        </div> -->
-                        <div class="col-sm-9">&nbsp;</div>
-                        <div class="col-sm-3 pull-right nopadding">
-                          <div class="form-group">
-                            <div class="input-group">
-                              <input type="text" class="form-control" name="harga_total" id="harga_total" placeholder="Harga">
-                              &nbsp; &nbsp;
-                              <div class="input-group-btn">
-                                <button class="btn btn-success" type="button"  onclick="education_fields();"> <span class="fa fa-plus" aria-hidden="true"></span> </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        </div>
-                      
-                      </div>
-                      <div class="clear"></div>
-  
-  </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button id="save_transaksimasuk" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Tambah</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+</html>

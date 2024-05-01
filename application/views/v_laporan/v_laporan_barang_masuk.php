@@ -46,7 +46,7 @@ endforeach;
                     <li class="nav-item"><a href="<?= base_url('');?>Home/master_satuan" class="nav-link">Master Satuan</a></li>
                   </ul>
             </li>
-            <li class="nav-item dropdown active">
+            <li class="nav-item dropdown">
               <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-heart"></i><span>Transaksi</span></a>
                   <ul class="dropdown-menu">
                     <li class="nav-item"><a href="<?= base_url('');?>Home/transaksi_keluar" class="nav-link">Penjualan</a></li>
@@ -54,9 +54,10 @@ endforeach;
                     <li class="nav-item"><a href="<?= base_url('');?>Home/stok_barang" class="nav-link">Pengelolaan Stok</a></li>
                     <li class="nav-item"><a href="<?= base_url('');?>Home/retur_jual" class="nav-link">Retur Penjualan</a></li>
                     <li class="nav-item"><a href="<?= base_url('');?>Home/retur_supplier" class="nav-link">Retur Supplier</a></li>
+                    <li class="nav-item "><a href="<?= base_url('');?>Home/transaksi_hutang" class="nav-link">Pembayaran Hutang</a></li>
                   </ul>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
               <a href="#" class="nav-link active"><i class="fas fa-fire"></i><span>Laporan</span></a>
             </li>
           </ul>
