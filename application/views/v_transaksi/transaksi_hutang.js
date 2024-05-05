@@ -61,6 +61,10 @@
     $("#tutup").click(function(){
       location.reload();
     });
+    
+    $("#tutupmdl").click(function(){
+      location.reload();
+    });
 
     $("#tgl_transaksi").datepicker( {
       format: "mm-yyyy",
@@ -118,6 +122,7 @@
                     data[i].kode_transaksi,
                     data[i].nama_pembeli,
                     data[i].tgl,
+                    data[i].tgl_jatuhtempo,
                     btn_indikator,
                     btn_hutang
                   ];
@@ -161,6 +166,16 @@
           $('#belum_bayar').val(data2.harus_bayar);
           $.each(listData, function(i, item) {
             $('#nama_pembeli').val(item.nama_pembeli);
+            console.log(item.is_retur);
+            if(item.is_retur == 1){
+              var btn_retur = '<td style="text-align:center;">' +
+                '<button  type="button" class="btn btn-success btn-icon ">Sudah Retur</button >' +
+              '</td>';
+            }else{
+              var btn_retur =  '<td style="text-align:center;">' +
+                '<button  type="button" class="btn btn-danger btn-icon ">Tidak Retur</button >' +
+              '</td>';
+            }
             var row_barang = '<td style="text-align:center;">' + item.nama_barang + ' - ' + item.nama_merk  + ' - ' + item.tahun_barang  + ' - ' + item.seri_barang  + ' - ' + item.kode_bulan  + ' - ' + item.kode_urut + '</td>';
             n++;
             var html = [
@@ -168,6 +183,7 @@
                 item.kode_transaksi,
                 row_barang,
                 item.tgl_act,
+                btn_retur,
                 item.harga_jual
             ];
           

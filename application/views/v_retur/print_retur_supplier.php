@@ -45,7 +45,7 @@ $tglnow = date('d-m-Y H:i:s');
         <div class="header">
             <img src="<?php echo base_url(); ?>assets/gudang/wheel.png" alt="Company Logo" class="logo">
             <div>
-                <h1>PT MAJU JAYA</h1>
+                <h1>CV ABS</h1>
                 <p>Jln. Kecipik Baru Nomor 99</p>
                 <p>08123456789</p>
                 <!-- Add more information about the factory here -->

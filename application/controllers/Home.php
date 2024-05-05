@@ -9,6 +9,7 @@ class Home extends CI_Controller {
 		// $this->load->model('m_master_ttd');
 		// $this->load->model('m_rme');
 		$this->load->model('m_transaksi');
+		$this->load->model('m_master');
 		$this->load->model('m_login');
 		// $this->load->helper('date');
 		// $this->load->library('upload');
@@ -71,6 +72,7 @@ class Home extends CI_Controller {
     public function master_barang()
     {
         $data['user'] = $this->get_user();
+        $data['satuan'] = $this->m_master->get_mastersatuan();
         $data['JavaScriptTambahan'] = $this->load->view('v_master/master_barang.js',$data,TRUE);
 		$this->load->view('v_master/v_master_barang.php',$data);
     }

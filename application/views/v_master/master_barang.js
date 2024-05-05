@@ -63,7 +63,7 @@
                     n,
                     btn_masterbrg,
                     data[i].nama_barang,
-                    data[i].satuan_barang,
+                    data[i].nama_satuan,
                     data[i].jenis_barang
                   ];
           

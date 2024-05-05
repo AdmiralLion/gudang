@@ -53,7 +53,7 @@ class m_master extends CI_Model {
     }
 
     public function get_masterbarang(){
-        $query = $this->db->query("SELECT * FROM m_barang JOIN m_satuan ON m_barang.satuan_barang = m_satuan.id");
+        $query = $this->db->query("SELECT m_barang.*, m_satuan.nama_satuan FROM m_barang JOIN m_satuan ON m_barang.satuan_barang = m_satuan.id");
         return $query->result();
     }
 

@@ -9,7 +9,7 @@ endforeach;
 <div class="main-wrapper container">
       <div class="navbar-bg"></div>
       <nav class="navbar navbar-expand-lg main-navbar">
-        <a href="index.html" class="navbar-brand sidebar-gone-hide">PT TES 123</a>
+        <a href="index.html" class="navbar-brand sidebar-gone-hide">CV ABS</a>
         <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i class="fas fa-bars"></i></a>
         <form class="form-inline ml-auto">
          <!-- empty -->
@@ -75,15 +75,9 @@ endforeach;
           <div class="section-body">
             <div class="card">
               <div class="card-header">
-                <h4>Pengelolaan transaksi gudang PT TES 123</h4>
+                <h4>Pengelolaan transaksi gudang CV ABS</h4>
               </div>
               <div class="card-body">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
               </div>
               <div class="card-footer bg-whitesmoke">
                 This is card footer

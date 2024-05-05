@@ -9,7 +9,7 @@ endforeach;
 <div class="main-wrapper container">
       <div class="navbar-bg"></div>
       <nav class="navbar navbar-expand-lg main-navbar">
-        <a href="index.html" class="navbar-brand sidebar-gone-hide">PT TES 123</a>
+        <a href="index.html" class="navbar-brand sidebar-gone-hide">CV ABS</a>
         <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i class="fas fa-bars"></i></a>
         <form class="form-inline ml-auto">
          <!-- empty -->
@@ -170,14 +170,13 @@ endforeach;
                           <div class="row">
                             <div class="col-md-3"><p style="text-align: right;">Nama Pembeli : </p></div>
                             <div class="col-md-6">
-                              <input type="text" class="form-control" name="nama_rekanan" id="nama_rekanan" placeholder="CV MAJU BERSAMA">
-                              <!-- <select class="form-control select2" style="width:100%" name="nama_rekanan" id="nama_rekanan">
-                              <option>--Pilih Rekanan--</option>
-                              <?php foreach($nama_rekanan as $rows):
-                               echo '<option value="'.$rows->id.'">'.$rows->nama_rekanan.'</option>';
-                              endforeach;
-                              ?>
-                            </select> -->
+                              <input type="text" class="form-control" name="nama_rekanan" id="nama_rekanan" placeholder="NAMA REKANAN">
+                          </div>
+                          </div><br>
+                          <div class="row">
+                            <div class="col-md-3"><p style="text-align: right;">Tanggal Jatuh Tempo : </p></div>
+                            <div class="col-md-2">
+                              <input type="text" class="datepicker form-control" name="jatuh_tempo" id="jatuh_tempo">
                           </div>
                           </div>
                           <br>

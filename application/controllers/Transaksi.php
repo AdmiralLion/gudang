@@ -425,7 +425,9 @@ class Transaksi extends CI_Controller {
         foreach($transaksi_temp as $rows):
             $id_transaksi = $rows['id_transaksi'];
             $nama_rekanan = $rows ['nama_rekanan'];
+            $jatuh_tempo = $rows['jatuh_tempo'];
         endforeach;
+
         if($id_transaksi == '' OR $id_transaksi == null){
             $kd_transaksi = $this->generate_kodetranskeluar();
             foreach($transaksi_temp as $row):
@@ -444,7 +446,7 @@ class Transaksi extends CI_Controller {
                     $data['update_stok'] = $this -> m_transaksi -> update_stok($nama_barang);
                 endforeach;
             endforeach;
-            $data['insert'] = $this -> m_transaksi -> insert_transaksi_keluar($kd_transaksi,$nama_rekanan,$id_user,$cekhutang);
+            $data['insert'] = $this -> m_transaksi -> insert_transaksi_keluar($kd_transaksi,$nama_rekanan,$jatuh_tempo,$id_user,$cekhutang);
             if($data['transaksi_keluar'] == 'true' OR $data['transaksi_keluar'] == TRUE OR $data['transaksi_keluar'] == 'TRUE'){
                 $response = [
                     'status' => '200',
@@ -653,7 +655,6 @@ class Transaksi extends CI_Controller {
             $tgl_transaksi = date('m-Y');
         }else{
             // $tgl_transaksi = date('Y-m-d', strtotime($tgl_transaksi));
-            // $tgl_transaksi = date('m-Y');
         }
         $data = $this->m_transaksi->get_datahutang($tgl_transaksi);
         echo json_encode($data);
@@ -674,7 +675,7 @@ class Transaksi extends CI_Controller {
             }
         endforeach;
         foreach($data['list_data'] as $row):
-            if($row -> is_hutang == 0){
+            if($row -> is_hutang == 0 || $row -> is_retur == 1){
                 $pembayaran += $row -> harga_jual;
             }
             $totalharga += $row -> harga_jual;

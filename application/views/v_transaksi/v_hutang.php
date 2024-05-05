@@ -14,7 +14,7 @@ endforeach;
 <div class="main-wrapper container">
       <div class="navbar-bg"></div>
       <nav class="navbar navbar-expand-lg main-navbar">
-        <a href="index.html" class="navbar-brand sidebar-gone-hide">PT TES 123</a>
+        <a href="index.html" class="navbar-brand sidebar-gone-hide">CV ABS</a>
         <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i class="fas fa-bars"></i></a>
         <form class="form-inline ml-auto">
          <!-- empty -->
@@ -105,6 +105,7 @@ endforeach;
                             <th class="text-center">Kode Transaksi</th>
                             <th class="text-center">Pembeli</th>
                             <th class="text-center">Tgl Transaksi</th>
+                            <th class="text-center">Tgl Jatuh Tempo</th>
                             <th class="text-center">Indikator</th>
                             <th class="text-center">Pelunasan</th>
                           </tr>
@@ -164,7 +165,7 @@ endforeach;
                     <div class="modal-content">
                       <div class="modal-header">
                         <h5 class="modal-title" id="modal_pelunasan">Transaksi Hutang</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button id="tutupmdl" type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
@@ -209,6 +210,7 @@ endforeach;
                               <th class="text-center">Kode Transaksi</th>
                               <th class="text-center">Nama Barang</th>
                               <th class="text-center">Tgl Transaksi</th>
+                              <th class="text-center">RETUR</th>
                               <th class="text-center">Harga</th>
                             </tr>
                           </thead>

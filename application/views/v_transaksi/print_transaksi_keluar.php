@@ -3,6 +3,7 @@
 foreach ($get_barang as $row):
     $kode_transaksi = $row -> kode_transaksi;
     $tgl_transaksi = $row -> tgl_act;
+    $tgl_jatuhtempo = $row -> tgl_jatuhtempo;
     $nama_pembeli = $row -> nama_pembeli;
 endforeach;
 
@@ -45,7 +46,7 @@ $tglnow = date('d-m-Y H:i:s');
         <div class="header">
             <img src="<?php echo base_url(); ?>assets/gudang/wheel.png" alt="Company Logo" class="logo">
             <div>
-                <h1>PT MAJU JAYA</h1>
+                <h1>CV ABS</h1>
                 <p>Jln. Kecipik Baru Nomor 99</p>
                 <p>08123456789</p>
                 <!-- Add more information about the factory here -->
@@ -97,6 +98,15 @@ $tglnow = date('d-m-Y H:i:s');
 
                 </tr>
             <?php endforeach; ?>
+            <tr>
+                <td colspan="6" style="padding:10px;">&nbsp;</td>
+                <td colspan="4" style="padding:10px;">Tanggal Jatuh Tempo Pembayaran: 
+                <?php if($tgl_jatuhtempo == $tgl_transaksi){
+                    echo '-';
+                }else{
+                    echo $tgl_jatuhtempo;
+                } ?></td>
+            </tr>
             <tr>
                 <td colspan="6" style="padding:10px;">&nbsp;</td>
                 <td colspan="4" style="padding:10px;">Total Yang Belum Dibayarkan: Rp.<?php echo $totalhutang; ?></td>

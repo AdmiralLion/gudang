@@ -157,6 +157,7 @@
     $('#save_transaksikeluar').on('click', function() {
       var id_transaksi = $('#id_transaksi').val();
       var nama_rekanan = $('#nama_rekanan').val();
+      var jatuh_tempo = $('#jatuh_tempo').val();
       var transaksi_temp = [];
 
       $('.form-group').each(function() {
@@ -169,6 +170,7 @@
           transaksi_temp.push({
             id_transaksi: id_transaksi,
             nama_rekanan: nama_rekanan,
+            jatuh_tempo:jatuh_tempo,
             nama_barang: nama_barang,
             hutang: hutang,
             harga_keluar: harga_keluar

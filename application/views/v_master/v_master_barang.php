@@ -9,7 +9,7 @@ endforeach;
 <div class="main-wrapper container">
       <div class="navbar-bg"></div>
       <nav class="navbar navbar-expand-lg main-navbar">
-        <a href="index.html" class="navbar-brand sidebar-gone-hide">PT TES 123</a>
+        <a href="index.html" class="navbar-brand sidebar-gone-hide">CV ABS</a>
         <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i class="fas fa-bars"></i></a>
         <form class="form-inline ml-auto">
          <!-- empty -->
@@ -165,7 +165,13 @@ endforeach;
                             <tr>
                               <td>Nama Satuan</td>
                               <td>:</td>
-                              <td><input class="form-control" type="text" name="satuan_barang" id="satuan_barang"></td>
+                              <td><select class="form-control" name="satuan_barang" id="satuan_barang">
+                                <option value="">--Pilih--</option>
+                                <?php foreach($satuan as $row):
+                                ?>
+                                <option value="<?= $row -> id;?>"><?= $row -> nama_satuan;?></option>
+                                <?php endforeach;?>
+                              </select></td>
                             </tr>
                             <tr>
                               <td>Jenis Barang</td>
