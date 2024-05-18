@@ -49,6 +49,8 @@ class Transaksi extends CI_Controller {
         $kode_urut = $this->input->post('kode_urut');
         $harga_masuk = $this->input->post('harga_masuk');
         $id_user = $this->session->userdata('id_user');
+        // var_dump($transaksi_temp);
+        // die();
 
         foreach($transaksi_temp as $rows):
             $id_transaksi = $rows['id_transaksi'];
