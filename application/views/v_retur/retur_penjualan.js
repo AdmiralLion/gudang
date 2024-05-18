@@ -41,18 +41,13 @@
     })
 
     $('.select2').select2({
-      placeholder: 'Pilih nama rekanan',
+      placeholder: 'Pilih nama barang',
       width: "100%",
       dropdownParent: $('#modal_tambahreturpenjualan'),
       allowClear: true
     });
 
-    $('.select2').select2({
-      placeholder: 'tes',
-      width: "100%",
-      dropdownParent: $('#modal_tambahreturpenjualan'),
-      allowClear: true
-    });
+    
 
     $('#tgl_transaksi').change(function (){
       data_returpenjualan();
@@ -170,24 +165,39 @@
                     var n =0;
                         var data = $.parseJSON(data);
                         $("#table-3").DataTable().clear();
+                        var masterbarang = data.master_barang;
+                        var barang_keluar = data.barang_keluar;
+                        var options1 = '';
+                        var options2 = '';
+                      
+                        masterbarang.forEach(function(item) {
+                          options1 += '<option value="' + item.id + '" data-harga="' + item.harga_barang + '">' + item.nama_barang + ' Merk '+ item.nama_merk + ' Tahun ' + item.tahun_barang + ' Seri ' + item.seri_barang + ' Kode Bulan ' + item.kode_bulan + ' Kode Urut ' + item.kode_urut+'</option>';
+                      });
     
-                $.each(data, function(i){
+                $.each(barang_keluar, function(i){
     
                   $("#table-3").attr("style", "display:block");
-                    var btn_returstok = '<td style="text-align:center;">'+'<a id="retur_barang" data="'+data[i].id_stok+'" class="btn btn-info btn-icon retur_barang"><i class="fa fa-download"> Retur</i>'+
+                    var btn_returstok = '<td style="text-align:center;">'+'<a id="retur_barang" data="'+barang_keluar[i].id_stok+'" class="btn btn-info btn-icon retur_barang"><i class="fa fa-download"> Retur</i>'+
                     '</td>';
+
+                    var input_alasan = '<td style="text-align:center;width:150px;">'+'<textarea class="form-control" name="input_alasan" id="input_alasan"></textarea>'+'</td>';
+
+                    var pil_barang = '<td style="text-align:center;width:150px;">'+'<select class="select2" style="width:100%" id="nama_barang" name="nama_barang[]">' +'<option value="">--Barang--</option>'+options1 +'</select>'+'</td>';
+
     
                       n++;
                       html = [
                         n,
-                        data[i].kode_transaksi,
-                        data[i].nama_barang,
-                        data[i].nama_merk,
-                        data[i].tahun_barang,
-                        data[i].seri_barang,
-                        data[i].nama_pembeli,
-                        data[i].harga_jual,
-                        data[i].tgl_act,
+                        barang_keluar[i].kode_transaksi,
+                        barang_keluar[i].nama_barang,
+                        barang_keluar[i].nama_merk,
+                        barang_keluar[i].tahun_barang,
+                        barang_keluar[i].seri_barang,
+                        barang_keluar[i].nama_pembeli,
+                        barang_keluar[i].harga_jual,
+                        barang_keluar[i].tgl_act,
+                        pil_barang,
+                        input_alasan,
                         btn_returstok
                       ];
               
@@ -197,6 +207,12 @@
                     });
                         
                 $("#table-3").DataTable().draw();
+                $('#table-3').find('.select2').select2({
+                  placeholder: '--Pilih--',
+                  width: "100%",
+                  dropdownParent: $('#modal_tambahreturpenjualan .modal-content'),
+                  allowClear: true
+              });
     
                   }
         })
@@ -204,6 +220,9 @@
 
   $('#data_allbarang').on('click','.retur_barang', function () {
     var id = $(this).attr('data');
+    var row = $(this).closest('tr');
+    var alasan = row.find('textarea[name="input_alasan"]').val();
+    var barang_ganti = row.find('select[name="nama_barang[]"]').val();
     console.log(id);
     var table = 'b_barang_masuk';
     let text = "Anda yakin untuk meretur stok barang tersebut ?";
@@ -213,6 +232,8 @@
         url: "../Transaksi/retur_stok",//dilanjut besok
         data: {
           id:id,
+          alasan:alasan,
+          barang_ganti:barang_ganti,
           table:table
         }
       }).done(function(response) {

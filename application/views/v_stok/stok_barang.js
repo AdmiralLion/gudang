@@ -87,7 +87,7 @@ $(document).ready(function () {
               if(data[i].stok == 1){
                 var cekstok = '<td style="text-align:center;">'+'<a href="#" class="btn btn-success btn-icon" >Ready</i>'+
               '</td>';
-              }else if(data[i].stok == 2){
+              }else if(data[i].stok == 0){
                 var cekstok = '<td style="text-align:center;">'+'<a href="#" class="btn btn-danger btn-icon" >Kosong</i>'+
               '</td>';
               }

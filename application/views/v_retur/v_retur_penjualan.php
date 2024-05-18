@@ -195,7 +195,7 @@ endforeach;
                             <th class="text-center" style="width:10px;">
                               No
                             </th>
-                            <th class="text-center" style="width:200px;">Kode Transaksi</th>
+                            <th class="text-center" style="width:100px;">Kode Transaksi</th>
                             <th class="text-center">Nama Barang</th>
                             <th class="text-center">Merk</th>
                             <th class="text-center">Tahun</th>
@@ -203,6 +203,8 @@ endforeach;
                             <th class="text-center">Pembeli</th>
                             <th class="text-center">Harga Jual</th>
                             <th class="text-center">Tgl Transaksi</th>
+                            <th class="text-center" style="width:150px;">Pilih Pengganti</th>
+                            <th class="text-center" style="width:150px;">Alasan Retur</th>
                             <th class="text-center">Retur Stok</th>
                           </tr>
                         </thead>

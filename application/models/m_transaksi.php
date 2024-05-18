@@ -264,6 +264,12 @@ class m_transaksi extends CI_Model {
         return $query;
     }
 
+    public function update_barangganti($id){
+        $tgl = date('Y-m-d H:i:s');
+        $query = $this->db->query("UPDATE b_barang_masuk SET stok = '0' WHERE id = '$id'");
+        return $query;
+    }
+
     public function get_transaksikeluar($tanggal_transaksi){
         $query = $this->db->query("SELECT btk.id, btk.kode_transaksi,DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') AS tgl, btk.nama_pembeli FROM b_transaksi_keluar btk WHERE DATE(btk.tgl_act) = '$tanggal_transaksi'");
         // var_dump($tanggal_transaksi);
@@ -306,7 +312,7 @@ class m_transaksi extends CI_Model {
     }
 
     public function get_barang_keluar3($id){
-        $query = $this->db->query("SELECT btk.kode_transaksi,bbk.id_stok,mb.nama_barang,ms.nama_satuan,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,
+        $query = $this->db->query("SELECT btk.id as id_trans,btk.kode_transaksi,bbk.id_stok,mb.nama_barang,ms.nama_satuan,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,
         bbk.kode_urut,bbk.harga_jual, btk.nama_pembeli, DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') as tgl_act FROM b_transaksi_keluar btk 
         JOIN b_barang_keluar bbk ON btk.kode_transaksi = bbk.kode_transaksi JOIN m_barang mb ON bbk.id_barang = mb.id 
         JOIN m_merk m ON bbk.id_merk = m.id JOIN m_satuan ms ON mb.satuan_barang = ms.id
@@ -319,9 +325,9 @@ class m_transaksi extends CI_Model {
         return $query->result();
     }
 
-    public function insert_retur_stok($kd_transaksi,$id_keluar,$kode_transkeluar,$id_barang,$nama_pembeli,$harga_jual,$id_user){
+    public function insert_retur_stok($kd_transaksi,$id_keluar,$kode_transkeluar,$id_barang,$nama_pembeli,$harga_jual,$id_user,$alasan,$barang_ganti){
         $tgl = date('Y-m-d H:i:s');
-        $query = $this->db->query("INSERT INTO b_retur_keluar VALUES('','$kd_transaksi','$id_keluar','$kode_transkeluar','$id_barang','$nama_pembeli','$harga_jual','$id_user','$tgl')");
+        $query = $this->db->query("INSERT INTO b_retur_keluar VALUES('','$kd_transaksi','$id_keluar','$kode_transkeluar','$id_barang','$nama_pembeli','$harga_jual','$alasan','$barang_ganti','$id_user','$tgl')");
         return $query;
     }
 

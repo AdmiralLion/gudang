@@ -484,7 +484,8 @@ class Transaksi extends CI_Controller {
     public function getallbarangkeluar()
     {
         $id = $this->input->post('id');
-        $data = $this->m_transaksi->get_barang_keluar2($id);
+        $data['barang_keluar'] = $this->m_transaksi->get_barang_keluar2($id);
+        $data['master_barang'] = $this->m_master->get_masterbarangready();
         echo json_encode($data);
     }
 
@@ -606,20 +607,30 @@ class Transaksi extends CI_Controller {
     {
         $id_user = $this->session->userdata('id_user');
         $id = $this->input->post('id');
+        $alasan = $this->input->post('alasan');
+        $barang_ganti = $this->input->post('barang_ganti');
         $kd_transaksi = $this->generate_kodereturstok();
         $data['detail_brg'] = $this -> m_transaksi -> get_barang_keluar3($id);
         // var_dump($data['detail_brg']);
         // die();
         foreach($data['detail_brg'] as $row):
-            $data['log_retur'] = $this -> m_transaksi -> insert_retur_stok($kd_transaksi,$row -> id,$row -> kode_transaksi,$id,$row -> nama_pembeli, $row -> harga_jual,$id_user);
+            $data['log_retur'] = $this -> m_transaksi -> insert_retur_stok($kd_transaksi,$row -> id_trans,$row -> kode_transaksi,$id,$row -> nama_pembeli, $row -> harga_jual,$id_user,$alasan,$barang_ganti);
         endforeach;
         if($data['log_retur'] == 'true' OR $data['log_retur'] == TRUE OR $data['log_retur'] == 'TRUE'){
             $data['retur'] = $this->m_transaksi->update_stokready($id);
             if($data['retur'] == 'true' OR $data['retur'] == TRUE OR $data['retur'] == 'TRUE'){
-            $response = [
-                'status' => '200',
-                'message' =>  'Barang Berhasil Retur Ke Gudang'
-            ];
+                $data['ganti'] = $this->m_transaksi->update_barangganti($barang_ganti);
+                if($data['ganti'] == 'true' OR $data['ganti'] == TRUE OR $data['ganti'] == 'TRUE'){
+                    $response = [
+                        'status' => '200',
+                        'message' =>  'Barang Berhasil Retur Ke Gudang'
+                    ];
+                }else{
+                    $response = [
+                        'status' => '400',
+                        'message' =>  'Barang Gagal Retur Ke Gudang'
+                    ];
+                }
             }else{
                 $response = [
                     'status' => '400',
