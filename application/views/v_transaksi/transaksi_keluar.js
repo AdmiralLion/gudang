@@ -164,6 +164,8 @@ $('#data_master_barang').on('click','.barang_hapus', function () {
       var nama_barang = $(this).find('#nama_barang').val();
       var harga_keluar = $(this).find('#harga_keluar').val();
       var hutang = $(this).find('#hutang').val();
+      var jns_brg = $(this).find('#jns_brg').val();
+
       console.log(nama_barang);
       console.log(harga_keluar);
       if (nama_barang != undefined && harga_keluar != undefined){
@@ -173,6 +175,7 @@ $('#data_master_barang').on('click','.barang_hapus', function () {
           jatuh_tempo:jatuh_tempo,
           nama_barang: nama_barang,
           hutang: hutang,
+          jns_brg: jns_brg,
           harga_keluar: harga_keluar
       });
       }
@@ -247,11 +250,14 @@ $.ajax({
 
 // $('#nama_barang').append(options1);
   divtest.innerHTML = '<div class="row">'+
-  '<div class="col-sm-6 nopadding"><div class="form-group"> <label for="Barang">Barang :</label><br><select class="select2" style="width:100%" id="nama_barang" name="nama_barang[]" onchange="setHarga(this)">' +'<option value="">--Barang--</option>'+
+  '<div class="col-sm-4 nopadding"><div class="form-group"> <label for="Barang">Barang :</label><br><select class="select2" style="width:100%" id="nama_barang" name="nama_barang[]" onchange="setHarga(this)">' +'<option value="">--Barang--</option>'+
               options1 +
   '</select></div></div>'+'<div class="col-sm-2 nopadding"><div class="form-group"><label for="Harga">Harga Masuk :</label><br><div class="input-group"><input type="text" placeholder="Harga" class="form-control" name="harga_masuk[]" id="harga_masuk" readonly></div></div></div>'+
   '<div class="col-sm-2 nopadding"><div class="form-group"><label for="Urut">Hutang :</label> <br> <select class="select2" style="width:100%" id="hutang" name="hutang[]">' +'<option value="">Hutang</option>'+
   '<option value="Tidak">Tidak</option>'+'<option value="Iya">Iya</option>'+
+  '</select></div></div>'+
+  '<div class="col-sm-2 nopadding"><div class="form-group"><label for="Urut">Jenis Barang :</label> <br> <select class="select2" style="width:100%" id="jns_brg" name="jns_brg[]">' +'<option value="">Jenis barang</option>'+
+  '<option value="Jasa">Jasa</option>'+'<option value="Panas">Panas</option>'+'<option value="Dingin">Dingin</option>'+'<option value="Overtreat">Overtreat</option>'+
   '</select></div></div>'+
   '<div class="col-sm-2 nopadding"><div class="form-group"> <label for="Harga Keluar">Harga Keluar :</label><br><div class="input-group"><input type="text" placeholder="Harga" class="form-control" name="harga_keluar[]" id="harga_keluar" onkeyup="hitung_harga()"> &nbsp; &nbsp;<div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_education_fields('+ room +');"> <span class="fa fa-minus" aria-hidden="true"></span> </button></div></div></div></div><div class="clear"></div></div>';
   objTo.appendChild(divtest)
