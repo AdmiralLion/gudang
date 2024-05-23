@@ -359,8 +359,11 @@ class m_laporan extends CI_Model {
             $tambahanquer = "MONTH(bbk.tgl_act) ='".$bulan."' AND YEAR(bbk.tgl_act) = '".$tahun."'";
         }
         $query = $this->db->query("SELECT bbk.`kode_transaksi`,b.nama_barang,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,bbk.kode_urut,
-        bbk.harga_jual,u.`nama_user`,is_retur,DATE_FORMAT(bbk.tgl_act,'%d-%m-%Y %H:%i:%s') AS tgl  FROM b_barang_keluar bbk INNER JOIN m_barang b ON bbk.id_barang = b.id 
-        INNER JOIN m_merk m ON bbk.id_merk = m.id INNER JOIN a_user u ON bbk.`user_act` = u.`id` WHERE $tambahanquer");
+        bbm.`harga_barang`,bbk.harga_jual,u.`nama_user`,is_retur,DATE_FORMAT(bbk.tgl_act,'%d-%m-%Y %H:%i:%s') AS tgl 
+        FROM b_barang_keluar bbk 
+        INNER JOIN b_barang_masuk bbm ON bbk.`id_stok` = bbm.`id`
+        INNER JOIN m_barang b ON bbk.id_barang = b.id 
+        INNER JOIN m_merk m ON bbk.id_merk = m.id INNER JOIN a_user u ON bbk.`user_act` = u.`id` WHERE $tambahanquer ORDER BY bbk.tgl_act ASC" );
         return $query->result();
     }
 
@@ -392,12 +395,15 @@ class m_laporan extends CI_Model {
             $tahun = $tgls[1];
             $tambahanquer = "MONTH(tgl_retur) ='".$bulan."' AND YEAR(tgl_retur) = '".$tahun."'";
         }
-        $query = $this->db->query("SELECT kd_retur,kd_transaksi, b.nama_barang,bk.tahun_barang,bk.seri_barang,bk.kode_bulan,bk.kode_urut,m.nama_merk,
-        bk.harga_jual,u.`nama_user`,tgl_retur,bk.tgl_act AS tgl_keluar FROM b_retur_keluar rk 
-         JOIN b_barang_keluar bk ON rk.id_transaksi = bk.id
-        INNER JOIN m_barang b ON rk.id_barang = b.id 
-        INNER JOIN m_merk m ON bk.id_merk = m.id
-        INNER JOIN a_user u ON rk.`user_act` = u.`id`  WHERE $tambahanquer");
+        $query = $this->db->query("SELECT rk.*,bk.*,b.`nama_barang` AS nama_barangasli,mb2.`nama_barang` nama_barangganti,bbm.`kode_bulan` kode_bulanganti
+        ,bbm.`kode_urut` kode_urutganti,bbm.`tahun_barang` tahun_barangganti,
+                bk.harga_jual,u.`nama_user`,tgl_retur,bk.tgl_act AS tgl_keluar FROM b_retur_keluar rk 
+                JOIN b_barang_keluar bk ON rk.id_transaksi = bk.id
+                JOIN b_barang_masuk bbm ON rk.`id_barang_ganti` = bbm.`id` 
+                JOIN m_barang mb2 ON bbm.`id_barang` = mb2.`id`
+                INNER JOIN m_barang b ON bk.id_barang = b.id 
+                INNER JOIN m_merk m ON bk.id_merk = m.id
+                INNER JOIN a_user u ON rk.`user_act` = u.`id`  WHERE $tambahanquer");
         return $query->result();
     }
 

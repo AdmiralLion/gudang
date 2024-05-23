@@ -98,12 +98,9 @@
             <th>No.</th>
             <th>Kode Retur</th>
             <th>Kode Transaksi</th>
-            <th>Nama Barang</th>
-            <th>Merk</th>
-            <th>Tahun Barang</th>
-            <th>Seri Barang</th>
-            <th>Kode bulan</th>
-            <th>Kode Urut</th>
+            <th>Barang Retur</th>
+            <th>Barang Ganti</th>
+            <th>Alasan Retur</th>
             <th>Harga Jual</th>
             <th>User Input</th>
             <th>Tanggal Retur</th>
@@ -120,12 +117,9 @@
             <td style="text-align:center;"><?= $no++;?></td>
             <td style="text-align:center;"><?= $row -> kd_retur;?></td>
             <td style="text-align:center;"><?= $row -> kd_transaksi;?></td>
-            <td style="text-align:center;"><?= $row -> nama_barang;?></td>
-            <td style="text-align:center;"><?= $row -> nama_merk;?></td>
-            <td style="text-align:center;"><?= $row -> tahun_barang;?></td>
-            <td style="text-align:center;"><?= $row -> seri_barang;?></td>
-            <td style="text-align:center;"><?= $row -> kode_bulan;?></td>
-            <td style="text-align:center;"><?= $row -> kode_urut;?></td>
+            <td><?= $row -> nama_barangasli . '&nbsp;' . $row -> tahun_barang . '&nbsp;' . $row -> kode_bulan . '&nbsp;' . $row -> kode_urut;?></td>
+            <td><?= $row -> nama_barangganti . '&nbsp;' . $row -> tahun_barangganti . '&nbsp;' . $row -> kode_bulanganti . '&nbsp;' . $row -> kode_urutganti;?></td>
+            <td><?= $row -> alasan_retur;?></td>
             <td style="text-align:center;"><?= $row -> harga_jual;?></td>
             <td style="text-align:center;"><?= $row -> nama_user;?></td>
             <td style="text-align:center;"><?= $row -> tgl_retur;?></td>

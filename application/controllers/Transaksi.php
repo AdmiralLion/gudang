@@ -580,8 +580,16 @@ class Transaksi extends CI_Controller {
     {
         $id_user = $this->session->userdata('id_user');
         $data['user'] = $this->m_master->getuser($id_user);
-        $data['get_barang'] = $this->m_transaksi->get_barang_keluar($id);
-		$this->load->view('v_transaksi/print_transaksi_keluar.php',$data);
+        $data['get_barang'] = $this->m_transaksi->get_retur_suplier($id);
+		$this->load->view('v_transaksi/print_retur_supplier.php',$data);
+    }
+
+    public function print_returstok($id)
+    {
+        $id_user = $this->session->userdata('id_user');
+        $data['user'] = $this->m_master->getuser($id_user);
+        $data['get_barang'] = $this->m_transaksi->get_retur_stok($id);
+		$this->load->view('v_retur/print_retur_penjualan.php',$data);
     }
 
     public function generate_kodereturstok()

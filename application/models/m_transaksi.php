@@ -279,7 +279,7 @@ class m_transaksi extends CI_Model {
 
     public function get_barang_keluar($id){
         $query = $this->db->query("SELECT btk.kode_transaksi,bbk.id_stok,mb.nama_barang,ms.nama_satuan,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,
-        bbk.kode_urut,bbk.harga_jual, btk.nama_pembeli,bbk.is_hutang, DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') as tgl_act,DATE_FORMAT(btk.tgl_jatuhtempo,'%d-%m-%Y') as tgl_jatuhtempo FROM b_transaksi_keluar btk 
+        bbk.kode_urut,bbk.harga_jual, btk.nama_pembeli,bbk.is_hutang,bbk.jns_penjualan, DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') as tgl_act,DATE_FORMAT(btk.tgl_jatuhtempo,'%d-%m-%Y') as tgl_jatuhtempo FROM b_transaksi_keluar btk 
         JOIN b_barang_keluar bbk ON btk.kode_transaksi = bbk.kode_transaksi JOIN m_barang mb ON bbk.id_barang = mb.id 
         JOIN m_merk m ON bbk.id_merk = m.id JOIN m_satuan ms ON mb.satuan_barang = ms.id
         WHERE btk.id = '$id'");
@@ -312,7 +312,7 @@ class m_transaksi extends CI_Model {
     }
 
     public function get_barang_keluar3($id){
-        $query = $this->db->query("SELECT btk.id as id_trans,btk.kode_transaksi,bbk.id_stok,mb.nama_barang,ms.nama_satuan,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,
+        $query = $this->db->query("SELECT bbk.id as id_trans,btk.kode_transaksi,bbk.id,mb.nama_barang,ms.nama_satuan,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,
         bbk.kode_urut,bbk.harga_jual, btk.nama_pembeli, DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') as tgl_act FROM b_transaksi_keluar btk 
         JOIN b_barang_keluar bbk ON btk.kode_transaksi = bbk.kode_transaksi JOIN m_barang mb ON bbk.id_barang = mb.id 
         JOIN m_merk m ON bbk.id_merk = m.id JOIN m_satuan ms ON mb.satuan_barang = ms.id
@@ -388,5 +388,21 @@ class m_transaksi extends CI_Model {
     public function getkodehutang($bulan,$tahun){
         $query = $this->db->query("SELECT COUNT(id) as jumlah FROM b_transaksi_hutang WHERE MONTH(tgl_act) = '$bulan' AND YEAR(tgl_act) = '$tahun'");
         return $query->result();
+    }
+
+    public function get_retur_stok($id){
+        $getkdtrans = $this->db->query("SELECT * FROM b_retur_keluar WHERE id = '$id'");
+
+        foreach($getkdtrans->result() as $rw):
+            $kd_transaksi = $rw -> kd_transaksi;
+        endforeach;
+
+        $query = $this -> db -> query("SELECT brk.*,bbk.*,mb.`nama_barang` AS nama_barangasli,mb2.`nama_barang` nama_barangganti,bbm.`kode_bulan` kode_bulanganti
+        ,bbm.`kode_urut` kode_urutganti,bbm.`tahun_barang` tahun_barangganti FROM b_retur_keluar brk 
+        INNER JOIN b_barang_keluar bbk ON brk.`id_transaksi` =  bbk.`id`
+         JOIN m_barang mb ON bbk.`id_barang` = mb.id JOIN b_barang_masuk bbm ON brk.`id_barang_ganti` = bbm.`id` 
+         JOIN m_barang mb2 ON bbm.`id_barang` = mb2.`id`
+        WHERE brk.`kd_transaksi` = '$kd_transaksi' GROUP BY brk.id");
+       return $query->result();
     }
 }

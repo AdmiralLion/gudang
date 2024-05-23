@@ -27,7 +27,7 @@ $tglnow = date('d-m-Y H:i:s');
             font-family: Arial, sans-serif;
         }
         .invoice-container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
         }
         .header {
@@ -60,12 +60,12 @@ $tglnow = date('d-m-Y H:i:s');
             <tr style="text-align: center;">
                 <th>No</th>
                 <th>Barang</th>
-                <th>Satuan</th>
                 <th>Merk</th>
                 <th>Tahun Barang</th>
                 <th>No. Seri</th>
                 <th>Kode Bulan</th>
                 <th>Kode Urut</th>
+                <th>Jenis Barang</th>
                 <th>Pembayaran</th>
                 <th style="width: 150px;">Harga</th>
             </tr>
@@ -80,12 +80,12 @@ $tglnow = date('d-m-Y H:i:s');
                 <tr style="text-align: center;">
                     <td><?= $no++;?></td>
                     <td><?= $item -> nama_barang;?></td>
-                    <td><?= $item -> nama_satuan;?></td>
                     <td><?= $item -> nama_merk;?></td>
                     <td><?= $item -> tahun_barang;?></td>
                     <td><?= $item -> seri_barang;?></td>
                     <td><?= $item -> kode_bulan;?></td>
                     <td><?= $item -> kode_urut;?></td>
+                    <td><?= $item -> jns_penjualan;?></td>
                     <td><?php if($item -> is_hutang == '1'){
                                     $totalhutang += $item->harga_jual;
                                     echo 'Hutang';
