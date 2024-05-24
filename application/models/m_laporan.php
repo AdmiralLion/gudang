@@ -359,7 +359,7 @@ class m_laporan extends CI_Model {
             $tambahanquer = "MONTH(bbk.tgl_act) ='".$bulan."' AND YEAR(bbk.tgl_act) = '".$tahun."'";
         }
         $query = $this->db->query("SELECT bbk.`kode_transaksi`,b.nama_barang,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,bbk.kode_urut,
-        bbm.`harga_barang`,bbk.harga_jual,u.`nama_user`,is_retur,DATE_FORMAT(bbk.tgl_act,'%d-%m-%Y %H:%i:%s') AS tgl 
+        bbm.`harga_barang`,bbk.harga_jual,u.`nama_user`,is_retur,bbk.is_hutang,DATE_FORMAT(bbk.tgl_act,'%d-%m-%Y %H:%i:%s') AS tgl 
         FROM b_barang_keluar bbk 
         INNER JOIN b_barang_masuk bbm ON bbk.`id_stok` = bbm.`id`
         INNER JOIN m_barang b ON bbk.id_barang = b.id 
@@ -424,5 +424,37 @@ class m_laporan extends CI_Model {
         return $query->result();
     }
 
+    public function lap_pembayaran_hutang($jangka_waktu, $tgl){
+        if($jangka_waktu == 'Harian'){
+            $tambahanquer = "DATE(bth.tgl_act) ='".$tgl."'";
+        }else{
+            $tgls = explode('-', $tgl);
+            $bulan = $tgls[0];
+            $tahun = $tgls[1];
+            $tambahanquer = "MONTH(bth.tgl_act) ='".$bulan."' AND YEAR(bth.tgl_act) = '".$tahun."'";
+        }
+        $query = $this->db->query("SELECT bth.*, 
+        btk.tgl_jatuhtempo,btk.is_lunas, 
+        (SELECT SUM(bb.harga_jual)
+         FROM b_barang_keluar bb
+         WHERE bb.kode_transaksi = bth.kode_transaksi
+        ) AS total_hutang,u.`nama_user` FROM b_transaksi_hutang bth LEFT JOIN b_transaksi_keluar btk ON bth.kode_transaksi = btk.kode_transaksi INNER JOIN a_user u ON bth.`user_act` = u.`id` WHERE $tambahanquer GROUP BY bth.id ");
+        return $query->result();
+    }
    
+    public function lap_jatuh_tempo($jangka_waktu, $tgl){
+        if($jangka_waktu == 'Harian'){
+            $tambahanquer = "DATE(btk.tgl_jatuhtempo) ='".$tgl."'";
+        }else{
+            $tgls = explode('-', $tgl);
+            $bulan = $tgls[0];
+            $tahun = $tgls[1];
+            $tambahanquer = "MONTH(btk.tgl_jatuhtempo) ='".$bulan."' AND YEAR(btk.tgl_jatuhtempo) = '".$tahun."'";
+        }
+        $query = $this->db->query("SELECT btk.*,(SELECT SUM(bb.harga_jual)
+        FROM b_barang_keluar bb
+        WHERE bb.kode_transaksi = btk.kode_transaksi
+       ) AS total_hutang,u.`nama_user` FROM b_transaksi_keluar btk INNER JOIN a_user u ON btk.`user_act` = u.`id` WHERE $tambahanquer");
+        return $query->result();
+    }
 }

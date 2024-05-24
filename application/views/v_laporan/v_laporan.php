@@ -100,6 +100,8 @@ endforeach;
                                     <option value="Laporan Retur Supplier">Laporan Retur Supplier</option>
                                     <option value="Laporan Retur Penjualan">Laporan Retur Penjualan</option>
                                     <option value="Laporan Penghasilan">Laporan Penghasilan</option>
+                                    <option value="Laporan Pembayaran Hutang">Laporan Pembayaran Hutang</option>
+                                    <option value="Laporan Jatuh Tempo">Laporan Jatuh Tempo</option>
                                     <!-- <option value="Laporan Barang Masuk">Laporan Barang Masuk</option>
                                     <option value="Laporan Barang Masuk">Laporan Barang Masuk</option> -->
                                 </select>

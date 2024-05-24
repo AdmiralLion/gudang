@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-  <?php $tgl = $_GET['tgl']; ?>
+<?php $tgl = $_GET['tgl']; ?>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Laporan Barang Keluar</title>
+<title>Laporan Pembayaran Hutang</title>
 <style>
     /* Style the table for printing */
     table {
-            width: 85%;
+            width: 80%;
             border-collapse: collapse;
         }
         th, td {
@@ -37,6 +37,7 @@
           margin-left: auto;
           margin-right: auto;
         }
+
         button{
             height:60px; 
             width:100px; 
@@ -85,7 +86,7 @@
 <div class="letterhead">
     <h1>CV ABS</h1>
     <p>ALAMAT KECIPIK BARU NO 99</p>
-    <p>Laporan Barang Keluar</p>
+    <p>Laporan Pembayaran Hutang</p>
     <p>Periode : <?= $tgl;?></p>
 </div>
 
@@ -95,71 +96,44 @@
     <thead>
         <tr>
             <th>No.</th>
+            <th>Kode Pembayaran Hutang</th>
             <th>Kode Transaksi</th>
-            <th>Nama Barang</th>
-            <th>Merk</th>
-            <th>Tahun Barang</th>
-            <th>Seri Barang</th>
-            <th>Kode bulan</th>
-            <th>Kode Urut</th>
-            <th>Harga Masuk</th>
-            <th>Harga Jual</th>
+            <th>Nama Pembeli</th>
+            <th>Pembayaran</th>
+            <th>Total Hutang</th>
+            <th>Lunas</th>
             <th>User Input</th>
-            <th>Retur</th>
-            <th>Status Hutang</th>
-            <th>Tanggal</th>
+            <th>Tanggal Pembayaran</th>
+            <th>Tanggal Jatuh Tempo</th>
         </tr>
     </thead>
     <tbody>
       <?php $no = 1;
             $tglskrg = date('d-m-Y H:i:s');
-            $hargamodal = 0;
-            $hargalaba = 0;
       foreach($get_barang as $row):
-        $hargamodal += $row -> harga_barang;
-        $hargalaba += $row -> harga_jual;
+        $tgl_pembayaran = date('d-m-Y H:i:s', strtotime($row -> tgl_act));
+        $tgl_jatuhtempo = date('d-m-Y', strtotime($row -> tgl_jatuhtempo));
+
         ?>
         <tr>
             <td style="text-align:center;"><?= $no++;?></td>
+            <td style="text-align:center;"><?= $row -> kode_hutang;?></td>
             <td style="text-align:center;"><?= $row -> kode_transaksi;?></td>
-            <td style="text-align:center;"><?= $row -> nama_barang;?></td>
-            <td style="text-align:center;"><?= $row -> nama_merk;?></td>
-            <td style="text-align:center;"><?= $row -> tahun_barang;?></td>
-            <td style="text-align:center;"><?= $row -> seri_barang;?></td>
-            <td style="text-align:center;"><?= $row -> kode_bulan;?></td>
-            <td style="text-align:center;"><?= $row -> kode_urut;?></td>
-            <td style="text-align:center;"><?= $row -> harga_barang;?></td>
-            <td style="text-align:center;"><?= $row -> harga_jual;?></td>
+            <td style="text-align:center;"><?= $row -> nama_pembeli;?></td>
+            <td style="text-align:center;"><?= $row -> pembayaran;?></td>
+            <td style="text-align:center;"><?= $row -> total_hutang;?></td>
+            <td style="text-align:center;">
+                    <?php if($row -> is_lunas == 1){
+                        echo 'Lunas';
+                    }else{
+                        echo 'Belum Lunas';
+                    };?>
+            </td>
             <td style="text-align:center;"><?= $row -> nama_user;?></td>
-            <td style="text-align:center;">
-            <?php if($row -> is_retur == '1'){
-              echo 'Retur Gudang';
-            }else{
-              echo 'Tidak Retur';
-            }
-            ;?>
-            </td>
-            <td style="text-align:center;">
-            <?php if($row -> is_hutang == '1'){
-              echo 'Hutang Belum Lunas';
-            }else{
-              echo 'Hutang Lunas';
-            }
-            ;?>
-            </td>
-            <td style="text-align:center;"><?= $row -> tgl;?></td>
-
+            <td style="text-align:center;"><?= $tgl_pembayaran;?></td>
+            <td style="text-align:center;"><?= $tgl_jatuhtempo;?></td>
         </tr>
         <?php endforeach; ?>
-        <tr>
-            <td colspan="10" style="text-align: right;">Modal</td><td colspan="3"> Rp. <?= $hargamodal;?></td>
-        </tr>
-        <tr>
-            <td colspan="10" style="text-align: right;">Laba Kotor</td><td colspan="3"> Rp. <?= $hargalaba;?></td>
-        </tr>
-        <tr>
-            <td colspan="10" style="text-align: right;">Laba Bersih</td><td colspan="3"> Rp. <?= $hargalaba - $hargamodal;?></td>
-        </tr>
         <tr>
           <td colspan="13" style="text-align: right;">
           Yang Mencetak <br>
