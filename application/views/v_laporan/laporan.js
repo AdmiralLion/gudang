@@ -107,53 +107,99 @@
     $('#btn_lihat').click(function(){
       var jns_laporan = $('#jns_laporan').val();
       var jangka_waktu = $('#jangka_waktu').val();
+      var jns_lap = 'print';
       if(jns_laporan == 'Laporan Barang Masuk' && jangka_waktu == 'Harian'){  
         var lap_harian = $('#lap_harian').val();
-          $('<a href="<?= base_url();?>Laporan/print_barang_masuk/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'" target="blank"></a>')[0].click();    
+          $('<a href="<?= base_url();?>Laporan/print_barang_masuk/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
       }else if(jns_laporan == 'Laporan Barang Masuk' && jangka_waktu == 'Bulanan'){
         var lap_bulanan = $('#lap_bulanan').val();
-        $('<a href="<?= base_url();?>Laporan/print_barang_masuk/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'" target="blank"></a>')[0].click();    
+        $('<a href="<?= base_url();?>Laporan/print_barang_masuk/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
       }else if(jns_laporan == 'Laporan Barang Keluar' && jangka_waktu == 'Harian'){
                 var lap_harian = $('#lap_harian').val();
-          $('<a href="<?= base_url();?>Laporan/print_barang_keluar/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'" target="blank"></a>')[0].click();    
+          $('<a href="<?= base_url();?>Laporan/print_barang_keluar/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
       }else if(jns_laporan == 'Laporan Barang Keluar' && jangka_waktu == 'Bulanan'){
                 var lap_bulanan = $('#lap_bulanan').val();
-          $('<a href="<?= base_url();?>Laporan/print_barang_keluar/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'" target="blank"></a>')[0].click();    
+          $('<a href="<?= base_url();?>Laporan/print_barang_keluar/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
       }else if(jns_laporan == 'Laporan Retur Supplier' && jangka_waktu == 'Harian'){
                 var lap_harian = $('#lap_harian').val();
-          $('<a href="<?= base_url();?>Laporan/print_retur_supplier/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'" target="blank"></a>')[0].click();    
+          $('<a href="<?= base_url();?>Laporan/print_retur_supplier/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
       }else if(jns_laporan == 'Laporan Retur Supplier' && jangka_waktu == 'Bulanan'){
                 var lap_bulanan = $('#lap_bulanan').val();
-          $('<a href="<?= base_url();?>Laporan/print_retur_supplier/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'" target="blank"></a>')[0].click();    
+          $('<a href="<?= base_url();?>Laporan/print_retur_supplier/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
       }else if(jns_laporan == 'Laporan Retur Penjualan' && jangka_waktu == 'Harian'){
                 var lap_harian = $('#lap_harian').val();
-          $('<a href="<?= base_url();?>Laporan/print_retur_penjualan/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'" target="blank"></a>')[0].click();    
+          $('<a href="<?= base_url();?>Laporan/print_retur_penjualan/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
       }else if(jns_laporan == 'Laporan Retur Penjualan' && jangka_waktu == 'Bulanan'){
                 var lap_bulanan = $('#lap_bulanan').val();
-          $('<a href="<?= base_url();?>Laporan/print_retur_penjualan/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'" target="blank"></a>')[0].click();    
+          $('<a href="<?= base_url();?>Laporan/print_retur_penjualan/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
       }else if(jns_laporan == 'Laporan Penghasilan' && jangka_waktu == 'Harian'){
                 var lap_harian = $('#lap_harian').val();
-          $('<a href="<?= base_url();?>Laporan/print_penghasilan/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'" target="blank"></a>')[0].click();    
+          $('<a href="<?= base_url();?>Laporan/print_penghasilan/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
       }else if(jns_laporan == 'Laporan Penghasilan' && jangka_waktu == 'Bulanan'){
                 var lap_bulanan = $('#lap_bulanan').val();
-          $('<a href="<?= base_url();?>Laporan/print_penghasilan/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'" target="blank"></a>')[0].click();    
+          $('<a href="<?= base_url();?>Laporan/print_penghasilan/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
       }else if(jns_laporan == 'Laporan Pembayaran Hutang' && jangka_waktu == 'Harian'){
         var lap_harian = $('#lap_harian').val();
-        $('<a href="<?= base_url();?>Laporan/print_pembayaran_hutang/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'" target="blank"></a>')[0].click();    
+        $('<a href="<?= base_url();?>Laporan/print_pembayaran_hutang/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
       }else if(jns_laporan == 'Laporan Pembayaran Hutang' && jangka_waktu == 'Bulanan'){
               var lap_bulanan = $('#lap_bulanan').val();
-        $('<a href="<?= base_url();?>Laporan/print_pembayaran_hutang/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'" target="blank"></a>')[0].click();    
+        $('<a href="<?= base_url();?>Laporan/print_pembayaran_hutang/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
       }else if(jns_laporan == 'Laporan Jatuh Tempo' && jangka_waktu == 'Harian'){
         var lap_harian = $('#lap_harian').val();
-        $('<a href="<?= base_url();?>Laporan/print_jatuh_tempo/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'" target="blank"></a>')[0].click();    
+        $('<a href="<?= base_url();?>Laporan/print_jatuh_tempo/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
       }else if(jns_laporan == 'Laporan Jatuh Tempo' && jangka_waktu == 'Bulanan'){
               var lap_bulanan = $('#lap_bulanan').val();
-        $('<a href="<?= base_url();?>Laporan/print_jatuh_tempo/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'" target="blank"></a>')[0].click();    
+        $('<a href="<?= base_url();?>Laporan/print_jatuh_tempo/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
       }
     });
 
     $('#btn_download').click(function(){
-
+      var jns_laporan = $('#jns_laporan').val();
+      var jangka_waktu = $('#jangka_waktu').val();
+      var jns_lap = 'excel';
+      if(jns_laporan == 'Laporan Barang Masuk' && jangka_waktu == 'Harian'){  
+        var lap_harian = $('#lap_harian').val();
+          $('<a href="<?= base_url();?>Laporan/print_barang_masuk/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
+      }else if(jns_laporan == 'Laporan Barang Masuk' && jangka_waktu == 'Bulanan'){
+        var lap_bulanan = $('#lap_bulanan').val();
+        $('<a href="<?= base_url();?>Laporan/print_barang_masuk/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
+      }else if(jns_laporan == 'Laporan Barang Keluar' && jangka_waktu == 'Harian'){
+                var lap_harian = $('#lap_harian').val();
+          $('<a href="<?= base_url();?>Laporan/print_barang_keluar/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
+      }else if(jns_laporan == 'Laporan Barang Keluar' && jangka_waktu == 'Bulanan'){
+                var lap_bulanan = $('#lap_bulanan').val();
+          $('<a href="<?= base_url();?>Laporan/print_barang_keluar/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
+      }else if(jns_laporan == 'Laporan Retur Supplier' && jangka_waktu == 'Harian'){
+                var lap_harian = $('#lap_harian').val();
+          $('<a href="<?= base_url();?>Laporan/print_retur_supplier/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
+      }else if(jns_laporan == 'Laporan Retur Supplier' && jangka_waktu == 'Bulanan'){
+                var lap_bulanan = $('#lap_bulanan').val();
+          $('<a href="<?= base_url();?>Laporan/print_retur_supplier/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
+      }else if(jns_laporan == 'Laporan Retur Penjualan' && jangka_waktu == 'Harian'){
+                var lap_harian = $('#lap_harian').val();
+          $('<a href="<?= base_url();?>Laporan/print_retur_penjualan/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
+      }else if(jns_laporan == 'Laporan Retur Penjualan' && jangka_waktu == 'Bulanan'){
+                var lap_bulanan = $('#lap_bulanan').val();
+          $('<a href="<?= base_url();?>Laporan/print_retur_penjualan/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
+      }else if(jns_laporan == 'Laporan Penghasilan' && jangka_waktu == 'Harian'){
+                var lap_harian = $('#lap_harian').val();
+          $('<a href="<?= base_url();?>Laporan/print_penghasilan/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
+      }else if(jns_laporan == 'Laporan Penghasilan' && jangka_waktu == 'Bulanan'){
+                var lap_bulanan = $('#lap_bulanan').val();
+          $('<a href="<?= base_url();?>Laporan/print_penghasilan/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
+      }else if(jns_laporan == 'Laporan Pembayaran Hutang' && jangka_waktu == 'Harian'){
+        var lap_harian = $('#lap_harian').val();
+        $('<a href="<?= base_url();?>Laporan/print_pembayaran_hutang/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
+      }else if(jns_laporan == 'Laporan Pembayaran Hutang' && jangka_waktu == 'Bulanan'){
+              var lap_bulanan = $('#lap_bulanan').val();
+        $('<a href="<?= base_url();?>Laporan/print_pembayaran_hutang/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
+      }else if(jns_laporan == 'Laporan Jatuh Tempo' && jangka_waktu == 'Harian'){
+        var lap_harian = $('#lap_harian').val();
+        $('<a href="<?= base_url();?>Laporan/print_jatuh_tempo/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
+      }else if(jns_laporan == 'Laporan Jatuh Tempo' && jangka_waktu == 'Bulanan'){
+              var lap_bulanan = $('#lap_bulanan').val();
+        $('<a href="<?= base_url();?>Laporan/print_jatuh_tempo/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
+      }
     });
 
     function reset_masterbarang()

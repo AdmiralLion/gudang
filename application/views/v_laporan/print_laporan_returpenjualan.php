@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php $tgl = $_GET['tgl']; ?>
+<?php $tgl = $_GET['tgl'];
+  $jns_lap = $_GET['jnslap']; 
+  if($jns_lap == 'excel'){
+    header("Content-Type:   application/vnd.ms-excel; charset=utf-8");
+    header("Content-Disposition: attachment; filename=lap_returpenjualan_".$tgl.".xls"); 
+    header("Expires: 0");
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+    header("Cache-Control: private",false);
+  }
+  ?>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">

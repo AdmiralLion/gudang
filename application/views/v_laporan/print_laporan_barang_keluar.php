@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-  <?php $tgl = $_GET['tgl']; ?>
+  <?php $tgl = $_GET['tgl'];
+  $jns_lap = $_GET['jnslap']; 
+  if($jns_lap == 'excel'){
+    header("Content-Type:   application/vnd.ms-excel; charset=utf-8");
+    header("Content-Disposition: attachment; filename=lap_barang_keluar_".$tgl.".xls"); 
+    header("Expires: 0");
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+    header("Cache-Control: private",false);
+  }
+  ?>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -152,16 +161,16 @@
         </tr>
         <?php endforeach; ?>
         <tr>
-            <td colspan="10" style="text-align: right;">Modal</td><td colspan="3"> Rp. <?= $hargamodal;?></td>
+            <td colspan="10" style="text-align: right;">Modal</td><td colspan="4"> Rp. <?= $hargamodal;?></td>
         </tr>
         <tr>
-            <td colspan="10" style="text-align: right;">Laba Kotor</td><td colspan="3"> Rp. <?= $hargalaba;?></td>
+            <td colspan="10" style="text-align: right;">Laba Kotor</td><td colspan="4"> Rp. <?= $hargalaba;?></td>
         </tr>
         <tr>
-            <td colspan="10" style="text-align: right;">Laba Bersih</td><td colspan="3"> Rp. <?= $hargalaba - $hargamodal;?></td>
+            <td colspan="10" style="text-align: right;">Laba Bersih</td><td colspan="4"> Rp. <?= $hargalaba - $hargamodal;?></td>
         </tr>
         <tr>
-          <td colspan="13" style="text-align: right;">
+          <td colspan="14" style="text-align: right;">
           Yang Mencetak <br>
           Gresik, <?= $tglskrg;?><br><br><br> <br><br>
           <?php foreach($user as $rows):

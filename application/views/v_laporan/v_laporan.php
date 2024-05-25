@@ -84,10 +84,10 @@ endforeach;
               </div>
               <div class="card-body">
                   <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       &nbsp;
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <table style="width: 100%;">
                           <tr>
                             <td>Jenis Laporan</td>
@@ -141,7 +141,7 @@ endforeach;
                           
                       </table>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       &nbsp;
                     </div>
                   </div>
