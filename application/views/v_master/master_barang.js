@@ -132,6 +132,7 @@ $('#data_master_barang').on('click','.barang_hapus', function () {
     var nama_barang = $('#nama_barang').val();
     var satuan_barang = $('#satuan_barang').val();
     var jenis_barang = $('#jenis_barang').val();
+    $('#save_masterbarang').addClass('btn-progress');
     $.ajax({
       type: 'POST',
       url: "../Master/master_barang_act",//dilanjut besok
@@ -148,9 +149,11 @@ $('#data_master_barang').on('click','.barang_hapus', function () {
           console.log(pesan);
           if (response.status === '200') {
               alert(response.message);
+              $('#save_masterbarang').removeClass('btn-progress');
               data_masterbarang();
           } else {
               alert(response.message);
+              $('#save_masterbarang').removeClass('btn-progress');
               data_masterbarang();
               return false;
           }

@@ -131,6 +131,7 @@
     $('#save_mastermerk').on('click', function() {
       var id_merk = $('#id_merk').val();
       var nama_merk = $('#nama_merk').val();
+      $('#save_mastermerk').addClass('btn-progress');
 
       $.ajax({
         type: 'POST',
@@ -146,9 +147,11 @@
             console.log(pesan);
             if (response.status === '200') {
                 alert(response.message);
+                $('#save_mastermerk').removeClass('btn-progress');
                 data_mastermerk();
             } else {
                 alert(response.message);
+                $('#save_mastermerk').removeClass('btn-progress');
                 data_mastermerk();
                 return false;
             }

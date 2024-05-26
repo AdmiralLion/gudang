@@ -158,6 +158,7 @@
       var id_retur = $('#id_retur').val();
       var nama_supplier = $('#nama_supplier').val();
       var transaksi_temp = [];
+      $('#save_retursupplier').addClass('btn-progress');
 
       $('.form-group').each(function() {
         var nama_barang = $(this).find('#nama_barang').val();
@@ -185,10 +186,12 @@
             console.log(pesan);
             if (response.status === '200') {
                 alert(response.message);
+                $('#save_retursupplier').removeClass('btn-progress');
                 data_retursupplier();
                 location.reload();
             } else {
                 alert(response.message);
+                $('#save_retursupplier').removeClass('btn-progress');
                 data_retursupplier();
                 location.reload();
                 return false;

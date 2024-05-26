@@ -308,6 +308,7 @@
       var id_retur = $('#id_retur').val();
       // var id_rekanan = $('#nama_rekanan').val();
       var transaksi_temp = [];
+      $('#save_returpenjualan').addClass('btn-progress');
 
       $('.form-group').each(function() {
         var nama_barang = $(this).find('#nama_barang').val();
@@ -347,10 +348,12 @@ console.log(transaksi_temp);
             console.log(pesan);
             if (response.status === '200') {
                 alert(response.message);
+                $('#save_returpenjualan').removeClass('btn-progress');
                 data_transaksimasuk();
                 location.reload();
             } else {
                 alert(response.message);
+                $('#save_returpenjualan').removeClass('btn-progress');
                 data_transaksimasuk();
                 location.reload();
                 return false;

@@ -256,7 +256,7 @@ endforeach;
                       </div>  
                       <div class="modal-footer">
                         <button type="button" id="tutup" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button id="save_transaksiutang" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Tambah</button>
+                        <button id="save_transaksiutang" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Simpan</button>
                       </div>
                     </div>
                   </div>

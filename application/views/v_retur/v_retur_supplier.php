@@ -79,7 +79,7 @@ endforeach;
               </div>
               <div class="card-body">
                 <div class="row">
-                <div class="col-md-4"><button id="tambah_retursupplier" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i> Tambah </button></div>
+                <div class="col-md-4"><button id="tambah_retursupplier" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i> Simpan </button></div>
                 </div>
               
                 

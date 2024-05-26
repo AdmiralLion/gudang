@@ -187,7 +187,7 @@ endforeach;
                               <td><input class="form-control" type="text" name="harga_barang" id="harga_barang"></td>
                             </tr>
                             <tr>
-                              <td colspan="3"><button id="save_harga" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Tambah</button></td>
+                              <td colspan="3"><button id="save_harga" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Simpan</button></td>
                             </tr>
                         </table>
                       </div>

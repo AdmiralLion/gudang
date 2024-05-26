@@ -112,6 +112,7 @@
       var nama_barang = $('#nama_barang').val();
       var nama_satuan = $('#nama_satuan').val();
       var harga_barang = $('#harga_barang').val();
+      $('#save_harga').addClass('btn-progress');
 
       $.ajax({
         type: 'POST',
@@ -130,9 +131,11 @@
             console.log(pesan);
             if (response.status === '200') {
                 alert(response.message);
+                $('#save_harga').removeClass('btn-progress');
                 data_harga2(id_barang);
             } else {
                 alert(response.message);
+                $('#save_harga').removeClass('btn-progress');
                 data_harga2(id_barang);
                 return false;
             }

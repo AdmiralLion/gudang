@@ -249,6 +249,7 @@ $('#data_master_barang').on('click','.barang_hapus', function () {
     var nama_pembeli = $('#nama_pembeli').val();
     var akan_bayar = $('#akan_bayar').val();
     var belum_bayar = $('#belum_bayar').val();
+    $('#save_transaksiutang').addClass('btn-progress');
 
     $.ajax({
       type: 'POST',
@@ -266,10 +267,12 @@ $('#data_master_barang').on('click','.barang_hapus', function () {
           console.log(pesan);
           if (response.status === '200') {
               alert(response.message);
+              $('#save_transaksiutang').removeClass('btn-progress');
               data_transaksihutang();
               location.reload();
           } else {
               alert(response.message);
+              $('#save_transaksiutang').removeClass('btn-progress');
               data_transaksihutang();
               location.reload();
               return false;

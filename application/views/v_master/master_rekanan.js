@@ -142,6 +142,7 @@
       var alamat_rekanan = $('#alamat_rekanan').val();
       var notelp_rekanan = $('#notelp_rekanan').val();
       var email_rekanan = $('#email_rekanan').val();
+      $('#save_masterrekanan').addClass('btn-progress');
 
       $.ajax({
         type: 'POST',
@@ -160,9 +161,11 @@
             console.log(pesan);
             if (response.status === '200') {
                 alert(response.message);
+                $('#save_masterrekanan').removeClass('btn-progress');
                 data_masterrekanan();
             } else {
                 alert(response.message);
+                $('#save_masterrekanan').removeClass('btn-progress');
                 data_masterrekanan();
                 return false;
             }

@@ -159,6 +159,7 @@ $('#data_master_barang').on('click','.barang_hapus', function () {
     var nama_rekanan = $('#nama_rekanan').val();
     var jatuh_tempo = $('#jatuh_tempo').val();
     var transaksi_temp = [];
+    $('#save_transaksikeluar').addClass('btn-progress');
 
     $('.form-group').each(function() {
       var nama_barang = $(this).find('#nama_barang').val();
@@ -194,10 +195,12 @@ console.log(transaksi_temp);
           console.log(pesan);
           if (response.status === '200') {
               alert(response.message);
+              $('#save_transaksikeluar').removeClass('btn-progress');
               data_transaksikeluar();
               location.reload();
           } else {
               alert(response.message);
+              $('#save_transaksikeluar').removeClass('btn-progress');
               data_transaksikeluar();
               location.reload();
               return false;

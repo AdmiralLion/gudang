@@ -138,6 +138,7 @@
       var id_satuan = $('#id_satuan').val();
       var nama_satuan = $('#nama_satuan').val();
       var deskripsi_satuan = $('#deskripsi_satuan').val();
+      $('#save_mastersatuan').addClass('btn-progress');
 
       $.ajax({
         type: 'POST',
@@ -154,9 +155,11 @@
             console.log(pesan);
             if (response.status === '200') {
                 alert(response.message);
+                $('#save_mastersatuan').removeClass('btn-progress');
                 data_mastersatuan();
             } else {
                 alert(response.message);
+                $('#save_mastersatuan').removeClass('btn-progress');
                 data_mastersatuan();
                 return false;
             }
