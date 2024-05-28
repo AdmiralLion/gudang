@@ -120,6 +120,7 @@
             <th>Kode Urut</th>
             <th>Harga Jual</th>
             <th>Harga Masuk</th>
+            <th>Bayar</th>
             <th>User Input</th>
             <th>Tanggal Transaksi</th>
         </tr>
@@ -140,14 +141,15 @@
             <td style="text-align:center;"><?= $row -> seri_barang;?></td>
             <td style="text-align:center;"><?= $row -> kode_bulan;?></td>
             <td style="text-align:center;"><?= $row -> kode_urut;?></td>
-            <td style="text-align:center;"><?= $row -> harga_jual;?></td>
-            <td style="text-align:center;"><?= $row -> harga_masuk;?></td>
+            <td style="text-align:center;">Rp. <?= $row -> harga_jual;?></td>
+            <td style="text-align:center;">Rp. <?= $row -> harga_masuk;?></td>
+            <td style="text-align:center;">Rp. <?= $row -> bayar;?></td>
             <td style="text-align:center;"><?= $row -> nama_user;?></td>
             <td style="text-align:center;"><?= $row -> tgl;?></td>
         </tr>
         <?php endforeach; ?>
         <tr>
-          <td colspan="10" style="text-align: right;padding:30px;">
+          <td colspan="11" style="text-align: right;padding:30px;">
           <b>  Jumlah Penghasilan </b>
           </td>
           <td colspan="2" style="text-align: center;padding:30px;">
@@ -155,7 +157,7 @@
           </td>
         </tr>
         <tr>
-          <td colspan="12" style="text-align: right;">
+          <td colspan="13" style="text-align: right;">
           Yang Mencetak <br>
           Gresik, <?= $tglskrg;?><br><br><br> <br><br>
           <?php foreach($user as $rows):

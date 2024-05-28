@@ -428,6 +428,7 @@ class Transaksi extends CI_Controller {
             $id_transaksi = $rows['id_transaksi'];
             $nama_rekanan = $rows ['nama_rekanan'];
             $jatuh_tempo = $rows['jatuh_tempo'];
+            $jumlah_bayar = $rows['jumlah_bayar'];
         endforeach;
 
         if($id_transaksi == '' OR $id_transaksi == null){
@@ -449,7 +450,7 @@ class Transaksi extends CI_Controller {
                     $data['update_stok'] = $this -> m_transaksi -> update_stok($nama_barang);
                 endforeach;
             endforeach;
-            $data['insert'] = $this -> m_transaksi -> insert_transaksi_keluar($kd_transaksi,$nama_rekanan,$jatuh_tempo,$id_user,$cekhutang);
+            $data['insert'] = $this -> m_transaksi -> insert_transaksi_keluar($kd_transaksi,$nama_rekanan,$jatuh_tempo,$jumlah_bayar,$id_user,$cekhutang);
             if($data['transaksi_keluar'] == 'true' OR $data['transaksi_keluar'] == TRUE OR $data['transaksi_keluar'] == 'TRUE'){
                 $response = [
                     'status' => '200',
@@ -472,7 +473,7 @@ class Transaksi extends CI_Controller {
 
     public function getdatatransaksikeluar()
     {
-        $tgl_transaksi = $this->input->post('tgl_retur');
+        $tgl_transaksi = $this->input->post('tanggal_transaksi');
         if($tgl_transaksi == '' OR $tgl_transaksi == null){
             $tgl_transaksi = date('Y-m-d');
         }else{
@@ -497,6 +498,14 @@ class Transaksi extends CI_Controller {
         $data['user'] = $this->m_master->getuser($id_user);
         $data['get_barang'] = $this->m_transaksi->get_barang_keluar($id);
 		$this->load->view('v_transaksi/print_transaksi_keluar.php',$data);
+    }
+
+    public function print_transaksikeluarfaktur($id)
+    {
+        $id_user = $this->session->userdata('id_user');
+        $data['user'] = $this->m_master->getuser($id_user);
+        $data['get_barang'] = $this->m_transaksi->get_barang_keluar($id);
+		$this->load->view('v_transaksi/print_transaksi_keluarfaktur.php',$data);
     }
 
 

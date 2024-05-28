@@ -246,6 +246,19 @@ endforeach;
                           </div>
                         </div>
                         </div>
+                        <div class="row">
+                        <div class="col-sm-8">&nbsp;</div>
+                        <div class="col-sm-1 pull-right nopadding">
+                        <label for="jumlah_bayar">Jumlah Yang Dibayar : </label><br>
+                        </div>
+                        <div class="col-sm-3 pull-right nopadding">
+                          <div class="form-group">
+                            <div class="input-group">
+                              <input type="text" class="form-control" name="jumlah_bayar" id="jumlah_bayar" placeholder="Dibayar">
+                            </div>
+                          </div>
+                        </div>
+                        </div>
                       
                       </div>
                       <div class="clear"></div>

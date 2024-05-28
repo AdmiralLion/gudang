@@ -82,8 +82,10 @@ $(document).ready(function () {
           $.each(data, function(i){
 
 
-              var btn_transaksikeluar = '<td style="text-align:center;">'+'<a href="<?php echo base_url();?>Transaksi/print_transaksikeluar/'+data[i].id+'" class="btn btn-info btn-icon" target="_blank"><i class="fa fa-print"></i>'+
+              var btn_transaksikeluar = '<td style="text-align:center;">'+'<a href="<?php echo base_url();?>Transaksi/print_transaksikeluar/'+data[i].id+'" class="btn btn-info btn-icon" target="_blank"><i class="fa fa-print"></i></a>&nbsp;&nbsp;'+'<a href="<?php echo base_url();?>Transaksi/print_transaksikeluarfaktur/'+data[i].id+'" class="btn btn-success btn-icon" target="_blank"><i class="fa fa-print"></i></a>'+
               '</td>';
+              // var btn_transaksikeluarfaktur = '<td style="text-align:center;">'+'<a href="<?php echo base_url();?>Transaksi/print_transaksikeluarfaktur/'+data[i].id+'" class="btn btn-success btn-icon" target="_blank"><i class="fa fa-print"></i>'+
+              // '</td>';
 
                 n++;
                 html = [
@@ -158,6 +160,7 @@ $('#data_master_barang').on('click','.barang_hapus', function () {
     var id_transaksi = $('#id_transaksi').val();
     var nama_rekanan = $('#nama_rekanan').val();
     var jatuh_tempo = $('#jatuh_tempo').val();
+    var jumlah_bayar = $('#jumlah_bayar').val();
     var transaksi_temp = [];
     $('#save_transaksikeluar').addClass('btn-progress');
 
@@ -174,6 +177,7 @@ $('#data_master_barang').on('click','.barang_hapus', function () {
           id_transaksi: id_transaksi,
           nama_rekanan: nama_rekanan,
           jatuh_tempo:jatuh_tempo,
+          jumlah_bayar:jumlah_bayar,
           nama_barang: nama_barang,
           hutang: hutang,
           jns_brg: jns_brg,

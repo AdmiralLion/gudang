@@ -5,6 +5,7 @@ foreach ($get_barang as $row):
     $tgl_transaksi = $row -> tgl_act;
     $tgl_jatuhtempo = $row -> tgl_jatuhtempo;
     $nama_pembeli = $row -> nama_pembeli;
+    $jml_bayar = $row -> bayar;
 endforeach;
 
 foreach ($user as $row):
@@ -74,6 +75,7 @@ $tglnow = date('d-m-Y H:i:s');
             $totalharga = 0;
             $totalhutang = 0;
             $totaltunai = 0;
+            $totaltunai += $jml_bayar;
              foreach ($get_barang as $item): 
                 $totalharga += $item->harga_jual;
                 ?>
