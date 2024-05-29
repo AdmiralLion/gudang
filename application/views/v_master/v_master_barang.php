@@ -57,6 +57,7 @@ endforeach;
                     <li class="nav-item"><a href="<?= base_url('');?>Home/retur_jual" class="nav-link">Retur Penjualan</a></li>
                     <li class="nav-item"><a href="<?= base_url('');?>Home/retur_supplier" class="nav-link">Retur Supplier</a></li>
                     <li class="nav-item "><a href="<?= base_url('');?>Home/transaksi_hutang" class="nav-link">Pembayaran Hutang</a></li>
+                    <li class="nav-item "><a href="<?= base_url('');?>Home/transaksi_klaim" class="nav-link">Klaim Garansi</a></li>
                   </ul>
             </li>
             <li class="nav-item">

@@ -6,6 +6,7 @@ foreach ($get_barang as $row):
     $tgl_jatuhtempo = $row -> tgl_jatuhtempo;
     $nama_pembeli = $row -> nama_pembeli;
     $jml_bayar = $row -> bayar;
+    $jml_potongan = $row -> potongan;
 endforeach;
 
 foreach ($user as $row):
@@ -56,6 +57,7 @@ $tglnow = date('d-m-Y H:i:s');
         <h5>Invoice Nomor : <?php echo $kode_transaksi; ?></h5>
         <h5>Nama Pembeli  : <?php echo $nama_pembeli; ?></h5>
         <h5>Tanggal Transaksi : <?php echo $tgl_transaksi; ?></h5>
+        <h5><strong>Tanggal Jatuh Tempo : </strong><?php echo ($tgl_jatuhtempo == $tgl_transaksi) ? '-' : $tgl_jatuhtempo; ?></h5>
         <!-- Output the details of the transaction here -->
         <table class="table table-bordered">
             <tr style="text-align: center;">
@@ -102,16 +104,8 @@ $tglnow = date('d-m-Y H:i:s');
             <?php endforeach; ?>
             <tr>
                 <td colspan="6" style="padding:10px;">&nbsp;</td>
-                <td colspan="4" style="padding:10px;">Tanggal Jatuh Tempo Pembayaran: 
-                <?php if($tgl_jatuhtempo == $tgl_transaksi){
-                    echo '-';
-                }else{
-                    echo $tgl_jatuhtempo;
-                } ?></td>
-            </tr>
-            <tr>
-                <td colspan="6" style="padding:10px;">&nbsp;</td>
-                <td colspan="4" style="padding:10px;">Total Yang Belum Dibayarkan: Rp.<?php echo $totalhutang; ?></td>
+                <td colspan="4" style="padding:10px;">Total Yang Belum Dibayarkan: Rp.<?php $final_hutang = $totalhutang - $totaltunai;
+                echo $final_hutang; ?></td>
             </tr>
             <tr>
                 <td colspan="6" style="padding:10px;">&nbsp;</td>
@@ -119,7 +113,16 @@ $tglnow = date('d-m-Y H:i:s');
             </tr>
             <tr>
                 <td colspan="6" style="padding:10px;">&nbsp;</td>
-                <td colspan="4" style="padding:10px;">Total Harga: Rp.<?php echo $totalharga; ?></td>
+                <td colspan="4" style="padding:10px;">Total Potongan Yang didapatkan: Rp.<?php echo $jml_potongan; ?></td>
+            </tr>
+            <tr>
+                <td colspan="6" style="padding:10px;">&nbsp;</td>
+                <td colspan="4" style="padding:10px;">Total Harga Sebelum dipotong: Rp.<?php echo $totalharga; ?></td>
+            </tr>
+            <tr>
+                <td colspan="6" style="padding:10px;">&nbsp;</td>
+                <td colspan="4" style="padding:10px;">Total Harga Sesudah dipotong: Rp.<?php $finalharga = $totalharga - $jml_potongan;
+                echo $finalharga; ?></td>
             </tr>
         </table>
         <br>

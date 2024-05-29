@@ -429,6 +429,7 @@ class Transaksi extends CI_Controller {
             $nama_rekanan = $rows ['nama_rekanan'];
             $jatuh_tempo = $rows['jatuh_tempo'];
             $jumlah_bayar = $rows['jumlah_bayar'];
+            $jumlah_potongan = $rows['jumlah_potongan'];
         endforeach;
 
         if($id_transaksi == '' OR $id_transaksi == null){
@@ -450,7 +451,7 @@ class Transaksi extends CI_Controller {
                     $data['update_stok'] = $this -> m_transaksi -> update_stok($nama_barang);
                 endforeach;
             endforeach;
-            $data['insert'] = $this -> m_transaksi -> insert_transaksi_keluar($kd_transaksi,$nama_rekanan,$jatuh_tempo,$jumlah_bayar,$id_user,$cekhutang);
+            $data['insert'] = $this -> m_transaksi -> insert_transaksi_keluar($kd_transaksi,$nama_rekanan,$jatuh_tempo,$jumlah_bayar,$jumlah_potongan,$id_user,$cekhutang);
             if($data['transaksi_keluar'] == 'true' OR $data['transaksi_keluar'] == TRUE OR $data['transaksi_keluar'] == 'TRUE'){
                 $response = [
                     'status' => '200',
@@ -696,6 +697,7 @@ class Transaksi extends CI_Controller {
         $kode_transaksi = $this->input->post('kode_transaksi');
         $data['list_data'] = $this->m_transaksi->get_data_hutang($kode_transaksi);
         $data['histori_hutang'] = $this->m_transaksi->get_list_hutang($kode_transaksi);
+        $data3['bayar_awal'] = $this->m_transaksi->bayar_awal($kode_transaksi);
         $data2['tampung'] = $this->m_transaksi->get_list_hutang($kode_transaksi);
         $pembayaran = 0;
         $totalharga = 0;
@@ -711,12 +713,18 @@ class Transaksi extends CI_Controller {
             }
             $totalharga += $row -> harga_jual;
         endforeach;
+        foreach($data3['bayar_awal'] as $rows):
+            $pembayaran += $rows -> bayar;
+            $totalharga -= $rows -> potongan;
+            $potongan = $rows -> potongan;
+        endforeach;
         $harusbayar = $totalharga - $pembayaran;
         $data['bayar'] = [
             'pay' => $pembayaran,
             'total_harga' => $totalharga,
             'harus_bayar' => $harusbayar,
-            'kode_transaksi' => $kode_transaksi
+            'kode_transaksi' => $kode_transaksi,
+            'potongan' => $potongan
         ];
         echo json_encode($data);
     }

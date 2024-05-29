@@ -61,6 +61,7 @@ endforeach;
                     <li class="nav-item"><a href="<?= base_url('');?>Home/retur_jual" class="nav-link">Retur Penjualan</a></li>
                     <li class="nav-item"><a href="<?= base_url('');?>Home/retur_supplier" class="nav-link">Retur Supplier</a></li>
                     <li class="nav-item active"><a href="#" class="nav-link">Pembayaran Hutang</a></li>
+                    <li class="nav-item "><a href="<?= base_url('');?>Home/transaksi_klaim" class="nav-link">Klaim Garansi</a></li>
                   </ul>
             </li>
             <li class="nav-item">
@@ -220,7 +221,15 @@ endforeach;
                           </tbody>
                           <tr>
                             <td colspan="3" style="text-align: right;">
-                              Total Harga Keseluruhan :
+                             Potongan:
+                            </td>
+                            <td colspan="2" style="text-align: right;">
+                                <input class="form-control" type="text" name="potongan_bayar" id="potongan_bayar" readonly>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan="3" style="text-align: right;">
+                              Total Harga Keseluruhan - Potongan:
                             </td>
                             <td colspan="2" style="text-align: right;">
                                 <input class="form-control" type="text" name="tot_seluruh" id="tot_seluruh" readonly>

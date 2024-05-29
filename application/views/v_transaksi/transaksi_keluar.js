@@ -161,8 +161,9 @@ $('#data_master_barang').on('click','.barang_hapus', function () {
     var nama_rekanan = $('#nama_rekanan').val();
     var jatuh_tempo = $('#jatuh_tempo').val();
     var jumlah_bayar = $('#jumlah_bayar').val();
-    if((jumlah_bayar == '' || jumlah_bayar.length == 0) && (nama_rekanan == '' || nama_rekanan.length == 0) ){
-      alert("Nama rekanan dan jumlah pembayaran tidak boleh kosong !!!!");
+    var jumlah_potongan = $('#jumlah_potongan').val();
+    if(jumlah_bayar == '' || jumlah_bayar.length == 0 || nama_rekanan == '' || nama_rekanan.length == 0 || jumlah_potongan == '' || jumlah_potongan.length == 0){
+      alert("Nama rekanan dan jumlah pembayaran dan potongan tidak boleh kosong !!!!");
       return false;
     }
     var transaksi_temp = [];
@@ -182,6 +183,7 @@ $('#data_master_barang').on('click','.barang_hapus', function () {
           nama_rekanan: nama_rekanan,
           jatuh_tempo:jatuh_tempo,
           jumlah_bayar:jumlah_bayar,
+          jumlah_potongan:jumlah_potongan,
           nama_barang: nama_barang,
           hutang: hutang,
           jns_brg: jns_brg,

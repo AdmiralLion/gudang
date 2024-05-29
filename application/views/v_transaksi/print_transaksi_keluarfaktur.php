@@ -6,6 +6,7 @@ foreach ($get_barang as $row):
     $tgl_jatuhtempo = $row -> tgl_jatuhtempo;
     $nama_pembeli = $row -> nama_pembeli;
     $jml_bayar = $row -> bayar;
+    $jml_potongan = $row -> potongan;
 endforeach;
 
 foreach ($user as $row):
@@ -57,9 +58,10 @@ $tglnow = date('d-m-Y H:i:s');
             <p>Jln. Kecipik Baru Nomor 99</p>
             <p>08123456789</p>
         </div>
-        <p><strong>Invoice Nomor:</strong> <?php echo $kode_transaksi; ?></p>
-        <p><strong>Nama Pembeli:</strong> <?php echo $nama_pembeli; ?></p>
-        <p><strong>Tanggal Transaksi:</strong> <?php echo $tgl_transaksi; ?></p>
+        <p><strong>Invoice Nomor :</strong> <?php echo $kode_transaksi; ?></p>
+        <p><strong>Nama Pembeli :</strong> <?php echo $nama_pembeli; ?></p>
+        <p><strong>Tanggal Transaksi :</strong> <?php echo $tgl_transaksi; ?></p>
+        <p><strong>Tanggal Jatuh Tempo : </strong><?php echo ($tgl_jatuhtempo == $tgl_transaksi) ? '-' : $tgl_jatuhtempo; ?></p>
         <table class="content">
             <tr>
                 <th style="text-align: center;">No</th>
@@ -103,20 +105,22 @@ $tglnow = date('d-m-Y H:i:s');
                 </tr>
             <?php endforeach; ?>
             <tr>
-                <td colspan="9" class="right">Tanggal Jatuh Tempo Pembayaran:</td>
-                <td style="text-align: center;"><?php echo ($tgl_jatuhtempo == $tgl_transaksi) ? '-' : $tgl_jatuhtempo; ?></td>
-            </tr>
-            <tr>
                 <td colspan="9" class="right">Total Yang Belum Dibayarkan:</td>
-                <td style="text-align: center;">Rp. <?php echo $totalhutang; ?></td>
+                <td style="text-align: center;">Rp. <?php $final_hutang = $totalhutang - $totaltunai;
+                echo $final_hutang; ?></td>
             </tr>
             <tr>
                 <td colspan="9" class="right">Total Yang Sudah Dibayarkan:</td>
                 <td style="text-align: center;">Rp. <?php echo $totaltunai; ?></td>
             </tr>
             <tr>
-                <td colspan="9" class="right">Total Harga:</td>
+                <td colspan="9" class="right">Total Harga Sebelum dipotong:</td>
                 <td style="text-align: center;">Rp. <?php echo $totalharga; ?></td>
+            </tr>
+            <tr>
+                <td colspan="9" class="right">Total Harga Sesudah dipotong:</td>
+                <td style="text-align: center;">Rp. <?php $finalharga = $totalharga - $jml_potongan;
+                echo $finalharga; ?></td>
             </tr>
         </table>
         <br>
@@ -132,7 +136,7 @@ $tglnow = date('d-m-Y H:i:s');
                     Administrasi
                 </td>
                 <td style="text-align: center;padding:20px;width:17%">
-                    Gudang
+                    &nbsp;
                 </td>
                 <td style="text-align: center;padding:20px;">
                     Yang Mencetak
@@ -151,7 +155,7 @@ $tglnow = date('d-m-Y H:i:s');
                 <td style="padding: 20px;"><hr></td>
                 <td style="padding: 20px;"><hr></td>
                 <td style="padding: 20px;"><hr></td>
-                <td style="padding: 20px;"><hr></td>
+                <td style="padding: 20px;">&nbsp;</td>
                 <td style="text-align: center;"><?= $nama_user;?></td>
             </tr>
         </table>

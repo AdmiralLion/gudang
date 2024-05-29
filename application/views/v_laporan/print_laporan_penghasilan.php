@@ -2,6 +2,11 @@
 <html lang="en">
 <?php $tgl = $_GET['tgl'];
   $jns_lap = $_GET['jnslap']; 
+  $grouped_data = [];
+foreach ($get_barang as $row) {
+    $grouped_data[$row->kode_transaksi][] = $row;
+}
+
   if($jns_lap == 'excel'){
     header("Content-Type:   application/vnd.ms-excel; charset=utf-8");
     header("Content-Disposition: attachment; filename=lap_penghasilan_".$tgl.".xls"); 
@@ -128,32 +133,62 @@
     <tbody>
       <?php $no = 1;
       $penghasilan = 0;
+      $tot_peng = 0;
       $tglskrg = date('d-m-Y H:i:s');
-      foreach($get_barang as $row):
-        $penghasilan += $row -> harga_jual;
+      foreach ($grouped_data as $kode_transaksi => $items) {
+        $first_item = $items[0];
+        $row_count = count($items);
+        $penghasilan += $first_item->bayar;
+        $tot_peng += $first_item -> harga_jual;
         ?>
         <tr>
-            <td style="text-align:center;"><?= $no++;?></td>
-            <td style="text-align:center;"><?= $row -> kode_transaksi;?></td>
-            <td style="text-align:center;"><?= $row -> nama_barang;?></td>
-            <td style="text-align:center;"><?= $row -> nama_merk;?></td>
-            <td style="text-align:center;"><?= $row -> tahun_barang;?></td>
-            <td style="text-align:center;"><?= $row -> seri_barang;?></td>
-            <td style="text-align:center;"><?= $row -> kode_bulan;?></td>
-            <td style="text-align:center;"><?= $row -> kode_urut;?></td>
-            <td style="text-align:center;">Rp. <?= $row -> harga_jual;?></td>
-            <td style="text-align:center;">Rp. <?= $row -> harga_masuk;?></td>
-            <td style="text-align:center;">Rp. <?= $row -> bayar;?></td>
-            <td style="text-align:center;"><?= $row -> nama_user;?></td>
-            <td style="text-align:center;"><?= $row -> tgl;?></td>
+            <td style="text-align:center;" rowspan="<?= $row_count; ?>"><?= $no++;?></td>
+            <td style="text-align:center;" rowspan="<?= $row_count; ?>"><?= $first_item->kode_transaksi;?></td>
+            <td style="text-align:center;"><?= $first_item->nama_barang;?></td>
+            <td style="text-align:center;"><?= $first_item->nama_merk;?></td>
+            <td style="text-align:center;"><?= $first_item->tahun_barang;?></td>
+            <td style="text-align:center;"><?= $first_item->seri_barang;?></td>
+            <td style="text-align:center;"><?= $first_item->kode_bulan;?></td>
+            <td style="text-align:center;"><?= $first_item->kode_urut;?></td>
+            <td style="text-align:center;">Rp. <?= $first_item->harga_jual;?></td>
+            <td style="text-align:center;">Rp. <?= $first_item->harga_masuk;?></td>
+            <td style="text-align:center;" rowspan="<?= $row_count; ?>">Rp. <?= $first_item->bayar;?></td>
+            <td style="text-align:center;" rowspan="<?= $row_count; ?>"><?= $first_item->nama_user;?></td>
+            <td style="text-align:center;" rowspan="<?= $row_count; ?>"><?= $first_item->tgl;?></td>
         </tr>
-        <?php endforeach; ?>
+        <?php 
+        // Output the remaining items for the current transaction
+        for ($i = 1; $i < $row_count; $i++) {
+            $item = $items[$i];
+            $tot_peng += $item -> harga_jual;
+            ?>
+            <tr>
+                <td style="text-align:center;"><?= $item->nama_barang;?></td>
+                <td style="text-align:center;"><?= $item->nama_merk;?></td>
+                <td style="text-align:center;"><?= $item->tahun_barang;?></td>
+                <td style="text-align:center;"><?= $item->seri_barang;?></td>
+                <td style="text-align:center;"><?= $item->kode_bulan;?></td>
+                <td style="text-align:center;"><?= $item->kode_urut;?></td>
+                <td style="text-align:center;">Rp. <?= $item->harga_jual;?></td>
+                <td style="text-align:center;">Rp. <?= $item->harga_masuk;?></td>
+            </tr>
+            <?php
+        }
+ } ?>
         <tr>
           <td colspan="11" style="text-align: right;padding:30px;">
-          <b>  Jumlah Penghasilan </b>
+          <b>  Jumlah Penghasilan Yang Dibayarkan </b>
           </td>
           <td colspan="2" style="text-align: center;padding:30px;">
           <b>  Rp. <?= $penghasilan;?> </b>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="11" style="text-align: right;padding:30px;">
+          <b>  Jumlah Penghasilan Total </b>
+          </td>
+          <td colspan="2" style="text-align: center;padding:30px;">
+          <b>  Rp. <?= $tot_peng;?> </b>
           </td>
         </tr>
         <tr>

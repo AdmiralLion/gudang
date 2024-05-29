@@ -416,7 +416,7 @@ class m_laporan extends CI_Model {
             $tahun = $tgls[1];
             $tambahanquer = "MONTH(bbk.tgl_act) ='".$bulan."' AND YEAR(bbk.tgl_act) = '".$tahun."'";
         }
-        $query = $this->db->query("SELECT  btk.bayar,bbk.`kode_transaksi`,b.nama_barang,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,bbk.kode_urut,
+        $query = $this->db->query("SELECT  btk.bayar,btk.potongan,bbk.`kode_transaksi`,b.nama_barang,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,bbk.kode_urut,
         bbk.harga_jual,bbk.harga_masuk,u.`nama_user`,DATE_FORMAT(btk.tgl_act,'%d-%m-%Y %H:%i:%s') AS tgl FROM b_transaksi_keluar btk JOIN b_barang_keluar bbk ON btk.kode_transaksi = bbk.kode_transaksi
         INNER JOIN m_barang b ON bbk.id_barang = b.id 
         INNER JOIN m_merk m ON bbk.id_merk = m.id INNER JOIN a_user u ON bbk.`user_act` = u.`id`

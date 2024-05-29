@@ -56,7 +56,7 @@ endforeach;
                     <li class="nav-item"><a href="<?= base_url('');?>Home/retur_jual" class="nav-link">Retur Penjualan</a></li>
                     <li class="nav-item"><a href="<?= base_url('');?>Home/retur_supplier" class="nav-link">Retur Supplier</a></li>
                     <li class="nav-item "><a href="<?= base_url('');?>Home/transaksi_hutang" class="nav-link">Pembayaran Hutang</a></li>
-
+                    <li class="nav-item "><a href="<?= base_url('');?>Home/transaksi_klaim" class="nav-link">Klaim Garansi</a></li>
                   </ul>
             </li>
             <li class="nav-item">
@@ -255,6 +255,19 @@ endforeach;
                           <div class="form-group">
                             <div class="input-group">
                               <input type="text" class="form-control" name="jumlah_bayar" id="jumlah_bayar" placeholder="Dibayar">
+                            </div>
+                          </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-8">&nbsp;</div>
+                        <div class="col-sm-1 pull-right nopadding">
+                        <label for="jumlah_potongan">Potongan Fee/Diskon : </label><br>
+                        </div>
+                        <div class="col-sm-3 pull-right nopadding">
+                          <div class="form-group">
+                            <div class="input-group">
+                              <input type="text" class="form-control" name="jumlah_potongan" id="jumlah_potongan" placeholder="Potongan">
                             </div>
                           </div>
                         </div>

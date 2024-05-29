@@ -163,6 +163,7 @@ $(document).ready(function () {
         $('#sudah_bayar').val(pay);
         $('#kode_transaksi').val(kodeTransaksi);
         $('#tot_seluruh').val(data2.total_harga);
+        $('#potongan_bayar').val(data2.potongan);
         $('#belum_bayar').val(data2.harus_bayar);
         $.each(listData, function(i, item) {
           $('#nama_pembeli').val(item.nama_pembeli);
