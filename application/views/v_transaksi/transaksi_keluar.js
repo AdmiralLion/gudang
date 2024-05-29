@@ -161,6 +161,10 @@ $('#data_master_barang').on('click','.barang_hapus', function () {
     var nama_rekanan = $('#nama_rekanan').val();
     var jatuh_tempo = $('#jatuh_tempo').val();
     var jumlah_bayar = $('#jumlah_bayar').val();
+    if((jumlah_bayar == '' || jumlah_bayar.length == 0) && (nama_rekanan == '' || nama_rekanan.length == 0) ){
+      alert("Nama rekanan dan jumlah pembayaran tidak boleh kosong !!!!");
+      return false;
+    }
     var transaksi_temp = [];
     $('#save_transaksikeluar').addClass('btn-progress');
 
