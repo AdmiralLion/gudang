@@ -240,7 +240,7 @@ class m_transaksi extends CI_Model {
 
     public function insert_barang_keluar($kd_transaksi,$id_stok,$id_barang,$id_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$harga_masuk,$hutang,$klaim,$jns_brg,$harga_keluar,$id_user){
         $tgl = date('Y-m-d H:i:s');
-        $query = $this->db->query("INSERT INTO b_barang_keluar VALUES('','$kd_transaksi','$id_stok','$id_barang','$id_merk','$tahun_barang','$seri_barang','$kode_bulan','$kode_urut','$jns_brg','$harga_masuk',$harga_keluar,null,'$hutang','$id_user','$klaim','$tgl')");
+        $query = $this->db->query("INSERT INTO b_barang_keluar VALUES('','$kd_transaksi','$id_stok','$id_barang','$id_merk','$tahun_barang','$seri_barang','$kode_bulan','$kode_urut','$jns_brg','$harga_masuk',$harga_keluar,null,'$hutang','$klaim','$id_user','$tgl')");
         return $query;
     }
 
