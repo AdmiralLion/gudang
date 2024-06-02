@@ -186,17 +186,18 @@ endforeach;
                           <br>
                           <table style="width: 100%;" class="table table-striped" id="table-3">
                             <tr>
-                              <th colspan="6" style="text-align: center;">
+                              <th colspan="7" style="text-align: center;">
                                   LIST PEMBAYARAN HUTANG
                               </th>
                             </tr>
                             <tr>
-                              <th>No</th>
-                              <th>Kode Hutang</th>
-                              <th>Kode Transaksi</th>
-                              <th>Nominal</th>
-                              <th>Pegawai</th>
-                              <th>Tanggal Pembayaran</th>
+                              <th style="text-align: center;">No</th>
+                              <th style="text-align: center;">Kode Hutang</th>
+                              <th style="text-align: center;">Kode Transaksi</th>
+                              <th style="text-align: center;">Nominal</th>
+                              <th style="text-align: center;">Pegawai</th>
+                              <th style="text-align: center;">Tanggal Pembayaran</th>
+                              <th style="text-align: center;">Cetak</th>
                             </tr>
                             <tbody id="histori_hutang">
 
@@ -213,6 +214,7 @@ endforeach;
                               <th class="text-center">Nama Barang</th>
                               <th class="text-center">Tgl Transaksi</th>
                               <th class="text-center">RETUR</th>
+                              <th class="text-center">KLAIM</th>
                               <th class="text-center">Harga</th>
                             </tr>
                           </thead>

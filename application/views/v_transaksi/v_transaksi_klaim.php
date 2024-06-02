@@ -186,7 +186,7 @@ endforeach;
                           <br>
                           <table style="width: 100%;" class="table table-striped" id="table-3">
                             <tr>
-                              <th colspan="6" style="text-align: center;">
+                              <th colspan="7" style="text-align: center;">
                                   LIST KLAIM GARANSI
                               </th>
                             </tr>

@@ -177,6 +177,19 @@ $(document).ready(function () {
               '<button  type="button" class="btn btn-danger btn-icon ">Tidak Retur</button >' +
             '</td>';
           }
+          if(item.is_klaim == 1){
+            var btn_klaim = '<td style="text-align:center;">' +
+              '<button  type="button" class="btn btn-success btn-icon ">Sudah Klaim</button >' +
+            '</td>';
+          }else if(item.is_klaim == 2){
+            var btn_klaim =  '<td style="text-align:center;">' +
+              '<button  type="button" class="btn btn-info btn-icon ">Pengganti Klaim</button >' +
+            '</td>';
+          }else{
+            var btn_klaim =  '<td style="text-align:center;">' +
+              '<button  type="button" class="btn btn-danger btn-icon ">Belum Klaim</button >' +
+            '</td>';
+          }
           var row_barang = '<td style="text-align:center;">' + item.nama_barang + ' - ' + item.nama_merk  + ' - ' + item.tahun_barang  + ' - ' + item.seri_barang  + ' - ' + item.kode_bulan  + ' - ' + item.kode_urut + '</td>';
           n++;
           var html = [
@@ -185,6 +198,7 @@ $(document).ready(function () {
               row_barang,
               item.tgl_act,
               btn_retur,
+              btn_klaim,
               item.harga_jual
           ];
         
@@ -195,6 +209,8 @@ $(document).ready(function () {
 
         $.each(historiHutang, function(i, item) {
           m++;
+          var btn_cetakhutang = '<td style="text-align:center;">'+'<a href="<?php echo base_url();?>Transaksi/print_hutang/'+item.id+'" class="btn btn-info btn-icon" target="_blank"><i class="fa fa-print"></i></a>&nbsp;&nbsp;'+'<a href="<?php echo base_url();?>Transaksi/print_hutangfaktur/'+item.id+'" class="btn btn-success btn-icon" target="_blank"><i class="fa fa-print"></i></a>'+
+          '</td>';
           var html2 = '<tr>'
           +'<td style="text-align:center;">' + m + '</td>'
             +'<td style="text-align:center;">' + item.kode_hutang + '</td>'
@@ -202,6 +218,7 @@ $(document).ready(function () {
             +'<td style="text-align:center;">' + item.pembayaran + '</td>'
             +'<td style="text-align:center;">' + item.nama_user + '</td>'
             +'<td style="text-align:center;">' + item.tgl + '</td>'
+            + btn_cetakhutang
             + '</tr>';
 
             $('#histori_hutang').append(html2);

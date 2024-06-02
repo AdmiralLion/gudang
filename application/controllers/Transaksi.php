@@ -882,4 +882,20 @@ class Transaksi extends CI_Controller {
         die();
     }
 
+    public function print_hutang($id)
+    {
+        $id_user = $this->session->userdata('id_user');
+        $data['user'] = $this->m_master->getuser($id_user);
+        $data['get_barang'] = $this->m_transaksi->get_hutang($id);
+		$this->load->view('v_transaksi/print_hutang.php',$data);
+    }
+
+    public function print_hutangfaktur($id)
+    {
+        $id_user = $this->session->userdata('id_user');
+        $data['user'] = $this->m_master->getuser($id_user);
+        $data['get_barang'] = $this->m_transaksi->get_hutang($id);
+		$this->load->view('v_transaksi/print_hutangfaktur.php',$data);
+    }
+
 }

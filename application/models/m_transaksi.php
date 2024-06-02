@@ -350,7 +350,7 @@ class m_transaksi extends CI_Model {
 
     public function get_data_hutang($kode_transaksi){
         $query = $this->db->query("SELECT btk.potongan,btk.bayar,btk.kode_transaksi,bbk.id_stok,mb.nama_barang,ms.nama_satuan,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan, 
-        bbk.kode_urut,bbk.harga_jual, btk.nama_pembeli,bbk.is_hutang,bbk.is_retur, DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') AS tgl_act 
+        bbk.kode_urut,bbk.harga_jual, btk.nama_pembeli,bbk.is_hutang,bbk.is_retur,bbk.is_klaim, DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') AS tgl_act 
         FROM b_transaksi_keluar btk JOIN b_barang_keluar bbk ON btk.kode_transaksi = bbk.kode_transaksi 
         JOIN m_barang mb ON bbk.id_barang = mb.id JOIN m_merk m ON bbk.id_merk = m.id JOIN m_satuan ms ON mb.satuan_barang = ms.id 
         WHERE bbk.kode_transaksi = '$kode_transaksi'");
@@ -462,6 +462,16 @@ class m_transaksi extends CI_Model {
          $query = $this->db->update('b_barang_keluar', $data);
 
         return $query;
+    }
+
+    public function get_hutang($id){
+        $query = $this->db->query("SELECT bth.*, u.nama_user,DATE_FORMAT(bth.tgl_act,'%d-%m-%Y %H:%i:%s') AS tgl ,
+        DATE_FORMAT(btk.tgl_act,'%d-%m-%Y %H:%i:%s') AS tgl_transaksi, 
+        DATE_FORMAT(btk.tgl_jatuhtempo,'%d-%m-%Y') AS tgl_jatuhtempo
+        FROM b_transaksi_hutang bth JOIN b_transaksi_keluar btk ON bth.kode_transaksi = btk.kode_transaksi
+         JOIN a_user u ON bth.user_act = u.id 
+        WHERE bth.id = '$id'");
+        return $query -> result();
     }
 
 }
