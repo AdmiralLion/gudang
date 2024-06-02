@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  data_transaksikeluar();
+  data_transaksiklaim();
   // reset_masterbarang();
   // ChangeWidth();
 
@@ -36,30 +36,33 @@ $(document).ready(function () {
   $("#table-1").dataTable();
 
 
-  $('#tambah_klaimgaransi').on('click', function() {
-    $('#modal_klaimgaransi').modal('show');
-  })
 
   $('.select2').select2({
     placeholder: 'Pilih nama rekanan',
     width: "100%",
-    dropdownParent: $('#modal_tambahtransaksikeluar'),
-    allowClear: true
-  });
-
-  $('.select2').select2({
-    placeholder: 'tes',
-    width: "100%",
-    dropdownParent: $('#modal_tambahtransaksikeluar'),
+    dropdownParent: $('#modal_klaim'),
     allowClear: true
   });
 
   $('#tgl_transaksi').change(function (){
-    data_transaksikeluar();
+    data_transaksiklaim();
   });
 
+  $("#tutup").click(function(){
+    location.reload();
+  });
+  
+  $("#tutupmdl").click(function(){
+    location.reload();
+  });
 
-  function data_transaksikeluar(){
+  $("#tgl_transaksi").datepicker( {
+    format: "mm-yyyy",
+    startView: "months", 
+    minViewMode: "months"
+});
+
+  function data_transaksiklaim(){
     var tanggal_transaksi = $('#tgl_transaksi').val();
     // if(tanggal_transaksi == null || tanggal_transaksi == ''){
     //   var tanggal_transaksi = new Date().toJSON().slice(0, 10);
@@ -69,31 +72,35 @@ $(document).ready(function () {
       data:{
         tanggal_transaksi:tanggal_transaksi
       },
-      url: "../Transaksi/getdatatransaksikeluar",
+      url: "../Transaksi/getdataklaim",
       cache: false,
       success : function(data){
       console.log(data);
       var html;
               var i;
               var n =0;
-                  var data = $.parseJSON(data);
+                  var data2 = $.parseJSON(data);
+                  var alldata = data2.alldata;
                   $("#table-1").DataTable().clear();
 
-          $.each(data, function(i){
+          $.each(alldata, function(i){
 
 
-              var btn_transaksikeluar = '<td style="text-align:center;">'+'<a href="<?php echo base_url();?>Transaksi/print_transaksikeluar/'+data[i].id+'" class="btn btn-info btn-icon" target="_blank"><i class="fa fa-print"></i></a>&nbsp;&nbsp;'+'<a href="<?php echo base_url();?>Transaksi/print_transaksikeluarfaktur/'+data[i].id+'" class="btn btn-success btn-icon" target="_blank"><i class="fa fa-print"></i></a>'+
-              '</td>';
-              // var btn_transaksikeluarfaktur = '<td style="text-align:center;">'+'<a href="<?php echo base_url();?>Transaksi/print_transaksikeluarfaktur/'+data[i].id+'" class="btn btn-success btn-icon" target="_blank"><i class="fa fa-print"></i>'+
-              // '</td>';
+            var btn_klaim =
+            '<td style="text-align:center;">' +
+            '<button  type="button" class="btn btn-primary btn-icon  klaim_brg" data="' +
+            alldata[i].kode_transaksi +
+            '"><i class="fa fa-paper-plane"></i></button >' +
+            '</td>';
 
                 n++;
                 html = [
                   n,
-                  data[i].kode_transaksi,
-                  data[i].nama_pembeli,
-                  data[i].tgl,
-                  btn_transaksikeluar
+                  alldata[i].kode_transaksi,
+                  alldata[i].nama_pembeli,
+                  alldata[i].tgl,
+                  alldata[i].tgl_batasklaim,
+                  btn_klaim
                 ];
         
                 // Add the row to DataTables
@@ -107,116 +114,156 @@ $(document).ready(function () {
       });
   }
 
-  $('#data_master_barang').on('click','.barang_edit', function () {
-    var id = $(this).attr('data');
+  $('#data_transaksiklaim').on('click','.klaim_brg', function () {
+    var kode_transaksi = $(this).attr('data');
     $.ajax({
         type: 'POST',
-        url: "../Master/get_dataeditmasterbarang",//dilanjut besok
+        url: "../Transaksi/data_klaim",//dilanjut besok
         data: {
-          id:id
+          kode_transaksi:kode_transaksi
         }
       }).done(function(data) {
-        var data3 = $.parseJSON(data);
-        $.each(data3, function (i) {
-          $('#id_barang').val(data3[i].id);
-          $('#nama_barang').val(data3[i].nama_barang);
-          $('#satuan_barang').val(data3[i].satuan_barang);
-          $('#jenis_barang').val(data3[i].jenis_barang);
-        });
-      });
-      $('#modal_tambahbarang').modal('show');
-});
+        var n =0;
+        var m =0;
 
-$('#data_master_barang').on('click','.barang_hapus', function () {
-  var id = $(this).attr('data');
-  var table = 'm_barang';
-  let text = "Anda yakin untuk menghapus master barang tersebut ?";
-  if (confirm(text) == true) {
-    $.ajax({
-      type: 'POST',
-      url: "../Master/hapus_master",//dilanjut besok
-      data: {
-        id:id,
-        table:table
-      }
-    }).done(function(response) {
-      console.log(response);
-      var pesan = response.message;
-      console.log(pesan);
-      if (response.status === '200') {
-        alert(response.message);
-        data_masterbarang();
-        $("#table-1").DataTable();
-    } else {
-        alert(response.message);
-        data_masterbarang();
-        $("#table-1").DataTable();
-      }
-    });
-      }
-});
+        var data4 = $.parseJSON(data);
+        var listData = data4.list_data;
+        var historiKlaim = data4.histori_klaim;
+        console.log(historiKlaim);
 
-  $('#save_transaksikeluar').on('click', function() {
-    var id_transaksi = $('#id_transaksi').val();
-    var nama_rekanan = $('#nama_rekanan').val();
-    var jatuh_tempo = $('#jatuh_tempo').val();
-    var jumlah_bayar = $('#jumlah_bayar').val();
-    var jumlah_potongan = $('#jumlah_potongan').val();
-    if(jumlah_bayar == '' || jumlah_bayar.length == 0 || nama_rekanan == '' || nama_rekanan.length == 0 || jumlah_potongan == '' || jumlah_potongan.length == 0){
-      alert("Nama rekanan dan jumlah pembayaran dan potongan tidak boleh kosong !!!!");
-      return false;
-    }
-    var transaksi_temp = [];
-    $('#save_transaksikeluar').addClass('btn-progress');
-
-    $('.form-group').each(function() {
-      var nama_barang = $(this).find('#nama_barang').val();
-      var harga_keluar = $(this).find('#harga_keluar').val();
-      var hutang = $(this).find('#hutang').val();
-      var jns_brg = $(this).find('#jns_brg').val();
-
-      console.log(nama_barang);
-      console.log(harga_keluar);
-      if (nama_barang != undefined && harga_keluar != undefined){
-        transaksi_temp.push({
-          id_transaksi: id_transaksi,
-          nama_rekanan: nama_rekanan,
-          jatuh_tempo:jatuh_tempo,
-          jumlah_bayar:jumlah_bayar,
-          jumlah_potongan:jumlah_potongan,
-          nama_barang: nama_barang,
-          hutang: hutang,
-          jns_brg: jns_brg,
-          harga_keluar: harga_keluar
-      });
-      }
-      // Push values into corresponding arrays
-      
-  });
-console.log(transaksi_temp);
-    $.ajax({
-      type: 'POST',
-      url: "../Transaksi/transaksi_keluar_act",//dilanjut besok
-      data: { transaksi_temp: transaksi_temp },
-      }).done(function(response) {
-        
-          var pesan = response.message;
-          console.log(response);
-          console.log(pesan);
-          if (response.status === '200') {
-              alert(response.message);
-              $('#save_transaksikeluar').removeClass('btn-progress');
-              data_transaksikeluar();
-              location.reload();
-          } else {
-              alert(response.message);
-              $('#save_transaksikeluar').removeClass('btn-progress');
-              data_transaksikeluar();
-              location.reload();
-              return false;
+        // Accessing individual elements from 'bayar'
+        var kodeTransaksi = listData.kode_transaksi;
+        // Use the retrieved values as needed
+        $('#kode_transaksi').val(kodeTransaksi);
+        $.each(listData, function(i, item) {
+          $('#nama_pembeli').val(item.nama_pembeli);
+          console.log(item.is_klaim);
+          if(item.is_retur == 1){
+            var btn_retur = '<td style="text-align:center;">' +
+              '<button  type="button" class="btn btn-success btn-icon ">Sudah Retur</button >' +
+            '</td>';
+          }else{
+            var btn_retur =  '<td style="text-align:center;">' +
+              '<button  type="button" class="btn btn-danger btn-icon ">Tidak Retur</button >' +
+            '</td>';
           }
-          throttled = false;
+          if(item.is_klaim == 1){
+            var btn_klaimcek = '<td style="text-align:center;">' +
+              '<button  type="button" class="btn btn-success btn-icon ">Sudah Klaim</button >' +
+            '</td>';
+            var btn_klaim = '<td style="text-align:center;">' +
+            '<button  type="button" class="btn btn-success btn-icon" disabled>Sudah Ganti</button >' +
+          '</td>';
+          }else if(item.is_klaim == 2){
+            var btn_klaimcek =  '<td style="text-align:center;">' +
+              '<button  type="button" class="btn btn-info btn-icon "> Barang Ganti Klaim</button >' +
+            '</td>';
+            var btn_klaim = '<td style="text-align:center;">' +
+            '<button  type="button" class="btn btn-success btn-icon disabled">Sudah Ganti</button >' +
+          '</td>';
+          }else{
+            var btn_klaimcek =  '<td style="text-align:center;">' +
+              '<button  type="button" class="btn btn-danger btn-icon ">Belum Klaim</button >' +
+            '</td>';
+            var btn_klaim = '<td style="text-align:center;">' +
+            '<button  type="button" class="btn btn-success btn-icon btn_klaimbrg" data="' +
+            item.kode_transaksi +'" data-id="' +
+            item.id_keluar +'">GANTI!!!</button >' +
+          '</td>';
+          }
+          var row_barang = '<td style="text-align:center;">' + item.nama_barang + ' - ' + item.nama_merk  + ' - ' + item.tahun_barang  + ' - ' + item.seri_barang  + ' - ' + item.kode_bulan  + ' - ' + item.kode_urut + '</td>';
+          n++;
+          var html = [
+              n,
+              item.kode_transaksi,
+              row_barang,
+              item.tgl_act,
+              btn_retur,
+              btn_klaimcek,
+              item.harga_jual,
+              btn_klaim
+          ];
+        
+                // Add the row to DataTables
+                $("#table-2").DataTable().row.add(html);
+              
+              });
+
+        $.each(historiKlaim, function(i, item) {
+          m++;
+          var row_baranglama = '<td style="text-align:center;">' + item.nama_barang1 + ' - ' + item.nama_merk1  + ' - ' + item.tahun_barang1  + ' - ' + item.seri_barang1  + ' - ' + item.kode_bulan1  + ' - ' + item.kode_urut1 + '</td>';
+          var row_barangganti = '<td style="text-align:center;">' + item.nama_barang2 + ' - ' + item.nama_merk2  + ' - ' + item.tahun_barang2  + ' - ' + item.seri_barang2  + ' - ' + item.kode_bulan2  + ' - ' + item.kode_urut2 + '</td>';
+          var html2 = '<tr>'
+          +'<td style="text-align:center;">' + m + '</td>'
+            +'<td style="text-align:center;">' + item.kode_klaim + '</td>'
+            +'<td style="text-align:center;">' + item.kode_transaksi + '</td>'
+            +row_baranglama
+            +row_barangganti
+            +'<td style="text-align:center;">' + item.nama_user + '</td>'
+            +'<td style="text-align:center;">' + item.tgl + '</td>'
+            + '</tr>';
+
+            $('#histori_klaim').append(html2);
+
+                // Add the row to DataTables
+              
+              });
+                  
+          $("#table-2").DataTable().draw();
+
       });
+      $('#modal_klaim').modal('show');
+});
+
+$('#data_klaimgar').on('click','.btn_klaimbrg', function () {
+  $('#id_barangkeluar').val('');
+  $('#kd_trans').val('');
+  var kode_transaksi = $(this).attr('data');
+  var id_brg_keluar = $(this).attr('data-id');
+  $('#id_barangkeluar').val(id_brg_keluar);
+  $('#kd_trans').val(kode_transaksi);
+  $("#hide_klaim").removeAttr("style");
+});
+
+  $('#save_klaimgar').on('click', function() {
+    let text = "Anda yakin untuk Klaim barang tersebut sudah sesuai ?";
+    if (confirm(text) == true) {
+      var id_baranglama = $('#id_barangkeluar').val();
+      var kd_trans = $('#kd_trans').val();
+      var pil_brgtukar = $('#pil_brgtukar').val();
+      var alasan_klaim = $('#alasan_klaim').val();
+      var nama_pembeli = $('#nama_pembeli').val();
+
+      $('#save_klaimgar').addClass('btn-progress');
+
+      $.ajax({
+        type: 'POST',
+        url: "../Transaksi/klaim_barang_act",//dilanjut besok
+        data: { 
+          id_baranglama: id_baranglama,
+          kd_trans: kd_trans, 
+          pil_brgtukar: pil_brgtukar,
+          alasan_klaim: alasan_klaim,
+          nama_pembeli: nama_pembeli
+        },
+        }).done(function(response) {
+          
+            var pesan = response.message;
+            console.log(response);
+            console.log(pesan);
+            if (response.status === '200') {
+                alert(response.message);
+                $('#save_klaimgar').removeClass('btn-progress');
+                location.reload();
+            } else {
+                alert(response.message);
+                $('#save_klaimgar').removeClass('btn-progress');
+                location.reload();
+                return false;
+            }
+            throttled = false;
+        });
+      }
   })
 
   function ChangeWidth() {
@@ -263,14 +310,11 @@ $.ajax({
 
 // $('#nama_barang').append(options1);
   divtest.innerHTML = '<div class="row">'+
-  '<div class="col-sm-4 nopadding"><div class="form-group"> <label for="Barang">Barang :</label><br><select class="select2" style="width:100%" id="nama_barang" name="nama_barang[]" onchange="setHarga(this)">' +'<option value="">--Barang--</option>'+
+  '<div class="col-sm-6 nopadding"><div class="form-group"> <label for="Barang">Barang :</label><br><select class="select2" style="width:100%" id="nama_barang" name="nama_barang[]" onchange="setHarga(this)">' +'<option value="">--Barang--</option>'+
               options1 +
   '</select></div></div>'+'<div class="col-sm-2 nopadding"><div class="form-group"><label for="Harga">Harga Masuk :</label><br><div class="input-group"><input type="text" placeholder="Harga" class="form-control" name="harga_masuk[]" id="harga_masuk" readonly></div></div></div>'+
   '<div class="col-sm-2 nopadding"><div class="form-group"><label for="Urut">Hutang :</label> <br> <select class="select2" style="width:100%" id="hutang" name="hutang[]">' +'<option value="">Hutang</option>'+
   '<option value="Tidak">Tidak</option>'+'<option value="Iya">Iya</option>'+
-  '</select></div></div>'+
-  '<div class="col-sm-2 nopadding"><div class="form-group"><label for="Urut">Jenis Barang :</label> <br> <select class="select2" style="width:100%" id="jns_brg" name="jns_brg[]">' +'<option value="">Jenis barang</option>'+
-  '<option value="Jasa">Jasa</option>'+'<option value="Panas">Panas</option>'+'<option value="Dingin">Dingin</option>'+'<option value="Overtreat">Overtreat</option>'+
   '</select></div></div>'+
   '<div class="col-sm-2 nopadding"><div class="form-group"> <label for="Harga Keluar">Harga Keluar :</label><br><div class="input-group"><input type="text" placeholder="Harga" class="form-control" name="harga_keluar[]" id="harga_keluar" onkeyup="hitung_harga()"> &nbsp; &nbsp;<div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_education_fields('+ room +');"> <span class="fa fa-minus" aria-hidden="true"></span> </button></div></div></div></div><div class="clear"></div></div>';
   objTo.appendChild(divtest)

@@ -3,13 +3,7 @@
 foreach($user as $row):
     $nama = $row -> nama_user;
 endforeach;
-// dd($master_barang);
 ?>
-<head>
-<script src="<?php echo base_url(); ?>assets/modules/jquery.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-<link rel="stylesheet" href="<?php echo base_url(); ?>assets/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
-</head>
 
 <body class="layout-3">
 <div class="main-wrapper container">
@@ -56,7 +50,7 @@ endforeach;
             <li class="nav-item dropdown active">
               <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-store"></i><span>Transaksi</span></a>
                   <ul class="dropdown-menu">
-                    <li class="nav-item "><a href="<?= base_url('');?>Home/transaksi_keluar" class="nav-link">Penjualan</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Penjualan</a></li>
                     <li class="nav-item "><a href="<?= base_url('');?>Home/transaksi_masuk" class="nav-link">Barang Masuk</a></li>
                     <li class="nav-item"><a href="<?= base_url('');?>Home/stok_barang" class="nav-link">Pengelolaan Stok</a></li>
                     <li class="nav-item"><a href="<?= base_url('');?>Home/retur_jual" class="nav-link">Retur Penjualan</a></li>
@@ -86,7 +80,7 @@ endforeach;
               </div>
               <div class="card-body">
                 <div class="row">
-                <!-- <div class="col-md-4"><button id="tambah_transaksikeluar" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i> Tambah </button></div> -->
+                <div class="col-md-4"><button id="tambah_klaimgaransi" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i> Tambah </button></div>
                 </div>
               
                 
@@ -95,7 +89,7 @@ endforeach;
                       <div class="row">
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
-                          Tanggal Transaksi : <input class="form-control" type="text" name="tgl_transaksi" id="tgl_transaksi" >
+                          Tanggal Transaksi : <input class="form-control datepicker" type="text" name="tgl_transaksi" id="tgl_transaksi">
                         </div>
                         <div class="col-md-4"></div>
                       </div>
@@ -105,14 +99,14 @@ endforeach;
                             <th class="text-center" style="width:10px;">
                               No
                             </th>
+                            <th class="text-center">Kode Klaim</th>
                             <th class="text-center">Kode Transaksi</th>
                             <th class="text-center">Pembeli</th>
                             <th class="text-center">Tgl Transaksi</th>
-                            <th class="text-center">Tgl Batas Klaim</th>
-                            <th class="text-center">Klaim</th>
+                            <th class="text-center">Print</th>
                           </tr>
                         </thead>
-                        <tbody id="data_transaksiklaim" style="text-align: center;">                                 
+                        <tbody id="data_klaimgaransi" style="text-align: center;">                                 
                          
                         </tbody>
                       </table>
@@ -132,6 +126,7 @@ endforeach;
 
 
         <!-- General JS Scripts -->
+  <script src="<?php echo base_url(); ?>assets/modules/jquery.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/modules/popper.js"></script>
   <script src="<?php echo base_url(); ?>assets/modules/tooltip.js"></script>
   <script src="<?php echo base_url(); ?>assets/modules/bootstrap/js/bootstrap.min.js"></script>
@@ -162,101 +157,130 @@ endforeach;
   <script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
 </body>
 
-<div class="modal fade" id="modal_klaim" role="dialog" aria-labelledby="modal_klaim" aria-hidden="true">
+<div class="modal fade" id="modal_klaimgaransi" role="dialog" aria-labelledby="modal_klaimgaransi" aria-hidden="true">
                   <div class="modal-dialog" style="min-width:100%;" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="modal_klaim">Klaim Garansi</h5>
-                        <button id="tutupmdl" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <h5 class="modal-title" id="modal_klaimgaransi">Klaim Garansi</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
                       <div class="modal-body">
-                        <input type="hidden" name="kode_transaksi" id="kode_transaksi" value="">
+                        <input type="hidden" name="id_klaim" id="id_klaim" value="">
                         <div class="panel-body">
-                          <br>
                           <div class="row">
-                            <div class="col-md-1">
-                            <h6>Nama Pembeli : </h6>
-                            </div>
-                            <div class="col-md-4">
-                            <input class="form-control" readonly type="text" name="nama_pembeli" id="nama_pembeli">
-                            </div>
+                            <div class="col-md-3"><p style="text-align: right;">Nama Pembeli : </p></div>
+                            <div class="col-md-6">
+                              <input type="text" class="form-control" name="nama_rekanan" id="nama_rekanan" placeholder="NAMA REKANAN">
+                          </div>
+                          </div><br>
+                          <div class="row">
+                            <div class="col-md-3"><p style="text-align: right;">Tanggal Jatuh Tempo : </p></div>
+                            <div class="col-md-2">
+                              <input type="text" class="datepicker form-control" name="jatuh_tempo" id="jatuh_tempo">
+                          </div>
                           </div>
                           <br>
-                          <table style="width: 100%;" class="table table-striped" id="table-3">
-                            <tr>
-                              <th colspan="6" style="text-align: center;">
-                                  LIST KLAIM GARANSI
-                              </th>
-                            </tr>
-                            <tr>
-                              <th style="text-align: center;">No</th>
-                              <th style="text-align: center;">Kode Klaim Garansi</th>
-                              <th style="text-align: center;">Kode Transaksi</th>
-                              <th style="text-align: center;">Barang Lama</th>
-                              <th style="text-align: center;">Barang Tukar</th>
-                              <th style="text-align: center;">User</th>
-                              <th style="text-align: center;">Tanggal Klaim</th>
-                            </tr>
-                            <tbody id="histori_klaim">
-
-                            </tbody>
-                          </table>
-                          <br>
-                        <table class="table table-striped" id="table-2">
-                          <thead>                                 
-                            <tr>
-                              <th class="text-center" style="width:10px;">
-                                No
-                              </th>
-                              <th class="text-center">Kode Transaksi</th>
-                              <th class="text-center">Nama Barang</th>
-                              <th class="text-center">Tgl Transaksi</th>
-                              <th class="text-center">RETUR</th>
-                              <th class="text-center">KLAIM</th>
-                              <th class="text-center">Harga</th>
-                              <th class="text-center">Aksi</th>
-                            </tr>
-                          </thead>
-                          <tbody id="data_klaimgar" style="text-align: center;">                                 
-                          
-                          </tbody>
-                        </table>
-                          <br>
-                          <div id="hide_klaim" style="display: none;">
-                          <input type="hidden" name="id_klaim" id="id_klaim">
-                          <input type="hidden" name="id_barangkeluar" id="id_barangkeluar">
-                          <input type="hidden" name="kd_trans" id="kd_trans">
-                          <table class="table table-hover table-bordered" style="width: 100%;">
-                            <tr>
-                              <th style="text-align: center; width:50%;">Barang Pengganti</th>
-                              <th style="text-align: center; width:40%">Alasan Klaim</th>
-                              <th style="text-align: center; width:10%">Simpan</th>
-                            </tr>
-                            <tr>
-                              <td>
-                                <select name="pil_brgtukar" id="pil_brgtukar" class="select2" style="width:100%">
-                                    <option value="">--Pilih--</option>
-                                    <?php foreach($master_barang as $rows): ?>
-                                        <option value="<?= $rows -> id;?>"><?= $rows -> nama_barang.'-'.$rows -> nama_merk.'-'.$rows -> tahun_barang.'-'.$rows -> seri_barang.'-'.$rows -> kode_bulan.'-'.$rows -> kode_urut;?> </option>
-                                    <?php endforeach;?>
-                                </select>
-                              </td>
-                              <td>
-                                <textarea name="alasan_klaim" id="alasan_klaim" class="form-control"></textarea>
-                              </td>
-                              <td style="text-align: center;">
-                                <button id="save_klaimgar" type="button" class="btn btn-icon icon-left btn-success"><i class="fa fa-save"></i></button>                              
-                              </td>
-                            </tr>
-                          </table>
+                          <div id="education_fields">
+          
+          </div>
+                        <div class="row">
+                        <!-- <div class="col-md-3">
+                          <div class="form-group">
+                          <select class="select2" style="width:100%" id="nama_barang" name="nama_barang[]">
+                              
+                              <option value="">--Pilih Barang--</option>
+                              <?php foreach($nama_barang as $rows):
+                               echo '<option value="'.$rows->id.'">'.$rows->nama_barang.'</option>';
+                              endforeach;
+                              ?>
+                            </select>
                           </div>
-                          <br>
                         </div>
-                      </div>  
+                        <div class="col-sm-3 nopadding">
+                          <div class="form-group">
+                          <select class="select2" style="width:100%" id="tipe_barang" name="tipe_barang[]">
+                              
+                              <option value="">--Merk--</option>
+                              <?php foreach($nama_merk as $rows):
+                               echo '<option value="'.$rows->id.'">'.$rows->nama_merk.'</option>';
+                              endforeach;
+                              ?>
+                            </select>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-sm-1 nopadding">
+                          <div class="form-group">
+                          <input type="text" class="form-control" name="tahun_barang[]" id="tahun_barang" placeholder="Tahun">
+                          </div>
+                        </div>
+                        
+                        <div class="col-sm-1 nopadding">
+                          <div class="form-group">
+                          <input type="text" class="form-control" name="seri_barang[]" id="seri_barang" placeholder="Seri">
+                          </div>
+                        </div>
+
+                        <div class="col-sm-1 nopadding">
+                          <div class="form-group">
+                          <input type="text" class="form-control" name="kode_bulan[]" id="kode_bulan" placeholder="Bulan">
+                          </div>
+                        </div>
+
+                        <div class="col-sm-1 nopadding">
+                          <div class="form-group">
+                          <input type="text" class="form-control" name="kode_urut[]" id="kode_urut" placeholder="Urut">
+                          </div>
+                        </div> -->
+                        <div class="col-sm-9">&nbsp;</div>
+                        <div class="col-sm-3 pull-right nopadding">
+                          <div class="form-group">
+                            <div class="input-group">
+                              <input type="text" class="form-control" name="harga_total" id="harga_total" placeholder="Harga">
+                              &nbsp; &nbsp;
+                              <div class="input-group-btn">
+                                <button class="btn btn-success" type="button"  onclick="education_fields();"> <span class="fa fa-plus" aria-hidden="true"></span> </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-8">&nbsp;</div>
+                        <div class="col-sm-1 pull-right nopadding">
+                        <label for="jumlah_bayar">Jumlah Yang Dibayar : </label><br>
+                        </div>
+                        <div class="col-sm-3 pull-right nopadding">
+                          <div class="form-group">
+                            <div class="input-group">
+                              <input type="text" class="form-control" name="jumlah_bayar" id="jumlah_bayar" placeholder="Dibayar">
+                            </div>
+                          </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-8">&nbsp;</div>
+                        <div class="col-sm-1 pull-right nopadding">
+                        <label for="jumlah_potongan">Potongan Fee/Diskon : </label><br>
+                        </div>
+                        <div class="col-sm-3 pull-right nopadding">
+                          <div class="form-group">
+                            <div class="input-group">
+                              <input type="text" class="form-control" name="jumlah_potongan" id="jumlah_potongan" placeholder="Potongan">
+                            </div>
+                          </div>
+                        </div>
+                        </div>
+                      
+                      </div>
+                      <div class="clear"></div>
+  
+  </div>
                       <div class="modal-footer">
-                        <button type="button" id="tutup" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="save_transaksikeluar" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Simpan</button>
                       </div>
                     </div>
                   </div>

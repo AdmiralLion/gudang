@@ -232,15 +232,15 @@ class m_transaksi extends CI_Model {
         return $query->result();
     }
 
-    public function insert_transaksi_keluar($kd_transaksi,$nama_pembeli,$jatuh_tempo,$jumlah_bayar,$jumlah_potongan,$id_user,$cekhutang){
+    public function insert_transaksi_keluar($kd_transaksi,$nama_pembeli,$jatuh_tempo,$batas_klaim,$jumlah_bayar,$jumlah_potongan,$id_user,$cekhutang){
         $tgl = date('Y-m-d H:i:s');
-        $query = $this->db->query("INSERT INTO b_transaksi_keluar VALUES('','$kd_transaksi','$nama_pembeli','$cekhutang',null,'$jatuh_tempo','$jumlah_bayar','$jumlah_potongan','$id_user','$tgl')");
+        $query = $this->db->query("INSERT INTO b_transaksi_keluar VALUES('','$kd_transaksi','$nama_pembeli','$cekhutang',null,'$jatuh_tempo','$jumlah_bayar','$jumlah_potongan','$batas_klaim','$id_user','$tgl')");
         return $query;
     }
 
-    public function insert_barang_keluar($kd_transaksi,$id_stok,$id_barang,$id_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$harga_masuk,$hutang,$jns_brg,$harga_keluar,$id_user){
+    public function insert_barang_keluar($kd_transaksi,$id_stok,$id_barang,$id_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$harga_masuk,$hutang,$klaim,$jns_brg,$harga_keluar,$id_user){
         $tgl = date('Y-m-d H:i:s');
-        $query = $this->db->query("INSERT INTO b_barang_keluar VALUES('','$kd_transaksi','$id_stok','$id_barang','$id_merk','$tahun_barang','$seri_barang','$kode_bulan','$kode_urut','$jns_brg','$harga_masuk',$harga_keluar,null,'$hutang','$id_user','$tgl')");
+        $query = $this->db->query("INSERT INTO b_barang_keluar VALUES('','$kd_transaksi','$id_stok','$id_barang','$id_merk','$tahun_barang','$seri_barang','$kode_bulan','$kode_urut','$jns_brg','$harga_masuk',$harga_keluar,null,'$hutang','$id_user','$klaim','$tgl')");
         return $query;
     }
 
@@ -410,4 +410,58 @@ class m_transaksi extends CI_Model {
         WHERE brk.`kd_transaksi` = '$kd_transaksi' GROUP BY brk.id");
        return $query->result();
     }
+
+    public function get_dataklaim($tanggal_transaksi){
+        $tgl = explode('-', $tanggal_transaksi);
+        $bulan = $tgl[0];
+        $tahun = $tgl[1];
+        $query = $this->db->query("SELECT btk.id, btk.kode_transaksi,DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') AS tgl,DATE_FORMAT(btk.tgl_batasklaim,'%d-%m-%Y') AS tgl_batasklaim, btk.nama_pembeli FROM b_transaksi_keluar btk WHERE MONTH(btk.tgl_act) = '$bulan' AND YEAR(btk.tgl_act) = '$tahun'");
+        // var_dump($tanggal_transaksi);
+        // die();
+        return $query->result();
+    }
+
+    public function get_data_klaim($kode_transaksi){
+        $query = $this->db->query("SELECT btk.potongan,btk.bayar,btk.kode_transaksi,bbk.id as id_keluar,bbk.id_stok,mb.nama_barang,ms.nama_satuan,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan, 
+        bbk.kode_urut,bbk.harga_jual, btk.nama_pembeli,bbk.is_hutang,bbk.is_retur,bbk.is_klaim, DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') AS tgl_act 
+        FROM b_transaksi_keluar btk JOIN b_barang_keluar bbk ON btk.kode_transaksi = bbk.kode_transaksi 
+        JOIN m_barang mb ON bbk.id_barang = mb.id JOIN m_merk m ON bbk.id_merk = m.id JOIN m_satuan ms ON mb.satuan_barang = ms.id 
+        WHERE bbk.kode_transaksi = '$kode_transaksi'");
+        // var_dump($tanggal_transaksi);
+        // die();
+        return $query->result();
+    }
+
+    public function get_list_klaim($kode_transaksi){
+        $query = $this->db->query("SELECT bkg.*,bbk1.id_stok as id_stok1 ,mb1.nama_barang as nama_barang1 ,m1.nama_merk as nama_merk1 ,bbk1.tahun_barang as tahun_barang1 ,bbk1.seri_barang as seri_barang1 ,bbk1.kode_bulan as kode_bulan1 , 
+        bbk1.kode_urut as kode_urut1 ,bbk1.harga_jual as harga_jual1 ,bbk2.id_stok as id_stok2 ,mb2.nama_barang as nama_barang2 ,m2.nama_merk as nama_merk2 ,bbk2.tahun_barang as tahun_barang2 ,bbk2.seri_barang as seri_barang2 ,bbk2.kode_bulan as kode_bulan2 , 
+        bbk2.kode_urut as kode_urut2,bbk2.harga_jual as harga_jual2 , u.nama_user,DATE_FORMAT(bkg.tgl_klaim,'%d-%m-%Y %H:%i:%s') AS tgl  FROM b_klaim_barang bkg JOIN a_user u ON bkg.user_act = u.id JOIN b_barang_keluar bbk1 ON bbk1.id = bkg.id_barang_lama JOIN b_barang_keluar bbk2 ON bbk2.id_stok = bkg.id_barang_ganti JOIN m_barang mb1 ON bbk1.id_barang = mb1.id JOIN m_merk m1 ON bbk1.id_merk = m1.id JOIN m_barang mb2 ON bbk2.id_barang = mb2.id JOIN m_merk m2 ON bbk2.id_merk = m2.id WHERE bkg.kode_transaksi = '$kode_transaksi'");
+        // var_dump($tanggal_transaksi);
+        // die();
+        return $query->result();
+    }
+
+    public function getkodeklaim($bulan,$tahun){
+        $query = $this->db->query("SELECT COUNT(id) as jumlah FROM b_klaim_barang WHERE MONTH(tgl_klaim) = '$bulan' AND YEAR(tgl_klaim) = '$tahun'");
+        return $query->result();
+    }
+
+    public function insert_klaim($kode_klaim,$kd_trans,$nama_pembeli,$id_baranglama,$alasan_klaim,$pil_brgtukar,$id_user){
+        $tgl = date('Y-m-d H:i:s');
+        $query = $this->db->query("INSERT INTO b_klaim_barang VALUES('','$kode_klaim','$kd_trans','$nama_pembeli','$id_baranglama','$alasan_klaim','$pil_brgtukar','$id_user','$tgl')");
+        return $query;
+    }
+
+    public function update_brgklaimlama($id_barangkeluar){
+        $tgl = date('Y-m-d H:i:s');
+        $data = array(
+            'is_klaim' => '1',
+         );
+         
+         $this->db->where('id', $id_barangkeluar);
+         $query = $this->db->update('b_barang_keluar', $data);
+
+        return $query;
+    }
+
 }

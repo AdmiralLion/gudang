@@ -428,6 +428,7 @@ class Transaksi extends CI_Controller {
             $id_transaksi = $rows['id_transaksi'];
             $nama_rekanan = $rows ['nama_rekanan'];
             $jatuh_tempo = $rows['jatuh_tempo'];
+            $batas_klaim = $rows['batas_klaim'];
             $jumlah_bayar = $rows['jumlah_bayar'];
             $jumlah_potongan = $rows['jumlah_potongan'];
         endforeach;
@@ -445,13 +446,14 @@ class Transaksi extends CI_Controller {
                 }else{
                     $hutang = '0';
                 }
+                $klaim = 0;
                 $harga_keluar = $row['harga_keluar'];
                 foreach($data['detail'] as $det):
-                    $data['transaksi_keluar'] = $this -> m_transaksi -> insert_barang_keluar($kd_transaksi,$det->id_transaksi,$det -> id_barang,$det -> id_merk ,$det -> tahun_barang,$det -> seri_barang,$det -> kode_bulan,$det -> kode_urut,$det -> harga_barang,$hutang,$jns_brg,$harga_keluar,$id_user);
+                    $data['transaksi_keluar'] = $this -> m_transaksi -> insert_barang_keluar($kd_transaksi,$det->id_transaksi,$det -> id_barang,$det -> id_merk ,$det -> tahun_barang,$det -> seri_barang,$det -> kode_bulan,$det -> kode_urut,$det -> harga_barang,$hutang,$klaim,$jns_brg,$harga_keluar,$id_user);
                     $data['update_stok'] = $this -> m_transaksi -> update_stok($nama_barang);
                 endforeach;
             endforeach;
-            $data['insert'] = $this -> m_transaksi -> insert_transaksi_keluar($kd_transaksi,$nama_rekanan,$jatuh_tempo,$jumlah_bayar,$jumlah_potongan,$id_user,$cekhutang);
+            $data['insert'] = $this -> m_transaksi -> insert_transaksi_keluar($kd_transaksi,$nama_rekanan,$jatuh_tempo,$batas_klaim,$jumlah_bayar,$jumlah_potongan,$id_user,$cekhutang);
             if($data['transaksi_keluar'] == 'true' OR $data['transaksi_keluar'] == TRUE OR $data['transaksi_keluar'] == 'TRUE'){
                 $response = [
                     'status' => '200',
@@ -800,12 +802,84 @@ class Transaksi extends CI_Controller {
         die();
     }
 
-    // public function getdatapenjualan()
-    // {
-    //     $data['master_barang'] = $this->m_master->get_masterbarang();
-    //     $data['master_merk'] = $this->m_master->get_mastermerk();
-    //     echo json_encode($data);
-    // }
+    public function getdataklaim()
+    {
+        $tgl_transaksi = $this->input->post('tanggal_transaksi');
+        if($tgl_transaksi == '' OR $tgl_transaksi == null){
+            $tgl_transaksi = date('m-Y');
+        }else{
+            // $tgl_transaksi = date('Y-m-d', strtotime($tgl_transaksi));
+        }
+        $data['alldata'] = $this->m_transaksi->get_dataklaim($tgl_transaksi);
+        echo json_encode($data);
+    }
 
+    public function data_klaim()
+    {
+        $kode_transaksi = $this->input->post('kode_transaksi');
+        $data['list_data'] = $this->m_transaksi->get_data_klaim($kode_transaksi);
+        $data['histori_klaim'] = $this->m_transaksi->get_list_klaim($kode_transaksi);
+        echo json_encode($data);
+    }
+
+    public function generate_kodeklaim()
+    {
+        $monthYear = date('m-Y');
+        $tampung = explode('-', $monthYear);
+        $bulan = $tampung[0];
+        $tahun = $tampung[1];
+
+        // Get the number of transactions occurred in the current month
+        $transactionCount = $this->m_transaksi->getkodeklaim($bulan,$tahun);
+        foreach($transactionCount as $row):
+            $temp = $row->jumlah;
+        endforeach;
+        $jumlah = $temp + 1;
+
+        // Generate the transaction code
+        $transactionCode = 'SJ/J3/KLAIM/'.$bulan.'/'.$tahun.'/' . $jumlah;
+    
+        return $transactionCode;
+    }
+
+    public function klaim_barang_act()
+    {
+        $id_baranglama = $this->input->post('id_baranglama');
+        $kd_trans = $this->input->post('kd_trans');
+        $pil_brgtukar = $this->input->post('pil_brgtukar');
+        $alasan_klaim = $this->input->post('alasan_klaim');
+        $nama_pembeli = $this->input->post('nama_pembeli');
+        $id_user = $this->session->userdata('id_user');
+        $kode_klaim = $this-> generate_kodeklaim();
+        $hutang = 0;
+        $jns_brg = 'Klaim';
+        $harga_keluar = 0;
+        $klaim = 2;
+
+        $data['insert'] = $this -> m_transaksi -> insert_klaim($kode_klaim,$kd_trans,$nama_pembeli,$id_baranglama,$alasan_klaim,$pil_brgtukar,$id_user);
+        $data['detail'] = $this->m_transaksi->get_detailbarang_keluar($pil_brgtukar);
+        $data['update1'] = $this -> m_transaksi -> update_brgklaimlama($id_baranglama);
+
+        foreach($data['detail'] as $det):
+                            $data['transaksi_keluar'] = $this -> m_transaksi -> insert_barang_keluar($kd_trans,$det->id_transaksi,$det -> id_barang,$det -> id_merk ,$det -> tahun_barang,$det -> seri_barang,$det -> kode_bulan,$det -> kode_urut,$det -> harga_barang,$hutang,$klaim,$jns_brg,$harga_keluar,$id_user);
+        endforeach;
+        if($data['insert'] == 'true' OR $data['insert'] == TRUE OR $data['insert'] == 'TRUE'){
+            $response = [
+                'status' => '200',
+                'message' =>  'Klaim Garansi berhasil'
+            ];
+        }else{
+            $response = [
+                'status' => '400',
+                'message' =>  'Klaim garansi gagal'
+            ];
+        }
+
+        
+        header('Content-Type: application/json');
+
+        echo json_encode($response);
+        die();
+    }
 
 }

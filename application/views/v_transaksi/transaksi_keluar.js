@@ -160,10 +160,11 @@ $('#data_master_barang').on('click','.barang_hapus', function () {
     var id_transaksi = $('#id_transaksi').val();
     var nama_rekanan = $('#nama_rekanan').val();
     var jatuh_tempo = $('#jatuh_tempo').val();
+    var batas_klaim = $('#batas_klaim').val();
     var jumlah_bayar = $('#jumlah_bayar').val();
     var jumlah_potongan = $('#jumlah_potongan').val();
-    if(jumlah_bayar == '' || jumlah_bayar.length == 0 || nama_rekanan == '' || nama_rekanan.length == 0 || jumlah_potongan == '' || jumlah_potongan.length == 0){
-      alert("Nama rekanan dan jumlah pembayaran dan potongan tidak boleh kosong !!!!");
+    if(jumlah_bayar == '' || jumlah_bayar.length == 0 || nama_rekanan == '' || nama_rekanan.length == 0 || jumlah_potongan == '' || jumlah_potongan.length == 0 || batas_klaim == '' || batas_klaim.length == 0){
+      alert("Nama rekanan dan jumlah pembayaran dan potongan dan batas klaim tidak boleh kosong !!!!");
       return false;
     }
     var transaksi_temp = [];
@@ -182,6 +183,7 @@ $('#data_master_barang').on('click','.barang_hapus', function () {
           id_transaksi: id_transaksi,
           nama_rekanan: nama_rekanan,
           jatuh_tempo:jatuh_tempo,
+          batas_klaim:batas_klaim,
           jumlah_bayar:jumlah_bayar,
           jumlah_potongan:jumlah_potongan,
           nama_barang: nama_barang,

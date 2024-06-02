@@ -179,6 +179,12 @@ endforeach;
                             <div class="col-md-2">
                               <input type="text" class="datepicker form-control" name="jatuh_tempo" id="jatuh_tempo">
                           </div>
+                          </div><br>
+                          <div class="row">
+                            <div class="col-md-3"><p style="text-align: right;">Tanggal Batas Klaim Garansi : </p></div>
+                            <div class="col-md-2">
+                              <input type="text" class="datepicker form-control" name="batas_klaim" id="batas_klaim">
+                          </div>
                           </div>
                           <br>
                           <div id="education_fields">
