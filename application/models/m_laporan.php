@@ -341,7 +341,7 @@ class m_laporan extends CI_Model {
             $tahun = $tgls[1];
             $tambahanquer = "MONTH(bm.tgl_act) = '".$bulan."' AND YEAR(bm.tgl_act) = '".$tahun."'";
         }
-        $query = $this->db->query("SELECT bm.`kode_transaksi`,b.nama_barang,m.nama_merk,bm.tahun_barang,bm.seri_barang,bm.kode_bulan,bm.kode_urut,
+        $query = $this->db->query("SELECT bm.`kode_transaksi`,b.nama_barang,m.nama_merk,bm.tahun_barang,bm.seri_barang,bm.kode_bulan,bm.kode_urut,bm.jenis_barang,
         bm.harga_barang,u.`nama_user`,DATE_FORMAT(bm.tgl_act,'%d-%m-%Y %H:%i:%s') AS tgl 
         FROM b_barang_masuk bm INNER JOIN m_barang b ON bm.id_barang = b.id INNER JOIN m_merk m ON bm.id_merk = m.id
         INNER JOIN a_user u ON bm.`user_act` = u.`id` WHERE $tambahanquer");
@@ -358,7 +358,7 @@ class m_laporan extends CI_Model {
             $tahun = $tgls[1];
             $tambahanquer = "MONTH(bbk.tgl_act) ='".$bulan."' AND YEAR(bbk.tgl_act) = '".$tahun."'";
         }
-        $query = $this->db->query("SELECT bbk.`kode_transaksi`,b.nama_barang,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,bbk.kode_urut,
+        $query = $this->db->query("SELECT bbk.`kode_transaksi`,b.nama_barang,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,bbk.kode_urut,bbk.kualitas,
         bbm.`harga_barang`,bbk.harga_jual,u.`nama_user`,is_retur,bbk.is_hutang,DATE_FORMAT(bbk.tgl_act,'%d-%m-%Y %H:%i:%s') AS tgl 
         FROM b_barang_keluar bbk 
         INNER JOIN b_barang_masuk bbm ON bbk.`id_stok` = bbm.`id`

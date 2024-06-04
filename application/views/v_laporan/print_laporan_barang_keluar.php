@@ -111,6 +111,7 @@
             <th>Seri Barang</th>
             <th>Kode bulan</th>
             <th>Kode Urut</th>
+            <th>Kualitas</th>
             <th>Harga Masuk</th>
             <th>Harga Jual</th>
             <th>User Input</th>
@@ -137,6 +138,7 @@
             <td style="text-align:center;"><?= $row -> seri_barang;?></td>
             <td style="text-align:center;"><?= $row -> kode_bulan;?></td>
             <td style="text-align:center;"><?= $row -> kode_urut;?></td>
+            <td style="text-align:center;"><?= $row -> kualitas;?></td>
             <td style="text-align:center;"><?= $row -> harga_barang;?></td>
             <td style="text-align:center;"><?= $row -> harga_jual;?></td>
             <td style="text-align:center;"><?= $row -> nama_user;?></td>
@@ -161,16 +163,16 @@
         </tr>
         <?php endforeach; ?>
         <tr>
-            <td colspan="10" style="text-align: right;">Modal</td><td colspan="4"> Rp. <?= $hargamodal;?></td>
+            <td colspan="11" style="text-align: right;">Modal</td><td colspan="4"> Rp. <?= $hargamodal;?></td>
         </tr>
         <tr>
-            <td colspan="10" style="text-align: right;">Laba Kotor</td><td colspan="4"> Rp. <?= $hargalaba;?></td>
+            <td colspan="11" style="text-align: right;">Laba Kotor</td><td colspan="4"> Rp. <?= $hargalaba;?></td>
         </tr>
         <tr>
-            <td colspan="10" style="text-align: right;">Laba Bersih</td><td colspan="4"> Rp. <?= $hargalaba - $hargamodal;?></td>
+            <td colspan="11" style="text-align: right;">Laba Bersih</td><td colspan="4"> Rp. <?= $hargalaba - $hargamodal;?></td>
         </tr>
         <tr>
-          <td colspan="14" style="text-align: right;">
+          <td colspan="15" style="text-align: right;">
           Yang Mencetak <br>
           Gresik, <?= $tglskrg;?><br><br><br> <br><br>
           <?php foreach($user as $rows):

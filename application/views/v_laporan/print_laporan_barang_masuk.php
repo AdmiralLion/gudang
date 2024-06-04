@@ -107,6 +107,7 @@
             <th>Kode Transaksi</th>
             <th>Nama Barang</th>
             <th>Merk</th>
+            <th>Jenis Barang</th>
             <th>Tahun Barang</th>
             <th>Seri Barang</th>
             <th>Kode bulan</th>
@@ -126,6 +127,7 @@
             <td style="text-align:center;"><?= $row -> kode_transaksi;?></td>
             <td style="text-align:center;"><?= $row -> nama_barang;?></td>
             <td style="text-align:center;"><?= $row -> nama_merk;?></td>
+            <td style="text-align:center;"><?= $row -> jenis_barang;?></td>
             <td style="text-align:center;"><?= $row -> tahun_barang;?></td>
             <td style="text-align:center;"><?= $row -> seri_barang;?></td>
             <td style="text-align:center;"><?= $row -> kode_bulan;?></td>
@@ -137,7 +139,7 @@
         </tr>
         <?php endforeach; ?>
         <tr>
-          <td colspan="11" style="text-align: right;">
+          <td colspan="12" style="text-align: right;">
           Yang Mencetak <br>
           Gresik, <?= $tglskrg;?><br><br><br> <br><br>
           <?php foreach($user as $rows):

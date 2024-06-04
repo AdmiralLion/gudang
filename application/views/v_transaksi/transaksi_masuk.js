@@ -167,6 +167,7 @@
         var seri_barang = $(this).find('#seri_barang').val();
         var kode_bulan = $(this).find('#kode_bulan').val();
         var kode_urut = $(this).find('#kode_urut').val();
+        var jns_brg = $(this).find('#jns_brg').val();
         var harga_masuk = $(this).find('#harga_masuk').val();
         console.log(nama_barang);
         console.log(harga_masuk);
@@ -180,6 +181,7 @@
             seri_barang: seri_barang,
             kode_bulan: kode_bulan,
             kode_urut: kode_urut,
+            jns_brg:jns_brg,
             harga_masuk: harga_masuk
         });
         }
@@ -259,15 +261,27 @@ function education_fields() {
     '<div class="col-sm-3 nopadding"><div class="form-group"> <label for="Barang">Barang :</label><br><select class="select2" style="width:100%" id="nama_barang" name="nama_barang[]">' +'<option value="">--Barang--</option>'+
                 options1 +
                 '</select></div></div>'+
-    '<div class="col-sm-3 nopadding"><div class="form-group"> <label for="Merk">Merk :</label><br><select class="select2" style="width:100%" id="nama_merk" name="nama_merk[]">' +'<option value="">--Merk--</option>'+
+    '<div class="col-sm-1 nopadding"><div class="form-group"> <label for="Merk">Merk :</label><br><select class="select2" style="width:100%" id="nama_merk" name="nama_merk[]">' +'<option value="">--Merk--</option>'+
     options2 +
     '</select></div></div>'+
+    '<div class="col-sm-2 nopadding"><div class="form-group"><label for="Urut">Jenis Barang :</label> <br> <select class="select2" style="width:100%" id="jns_brg" name="jns_brg[]">' +'<option value="">Jenis barang</option>'+
+  '<option value="Jasa">Jasa</option>'+'<option value="Panas">Panas</option>'+'<option value="Dingin">Dingin</option>'+'<option value="Overtreat">Overtreat</option>'+
+  '</select></div></div>'+
     '<div class="col-sm-1 nopadding"><div class="form-group"><label for="Tahun">Tahun :</label><br> <input type="text" class="form-control" id="tahun_barang" name="tahun_barang[]" value="" placeholder="Tahun"></div></div>'+
     '<div class="col-sm-1 nopadding"><div class="form-group"><label for="Seri">Seri :</label> <br> <input type="text" class="form-control" id="seri_barang" name="seri_barang[]" value="" placeholder="Seri"></div></div>'+
     '<div class="col-sm-1 nopadding"><div class="form-group"><label for="Bulan">Bulan :</label> <br> <input type="text" class="form-control" id="kode_bulan" name="kode_bulan[]" value="" placeholder="Bulan"></div></div>'+
     '<div class="col-sm-1 nopadding"><div class="form-group"><label for="Urut">Urut :</label> <br> <input type="text" class="form-control" id="kode_urut" name="kode_urut[]" value="" placeholder="Urut"></div></div>'+
     '<div class="col-sm-2 nopadding"><div class="form-group"><label for="Harga Masuk">Harga Masuk :</label> <br><div class="input-group"><input type="text" placeholder="Harga" class="form-control" name="harga_masuk[]" id="harga_masuk" onkeyup="hitung_harga()"> &nbsp; &nbsp;<div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_education_fields('+ room +');"> <span class="fa fa-minus" aria-hidden="true"></span> </button></div></div></div></div><div class="clear"></div></div>';
-    objTo.appendChild(divtest)
+    objTo.appendChild(divtest);
+    // Get the current year and month
+    var currentYear = new Date().getFullYear();
+    var currentMonth = ("0" + (new Date().getMonth() + 1)).slice(-2); // Ensure month is two digits
+
+    // Set the year and month to the respective fields
+    divtest.querySelector("#tahun_barang").value = currentYear;
+    var convertbulan = convertMonthToRoman(currentMonth);
+    divtest.querySelector("#kode_bulan").value = convertbulan;
+
     $('.select2').select2({
       placeholder: '--Pilih--',
       width: "100%",
@@ -282,6 +296,11 @@ function education_fields() {
    function remove_education_fields(rid) {
      $('.removeclass'+rid).remove();
    }
+
+   function convertMonthToRoman(month) {
+    var romanNumerals = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
+    return romanNumerals[month - 1]; // Adjust for zero-based index
+}
 
 
    function hitung_harga() {

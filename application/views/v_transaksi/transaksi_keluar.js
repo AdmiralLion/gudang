@@ -157,23 +157,37 @@ $('#data_master_barang').on('click','.barang_hapus', function () {
 });
 
   $('#save_transaksikeluar').on('click', function() {
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
     var id_transaksi = $('#id_transaksi').val();
     var nama_rekanan = $('#nama_rekanan').val();
     var jatuh_tempo = $('#jatuh_tempo').val();
+    var hutang = $('#hutang').val();
     var batas_klaim = $('#batas_klaim').val();
     var jumlah_bayar = $('#jumlah_bayar').val();
     var jumlah_potongan = $('#jumlah_potongan').val();
-    if(jumlah_bayar == '' || jumlah_bayar.length == 0 || nama_rekanan == '' || nama_rekanan.length == 0 || jumlah_potongan == '' || jumlah_potongan.length == 0 || batas_klaim == '' || batas_klaim.length == 0){
-      alert("Nama rekanan dan jumlah pembayaran dan potongan dan batas klaim tidak boleh kosong !!!!");
+    var jatuhTempoDate = new Date(jatuh_tempo);
+    jatuhTempoDate.setHours(0, 0, 0, 0);
+    var batasKlaimDate = new Date(batas_klaim);
+    batasKlaimDate.setHours(0, 0, 0, 0);
+    if(jumlah_bayar == '' || jumlah_bayar.length == 0 || nama_rekanan == '' || nama_rekanan.length == 0 || jumlah_potongan == '' || jumlah_potongan.length == 0 || batas_klaim == '' || batas_klaim.length == 0 || hutang == '' || hutang.length == 0){
+      alert("Nama rekanan dan jumlah pembayaran dan potongan dan batas klaim dan hutang tidak boleh kosong !!!!");
       return false;
     }
+    if(hutang == 'Iya'){
+      if (jatuhTempoDate.getTime() === today.getTime() || batasKlaimDate.getTime() === today.getTime()) {
+        alert("Tanggal jatuh tempo dan tanggal batas klaim tidak boleh sama dengan hariini apabila hutang !!!!");
+        return false;
+      }
+    }
+   
     var transaksi_temp = [];
     $('#save_transaksikeluar').addClass('btn-progress');
 
     $('.form-group').each(function() {
       var nama_barang = $(this).find('#nama_barang').val();
       var harga_keluar = $(this).find('#harga_keluar').val();
-      var hutang = $(this).find('#hutang').val();
+      var kualitas = $(this).find('#kualitas').val();
       var jns_brg = $(this).find('#jns_brg').val();
 
       console.log(nama_barang);
@@ -183,12 +197,13 @@ $('#data_master_barang').on('click','.barang_hapus', function () {
           id_transaksi: id_transaksi,
           nama_rekanan: nama_rekanan,
           jatuh_tempo:jatuh_tempo,
+          hutang: hutang,
           batas_klaim:batas_klaim,
           jumlah_bayar:jumlah_bayar,
           jumlah_potongan:jumlah_potongan,
           nama_barang: nama_barang,
-          hutang: hutang,
           jns_brg: jns_brg,
+          kualitas:kualitas,
           harga_keluar: harga_keluar
       });
       }
@@ -268,8 +283,8 @@ $.ajax({
   '<div class="col-sm-4 nopadding"><div class="form-group"> <label for="Barang">Barang :</label><br><select class="select2" style="width:100%" id="nama_barang" name="nama_barang[]" onchange="setHarga(this)">' +'<option value="">--Barang--</option>'+
               options1 +
   '</select></div></div>'+'<div class="col-sm-2 nopadding"><div class="form-group"><label for="Harga">Harga Masuk :</label><br><div class="input-group"><input type="text" placeholder="Harga" class="form-control" name="harga_masuk[]" id="harga_masuk" readonly></div></div></div>'+
-  '<div class="col-sm-2 nopadding"><div class="form-group"><label for="Urut">Hutang :</label> <br> <select class="select2" style="width:100%" id="hutang" name="hutang[]">' +'<option value="">Hutang</option>'+
-  '<option value="Tidak">Tidak</option>'+'<option value="Iya">Iya</option>'+
+  '<div class="col-sm-2 nopadding"><div class="form-group"><label for="Urut">Kualitas :</label> <br> <select class="select2" style="width:100%" id="kualitas" name="kualitas[]">' +'<option value="">Kualitas Barang</option>'+
+  '<option value="AA">AA</option>'+'<option value="BB">BB</option>'+'<option value="CC">CC</option>'+
   '</select></div></div>'+
   '<div class="col-sm-2 nopadding"><div class="form-group"><label for="Urut">Jenis Barang :</label> <br> <select class="select2" style="width:100%" id="jns_brg" name="jns_brg[]">' +'<option value="">Jenis barang</option>'+
   '<option value="Jasa">Jasa</option>'+'<option value="Panas">Panas</option>'+'<option value="Dingin">Dingin</option>'+'<option value="Overtreat">Overtreat</option>'+

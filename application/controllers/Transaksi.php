@@ -32,7 +32,7 @@ class Transaksi extends CI_Controller {
         $jumlah = $temp + 1;
 
         // Generate the transaction code
-        $transactionCode = 'SJ/J3/BHN/'.$bulan.'/'.$tahun.'/' . $jumlah;
+        $transactionCode = $jumlah.'/ABS/MSK/'.$bulan.'/'.$tahun;
     
         return $transactionCode;
     }
@@ -66,8 +66,9 @@ class Transaksi extends CI_Controller {
                 $seri_barang = $row['seri_barang'];
                 $kode_bulan = $row['kode_bulan'];
                 $kode_urut = $row['kode_urut'];
+                $jns_brg = $row['jns_brg'];
                 $harga_masuk = $row['harga_masuk'];
-                $data['insert_barang'] = $this -> m_transaksi -> insert_stok($kd_transaksi,$nama_barang,$nama_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$harga_masuk,$id_user);
+                $data['insert_barang'] = $this -> m_transaksi -> insert_stok($kd_transaksi,$nama_barang,$nama_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$jns_brg,$harga_masuk,$id_user);
             endforeach;
             if($data['insert_barang'] == 'true' OR $data['insert_barang'] == TRUE OR $data['insert_barang'] == 'TRUE'){
                 $response = [
@@ -412,7 +413,7 @@ class Transaksi extends CI_Controller {
         $jumlah = $temp + 1;
 
         // Generate the transaction code
-        $transactionCode = 'SJ/J3/KLR/'.$bulan.'/'.$tahun.'/' . $jumlah;
+        $transactionCode = $jumlah.'/ABS/KLR/'.$bulan.'/'.$tahun;
     
         return $transactionCode;
     }
@@ -431,6 +432,7 @@ class Transaksi extends CI_Controller {
             $batas_klaim = $rows['batas_klaim'];
             $jumlah_bayar = $rows['jumlah_bayar'];
             $jumlah_potongan = $rows['jumlah_potongan'];
+            $tamp_hutang = $rows['hutang'];
         endforeach;
 
         if($id_transaksi == '' OR $id_transaksi == null){
@@ -438,7 +440,6 @@ class Transaksi extends CI_Controller {
             foreach($transaksi_temp as $row):
                 $nama_barang = $row['nama_barang'];
                 $data['detail'] = $this->m_transaksi->get_detailbarang_keluar($nama_barang);
-                $tamp_hutang = $row['hutang'];
                 $jns_brg = $row['jns_brg'];
                 if($tamp_hutang == 'Iya'){
                     $hutang = '1';
@@ -447,9 +448,10 @@ class Transaksi extends CI_Controller {
                     $hutang = '0';
                 }
                 $klaim = 0;
+                $kualitas = $row['kualitas'];
                 $harga_keluar = $row['harga_keluar'];
                 foreach($data['detail'] as $det):
-                    $data['transaksi_keluar'] = $this -> m_transaksi -> insert_barang_keluar($kd_transaksi,$det->id_transaksi,$det -> id_barang,$det -> id_merk ,$det -> tahun_barang,$det -> seri_barang,$det -> kode_bulan,$det -> kode_urut,$det -> harga_barang,$hutang,$klaim,$jns_brg,$harga_keluar,$id_user);
+                    $data['transaksi_keluar'] = $this -> m_transaksi -> insert_barang_keluar($kd_transaksi,$det->id_transaksi,$det -> id_barang,$det -> id_merk ,$det -> tahun_barang,$det -> seri_barang,$det -> kode_bulan,$det -> kode_urut,$det -> harga_barang,$hutang,$klaim,$jns_brg,$kualitas,$harga_keluar,$id_user);
                     $data['update_stok'] = $this -> m_transaksi -> update_stok($nama_barang);
                 endforeach;
             endforeach;
@@ -527,7 +529,7 @@ class Transaksi extends CI_Controller {
         $jumlah = $temp + 1;
 
         // Generate the transaction code
-        $transactionCode = 'SJ/A1/RTR/'.$bulan.'/'.$tahun.'/' . $jumlah;
+        $transactionCode = $jumlah.'/ABS/RTRSUP/'.$bulan.'/'.$tahun;
     
         return $transactionCode;
     }
@@ -619,7 +621,7 @@ class Transaksi extends CI_Controller {
         $jumlah = $temp + 1;
 
         // Generate the transaction code
-        $transactionCode = 'SJ/A2/RTR/'.$bulan.'/'.$tahun.'/' . $jumlah;
+        $transactionCode = $jumlah.'/ABS/RTRSTK/'.$bulan.'/'.$tahun;
     
         return $transactionCode;
     }
@@ -746,7 +748,7 @@ class Transaksi extends CI_Controller {
         $jumlah = $temp + 1;
 
         // Generate the transaction code
-        $transactionCode = 'SJ/J3/HTG/'.$bulan.'/'.$tahun.'/' . $jumlah;
+        $transactionCode = $jumlah.'/ABS/HTG/'.$bulan.'/'.$tahun;
     
         return $transactionCode;
     }
@@ -837,7 +839,7 @@ class Transaksi extends CI_Controller {
         $jumlah = $temp + 1;
 
         // Generate the transaction code
-        $transactionCode = 'SJ/J3/KLAIM/'.$bulan.'/'.$tahun.'/' . $jumlah;
+        $transactionCode = $jumlah.'/ABS/KLAIM/'.$bulan.'/'.$tahun;
     
         return $transactionCode;
     }

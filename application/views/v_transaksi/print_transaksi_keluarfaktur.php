@@ -13,7 +13,7 @@ foreach ($user as $row):
     $nama_user = $row -> nama_user;
 endforeach;
 
-$tglnow = date('d-m-Y H:i:s');
+$tglnow = date('d-m-Y');
 ?>
 
 <!DOCTYPE html>
@@ -67,10 +67,7 @@ $tglnow = date('d-m-Y H:i:s');
                 <th style="text-align: center;">No</th>
                 <th style="text-align: center;">Barang</th>
                 <th style="text-align: center;">Merk</th>
-                <th style="text-align: center;">Tahun</th>
                 <th style="text-align: center;">No. Seri</th>
-                <th style="text-align: center;">Kode Bulan</th>
-                <th style="text-align: center;">Kode Urut</th>
                 <th style="text-align: center;">Jenis</th>
                 <th style="text-align: center;">Pembayaran</th>
                 <th style="text-align: center;">Harga</th>
@@ -95,32 +92,42 @@ $tglnow = date('d-m-Y H:i:s');
                     <td style="text-align: center;"><?php echo $no++; ?></td>
                     <td style="text-align: center;"><?php echo $item->nama_barang; ?></td>
                     <td style="text-align: center;"><?php echo $item->nama_merk; ?></td>
-                    <td style="text-align: center;"><?php echo $item->tahun_barang; ?></td>
                     <td style="text-align: center;"><?php echo $item->seri_barang; ?></td>
-                    <td style="text-align: center;"><?php echo $item->kode_bulan; ?></td>
-                    <td style="text-align: center;"><?php echo $item->kode_urut; ?></td>
                     <td style="text-align: center;"><?php echo $item->jns_penjualan; ?></td>
                     <td style="text-align: center;"><?php echo $pembayaran; ?></td>
                     <td style="text-align: center;">Rp. <?php echo $item->harga_jual; ?></td>
                 </tr>
             <?php endforeach; ?>
             <tr>
-                <td colspan="9" class="right">Total Yang Belum Dibayarkan:</td>
+                <td colspan="6" class="right">Total Yang Belum Dibayarkan:</td>
                 <td style="text-align: center;">Rp. <?php $final_hutang = $totalhutang - $totaltunai;
                 echo $final_hutang; ?></td>
             </tr>
             <tr>
-                <td colspan="9" class="right">Total Yang Sudah Dibayarkan:</td>
+                <td colspan="6" class="right">Total Yang Sudah Dibayarkan:</td>
                 <td style="text-align: center;">Rp. <?php echo $totaltunai; ?></td>
             </tr>
             <tr>
-                <td colspan="9" class="right">Total Harga Sebelum dipotong:</td>
+                <td colspan="6" class="right">Total Harga Sebelum dipotong:</td>
                 <td style="text-align: center;">Rp. <?php echo $totalharga; ?></td>
             </tr>
             <tr>
-                <td colspan="9" class="right">Total Harga Sesudah dipotong:</td>
+                <td colspan="6" class="right">Total Harga Sesudah dipotong:</td>
                 <td style="text-align: center;">Rp. <?php $finalharga = $totalharga - $jml_potongan;
                 echo $finalharga; ?></td>
+            </tr>
+            <tr>
+                <td colspan="7">
+                    <table>
+                        <tr>
+                            <td>
+                                * Batas Klaim Barang Hanya 1 Kali untuk setiap barang yang dilakukan pembelian <br>
+                                * Batas Klaim tidak boleh melebihi tanggal maksimal klaim barang <br>
+                                * Pelunasan pembayaran tidak boleh melebihi tanggal jatuh tempo
+                            </td>
+                        </tr>
+                    </table>
+                </td>
             </tr>
         </table>
         <br>
@@ -139,9 +146,7 @@ $tglnow = date('d-m-Y H:i:s');
                     &nbsp;
                 </td>
                 <td style="text-align: center;padding:20px;">
-                    Yang Mencetak
-                    <br>
-                    <p>Tanggal Cetak: <?php echo $tglnow; ?></p>
+                    <p>Dicetak tanggal: <?php echo $tglnow; ?></p>
                 </td>
             </tr>
             <tr>
@@ -156,7 +161,7 @@ $tglnow = date('d-m-Y H:i:s');
                 <td style="padding: 20px;"><hr></td>
                 <td style="padding: 20px;"><hr></td>
                 <td style="padding: 20px;">&nbsp;</td>
-                <td style="text-align: center;"><?= $nama_user;?></td>
+                <td style="text-align: center;"></td>
             </tr>
         </table>
 

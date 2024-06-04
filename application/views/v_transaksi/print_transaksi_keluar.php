@@ -68,6 +68,7 @@ $tglnow = date('d-m-Y H:i:s');
                 <th>No. Seri</th>
                 <th>Kode Bulan</th>
                 <th>Kode Urut</th>
+                <th>Kualitas Barang</th>
                 <th>Jenis Barang</th>
                 <th>Pembayaran</th>
                 <th style="width: 150px;">Harga</th>
@@ -89,6 +90,7 @@ $tglnow = date('d-m-Y H:i:s');
                     <td><?= $item -> seri_barang;?></td>
                     <td><?= $item -> kode_bulan;?></td>
                     <td><?= $item -> kode_urut;?></td>
+                    <td><?= $item -> kualitas;?></td>
                     <td><?= $item -> jns_penjualan;?></td>
                     <td><?php if($item -> is_hutang == '1'){
                                     $totalhutang += $item->harga_jual;
@@ -103,24 +105,24 @@ $tglnow = date('d-m-Y H:i:s');
                 </tr>
             <?php endforeach; ?>
             <tr>
-                <td colspan="6" style="padding:10px;">&nbsp;</td>
+                <td colspan="7" style="padding:10px;">&nbsp;</td>
                 <td colspan="4" style="padding:10px;">Total Yang Belum Dibayarkan: Rp.<?php $final_hutang = $totalhutang - $totaltunai;
                 echo $final_hutang; ?></td>
             </tr>
             <tr>
-                <td colspan="6" style="padding:10px;">&nbsp;</td>
+                <td colspan="7" style="padding:10px;">&nbsp;</td>
                 <td colspan="4" style="padding:10px;">Total Yang Sudah Dibayarkan: Rp.<?php echo $totaltunai; ?></td>
             </tr>
             <tr>
-                <td colspan="6" style="padding:10px;">&nbsp;</td>
+                <td colspan="7" style="padding:10px;">&nbsp;</td>
                 <td colspan="4" style="padding:10px;">Total Potongan Yang didapatkan: Rp.<?php echo $jml_potongan; ?></td>
             </tr>
             <tr>
-                <td colspan="6" style="padding:10px;">&nbsp;</td>
+                <td colspan="7" style="padding:10px;">&nbsp;</td>
                 <td colspan="4" style="padding:10px;">Total Harga Sebelum dipotong: Rp.<?php echo $totalharga; ?></td>
             </tr>
             <tr>
-                <td colspan="6" style="padding:10px;">&nbsp;</td>
+                <td colspan="7" style="padding:10px;">&nbsp;</td>
                 <td colspan="4" style="padding:10px;">Total Harga Sesudah dipotong: Rp.<?php $finalharga = $totalharga - $jml_potongan;
                 echo $finalharga; ?></td>
             </tr>

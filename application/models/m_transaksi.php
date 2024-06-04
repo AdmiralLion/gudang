@@ -42,9 +42,9 @@ class m_transaksi extends CI_Model {
         return $query;
     }
 
-    public function insert_stok($kd_transaksi,$nama_barang,$nama_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$harga_masuk,$id_user){
+    public function insert_stok($kd_transaksi,$nama_barang,$nama_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$jns_brg,$harga_masuk,$id_user){
         $tgl = date('Y-m-d H:i:s');
-        $query = $this->db->query("INSERT INTO b_barang_masuk VALUES('','$kd_transaksi','$nama_barang','$nama_merk','$tahun_barang','$seri_barang','$kode_bulan','$kode_urut','$harga_masuk','$id_user',1,'$tgl')");
+        $query = $this->db->query("INSERT INTO b_barang_masuk VALUES('','$kd_transaksi','$nama_barang','$nama_merk','$tahun_barang','$seri_barang','$kode_bulan','$kode_urut','$jns_brg','$harga_masuk','$id_user',1,'$tgl')");
         return $query;
     }
 
@@ -55,7 +55,7 @@ class m_transaksi extends CI_Model {
 
     public function get_barang_masuk($id){
         $query = $this->db->query("SELECT btm.kode_transaksi, mb.nama_barang, ms.nama_satuan, m.nama_merk, bbm.tahun_barang, bbm.seri_barang, 
-        bbm.kode_bulan, bbm.kode_urut, bbm.harga_barang, DATE_FORMAT(btm.tgl_act,'%d-%m-%Y') AS tgl_transaksi, mr.nama_rekanan 
+        bbm.kode_bulan, bbm.kode_urut,bbm.jenis_barang, bbm.harga_barang, DATE_FORMAT(btm.tgl_act,'%d-%m-%Y') AS tgl_transaksi, mr.nama_rekanan 
         FROM b_transaksi_masuk btm JOIN b_barang_masuk bbm ON btm.kode_transaksi = bbm.kode_transaksi 
         JOIN m_barang mb ON bbm.id_barang = mb.id JOIN m_merk m ON bbm.id_merk = m.id JOIN m_rekanan mr ON btm.id_rekanan = mr.id
         JOIN m_satuan ms ON mb.satuan_barang = ms.id WHERE btm.id = '$id'");
@@ -238,9 +238,9 @@ class m_transaksi extends CI_Model {
         return $query;
     }
 
-    public function insert_barang_keluar($kd_transaksi,$id_stok,$id_barang,$id_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$harga_masuk,$hutang,$klaim,$jns_brg,$harga_keluar,$id_user){
+    public function insert_barang_keluar($kd_transaksi,$id_stok,$id_barang,$id_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$harga_masuk,$hutang,$klaim,$jns_brg,$kualitas,$harga_keluar,$id_user){
         $tgl = date('Y-m-d H:i:s');
-        $query = $this->db->query("INSERT INTO b_barang_keluar VALUES('','$kd_transaksi','$id_stok','$id_barang','$id_merk','$tahun_barang','$seri_barang','$kode_bulan','$kode_urut','$jns_brg','$harga_masuk',$harga_keluar,null,'$hutang','$klaim','$id_user','$tgl')");
+        $query = $this->db->query("INSERT INTO b_barang_keluar VALUES('','$kd_transaksi','$id_stok','$id_barang','$id_merk','$tahun_barang','$seri_barang','$kode_bulan','$kode_urut','$kualitas','$jns_brg','$harga_masuk',$harga_keluar,null,'$hutang','$klaim','$id_user','$tgl')");
         return $query;
     }
 
@@ -279,7 +279,7 @@ class m_transaksi extends CI_Model {
 
     public function get_barang_keluar($id){
         $query = $this->db->query("SELECT btk.kode_transaksi,btk.bayar,btk.potongan,bbk.id_stok,mb.nama_barang,ms.nama_satuan,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,
-        bbk.kode_urut,bbk.harga_jual, btk.nama_pembeli,bbk.is_hutang,bbk.jns_penjualan, DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') as tgl_act,DATE_FORMAT(btk.tgl_jatuhtempo,'%d-%m-%Y') as tgl_jatuhtempo FROM b_transaksi_keluar btk 
+        bbk.kode_urut,bbk.harga_jual, btk.nama_pembeli,bbk.is_hutang,bbk.jns_penjualan,bbk.kualitas, DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') as tgl_act,DATE_FORMAT(btk.tgl_jatuhtempo,'%d-%m-%Y') as tgl_jatuhtempo FROM b_transaksi_keluar btk 
         JOIN b_barang_keluar bbk ON btk.kode_transaksi = bbk.kode_transaksi JOIN m_barang mb ON bbk.id_barang = mb.id 
         JOIN m_merk m ON bbk.id_merk = m.id JOIN m_satuan ms ON mb.satuan_barang = ms.id
         WHERE btk.id = '$id'");

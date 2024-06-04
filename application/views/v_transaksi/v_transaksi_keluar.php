@@ -187,6 +187,16 @@ endforeach;
                           </div>
                           </div>
                           <br>
+                          <div class="row">
+                            <div class="col-md-3"><p style="text-align: right;">Hutang : </p></div>
+                            <div class="col-md-2">
+                              <select class="form-control" name="hutang" id="hutang">
+                                <option value="">--Pilih Hutang--</option>
+                                <option value="Iya">Iya</option>
+                                <option value="Tidak">Tidak</option>
+                              </select>
+                            </div>
+                          </div>
                           <div id="education_fields">
           
           </div>
