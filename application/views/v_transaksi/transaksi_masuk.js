@@ -265,7 +265,7 @@ function education_fields() {
     options2 +
     '</select></div></div>'+
     '<div class="col-sm-2 nopadding"><div class="form-group"><label for="Urut">Jenis Barang :</label> <br> <select class="select2" style="width:100%" id="jns_brg" name="jns_brg[]">' +'<option value="">Jenis barang</option>'+
-  '<option value="Jasa">Jasa</option>'+'<option value="Panas">Panas</option>'+'<option value="Dingin">Dingin</option>'+'<option value="Overtread">Overtread</option>'+'<option value="Afkir">Afkir</option>'+'<option value="Baru">Baru</option>'+'<option value="Bekas">Bekas</option>'+
+  '<option value="Jasa">Jasa</option>'+'<option value="Panas">Panas</option>'+'<option value="Dingin">Dingin</option>'+'<option value="Overtread">Overtread</option>'+'<option value="Afkir">Afkir</option>'+'<option value="Baru">Baru</option>'+'<option value="Bekas">Bekas</option>'+'<option value="Ori">Ori</option>'+
   '</select></div></div>'+
     '<div class="col-sm-1 nopadding"><div class="form-group"><label for="Tahun">Tahun :</label><br> <input type="text" class="form-control" id="tahun_barang" name="tahun_barang[]" value="" placeholder="Tahun"></div></div>'+
     '<div class="col-sm-1 nopadding"><div class="form-group"><label for="Seri">Seri :</label> <br> <input type="text" class="form-control" id="seri_barang" name="seri_barang[]" value="" placeholder="Seri"></div></div>'+

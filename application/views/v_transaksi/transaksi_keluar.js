@@ -287,7 +287,7 @@ $.ajax({
   '<option value="AA">AA</option>'+'<option value="BB">BB</option>'+'<option value="CC">CC</option>'+
   '</select></div></div>'+
   '<div class="col-sm-2 nopadding"><div class="form-group"><label for="Urut">Jenis Barang :</label> <br> <select class="select2" style="width:100%" id="jns_brg" name="jns_brg[]">' +'<option value="">Jenis barang</option>'+
-  '<option value="Jasa">Jasa</option>'+'<option value="Panas">Panas</option>'+'<option value="Dingin">Dingin</option>'+'<option value="Overtread">Overtread</option>'+'<option value="Afkir">Afkir</option>'+'<option value="Baru">Baru</option>'+'<option value="Bekas">Bekas</option>'+
+  '<option value="Jasa">Jasa</option>'+'<option value="Panas">Panas</option>'+'<option value="Dingin">Dingin</option>'+'<option value="Overtread">Overtread</option>'+'<option value="Afkir">Afkir</option>'+'<option value="Baru">Baru</option>'+'<option value="Bekas">Bekas</option>'+'<option value="Ori">Ori</option>'+
   '</select></div></div>'+
   '<div class="col-sm-2 nopadding"><div class="form-group"> <label for="Harga Keluar">Harga Keluar :</label><br><div class="input-group"><input type="text" placeholder="Harga" class="form-control" name="harga_keluar[]" id="harga_keluar" onkeyup="hitung_harga()"> &nbsp; &nbsp;<div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_education_fields('+ room +');"> <span class="fa fa-minus" aria-hidden="true"></span> </button></div></div></div></div><div class="clear"></div></div>';
   objTo.appendChild(divtest)
