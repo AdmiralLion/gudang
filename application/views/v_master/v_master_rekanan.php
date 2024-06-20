@@ -80,7 +80,7 @@ endforeach;
               </div>
               <div class="card-body">
                 <div class="row">
-                <div class="col-md-4"><button id="tambah_rekanan" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i> Simpan </button></div>
+                <div class="col-md-4"><button id="tambah_rekanan" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i> Tambah </button></div>
                 </div>
               
                 
@@ -181,7 +181,7 @@ endforeach;
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button id="save_masterrekanan" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Tambah</button>
+                        <button id="save_masterrekanan" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Simpan</button>
                       </div>
                     </div>
                   </div>
