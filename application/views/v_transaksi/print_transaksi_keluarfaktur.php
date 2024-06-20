@@ -84,7 +84,7 @@ $tglnow = date('d-m-Y');
                     $totalhutang += $item->harga_jual;
                     $pembayaran = 'Hutang';
                 } else {
-                    $totaltunai += $item->harga_jual;
+                    // $totaltunai += $item->harga_jual;
                     $pembayaran = 'Tunai';
                 }
                 ?>
@@ -100,8 +100,14 @@ $tglnow = date('d-m-Y');
             <?php endforeach; ?>
             <tr>
                 <td colspan="6" class="right">Total Yang Belum Dibayarkan:</td>
-                <td style="text-align: center;">Rp. <?php $final_hutang = $totalhutang - $totaltunai;
-                echo $final_hutang; ?></td>
+                <td style="text-align: center;">Rp. <?php
+                if($totalhutang == $totaltunai){
+                    $final_hutang = $totalhutang - $totaltunai;
+                    echo $final_hutang;
+                }else{
+                    echo $totalhutang;
+                } 
+                 ?></td>
             </tr>
             <tr>
                 <td colspan="6" class="right">Total Yang Sudah Dibayarkan:</td>

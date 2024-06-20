@@ -1,4 +1,5 @@
 <?php 
+// dd($get_barang);
 foreach ($get_barang as $row):
     $kode_transaksi = $row -> kode_transaksi;
     $kd_retur = $row -> kd_retur;
@@ -75,7 +76,11 @@ $tglnow = date('d-m-Y H:i:s');
                     <td><?= $no++;?></td>
                     <td><?= $item -> kd_retur;?></td>
                     <td><?= $item -> nama_barangasli . '&nbsp;' . $item -> tahun_barang . '&nbsp;' . $item -> kode_bulan . '&nbsp;' . $item -> kode_urut;?></td>
-                    <td><?= $item -> nama_barangganti . '&nbsp;' . $item -> tahun_barangganti . '&nbsp;' . $item -> kode_bulanganti . '&nbsp;' . $item -> kode_urutganti;?></td>
+                    <td><?php if($item -> id_barang_ganti == 0){
+                        echo 'Tidak ada barang pengganti';
+                    }else{
+                        echo $item -> nama_barangganti . '&nbsp;' . $item -> tahun_barangganti . '&nbsp;' . $item -> kode_bulanganti . '&nbsp;' . $item -> kode_urutganti;
+                    } ?></td>
                     <td><?= $item -> alasan_retur;?></td>
                     <td><?= $tglretur;?></td>
                 </tr>

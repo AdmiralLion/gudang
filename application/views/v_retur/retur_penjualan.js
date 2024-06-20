@@ -65,7 +65,7 @@
       $.ajax({
         type:"POST",
         data:{
-          tgl_retur:tgl_retur
+          tanggal_transaksi:tgl_retur
         },
         url: "../Transaksi/getdatatransaksikeluar",
         cache: false,

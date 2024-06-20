@@ -96,7 +96,7 @@ $tglnow = date('d-m-Y H:i:s');
                                     $totalhutang += $item->harga_jual;
                                     echo 'Hutang';
                                 }else{
-                                    $totaltunai += $item->harga_jual;
+                                    // $totaltunai += $item->harga_jual;
                                     echo 'Tunai';
                                 };?>
                     </td>
@@ -106,8 +106,12 @@ $tglnow = date('d-m-Y H:i:s');
             <?php endforeach; ?>
             <tr>
                 <td colspan="7" style="padding:10px;">&nbsp;</td>
-                <td colspan="4" style="padding:10px;">Total Yang Belum Dibayarkan: Rp.<?php $final_hutang = $totalhutang - $totaltunai;
-                echo $final_hutang; ?></td>
+                <td colspan="4" style="padding:10px;">Total Yang Belum Dibayarkan: Rp.<?php if($totalhutang == $totaltunai){
+                    $final_hutang = $totalhutang - $totaltunai;
+                    echo $final_hutang;
+                }else{
+                    echo $totalhutang;
+                }  ?></td>
             </tr>
             <tr>
                 <td colspan="7" style="padding:10px;">&nbsp;</td>

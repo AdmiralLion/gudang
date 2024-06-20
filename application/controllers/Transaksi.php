@@ -603,6 +603,7 @@ class Transaksi extends CI_Controller {
         $id_user = $this->session->userdata('id_user');
         $data['user'] = $this->m_master->getuser($id_user);
         $data['get_barang'] = $this->m_transaksi->get_retur_stok($id);
+        // dd($data);
 		$this->load->view('v_retur/print_retur_penjualan.php',$data);
     }
 

@@ -396,17 +396,27 @@ class m_transaksi extends CI_Model {
     }
 
     public function get_retur_stok($id){
+        // echo $id;
+        // $test = "SELECT * FROM b_retur_keluar WHERE id = '$id'";
+        // echo $test;
         $getkdtrans = $this->db->query("SELECT * FROM b_retur_keluar WHERE id = '$id'");
-
+        // dd($getkdtrans);
         foreach($getkdtrans->result() as $rw):
             $kd_transaksi = $rw -> kd_transaksi;
+            $id_barangganti = $rw -> id_barang_ganti;
+            // dd($rw);
         endforeach;
-
-        $query = $this -> db -> query("SELECT brk.*,bbk.*,mb.`nama_barang` AS nama_barangasli,mb2.`nama_barang` nama_barangganti,bbm.`kode_bulan` kode_bulanganti
-        ,bbm.`kode_urut` kode_urutganti,bbm.`tahun_barang` tahun_barangganti FROM b_retur_keluar brk 
+        if($id_barangganti == 0){
+            $tambahquer = "";
+            $tampilquer = "";
+        }else{
+            $tambahquer = "JOIN b_barang_masuk bbm ON brk.`id_barang_ganti` = bbm.`id` JOIN m_barang mb2 ON bbm.`id_barang` = mb2.`id`";
+            $tampilquer = ",mb2.`nama_barang` nama_barangganti,bbm.`kode_bulan` kode_bulanganti
+            ,bbm.`kode_urut` kode_urutganti,bbm.`tahun_barang` tahun_barangganti";
+        }
+        $query = $this -> db -> query("SELECT brk.*,bbk.*,mb.`nama_barang` AS nama_barangasli $tampilquer FROM b_retur_keluar brk 
         INNER JOIN b_barang_keluar bbk ON brk.`id_transaksi` =  bbk.`id`
-         JOIN m_barang mb ON bbk.`id_barang` = mb.id JOIN b_barang_masuk bbm ON brk.`id_barang_ganti` = bbm.`id` 
-         JOIN m_barang mb2 ON bbm.`id_barang` = mb2.`id`
+         JOIN m_barang mb ON bbk.`id_barang` = mb.id $tambahquer
         WHERE brk.`kd_transaksi` = '$kd_transaksi' GROUP BY brk.id");
        return $query->result();
     }
