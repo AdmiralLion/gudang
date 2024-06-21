@@ -414,6 +414,13 @@ class Transaksi extends CI_Controller {
 
         // Generate the transaction code
         $transactionCode = $jumlah.'/ABS/KLR/'.$bulan.'/'.$tahun;
+        $cektranscodde = $this-> m_transaksi -> cekkodetransklr($transactionCode);
+        while (count($cektranscodde) > 0) {
+            $jumlah++;
+            $transactionCode = $jumlah . '/ABS/KLR/' . $bulan . '/' . $tahun;
+            $cektranscodde = $this->m_transaksi->cekkodetransklr($transactionCode);
+        }
+
     
         return $transactionCode;
     }

@@ -232,6 +232,11 @@ class m_transaksi extends CI_Model {
         return $query->result();
     }
 
+    public function cekkodetransklr($transactionCode){
+        $query = $this->db->query("SELECT * FROM b_transaksi_keluar WHERE kode_transaksi = '$transactionCode'");
+        return $query->result();
+    }
+
     public function insert_transaksi_keluar($kd_transaksi,$nama_pembeli,$jatuh_tempo,$batas_klaim,$jumlah_bayar,$jumlah_potongan,$id_user,$cekhutang){
         $tgl = date('Y-m-d H:i:s');
         $query = $this->db->query("INSERT INTO b_transaksi_keluar VALUES('','$kd_transaksi','$nama_pembeli','$cekhutang',null,'$jatuh_tempo','$jumlah_bayar','$jumlah_potongan','$batas_klaim','$id_user','$tgl')");
