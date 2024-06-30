@@ -363,7 +363,7 @@ class m_laporan extends CI_Model {
         FROM b_barang_keluar bbk 
         INNER JOIN b_barang_masuk bbm ON bbk.`id_stok` = bbm.`id`
         INNER JOIN m_barang b ON bbk.id_barang = b.id 
-        INNER JOIN m_merk m ON bbk.id_merk = m.id INNER JOIN a_user u ON bbk.`user_act` = u.`id` WHERE $tambahanquer ORDER BY bbk.tgl_act ASC" );
+        INNER JOIN m_merk m ON bbk.id_merk = m.id INNER JOIN a_user u ON bbk.`user_act` = u.`id` WHERE bbk.is_retur IS NULL AND $tambahanquer ORDER BY bbk.tgl_act ASC" );
         return $query->result();
     }
 
