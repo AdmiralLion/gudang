@@ -287,7 +287,7 @@ class m_transaksi extends CI_Model {
         bbk.kode_urut,bbk.harga_jual, btk.nama_pembeli,bbk.is_hutang,bbk.jns_penjualan,bbk.kualitas, DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') as tgl_act,DATE_FORMAT(btk.tgl_jatuhtempo,'%d-%m-%Y') as tgl_jatuhtempo FROM b_transaksi_keluar btk 
         JOIN b_barang_keluar bbk ON btk.kode_transaksi = bbk.kode_transaksi JOIN m_barang mb ON bbk.id_barang = mb.id 
         JOIN m_merk m ON bbk.id_merk = m.id JOIN m_satuan ms ON mb.satuan_barang = ms.id
-        WHERE btk.id = '$id'");
+        WHERE btk.id = '$id' AND bbk.is_retur IS NULL");
         return $query->result();
     }
 
