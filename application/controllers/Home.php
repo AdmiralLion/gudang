@@ -72,48 +72,93 @@ class Home extends CI_Controller {
     public function master_barang()
     {
         $data['user'] = $this->get_user();
-        $data['satuan'] = $this->m_master->get_mastersatuan();
-        $data['JavaScriptTambahan'] = $this->load->view('v_master/master_barang.js',$data,TRUE);
-		$this->load->view('v_master/v_master_barang.php',$data);
+        foreach($data['user'] as $rw):
+            $akses = $rw -> hak_akses;
+        endforeach;
+        if($akses == '1'){
+            $data['satuan'] = $this->m_master->get_mastersatuan();
+            $data['JavaScriptTambahan'] = $this->load->view('v_master/master_barang.js',$data,TRUE);
+            $this->load->view('v_master/v_master_barang.php',$data);
+        }else{
+            redirect('home');
+        }
     }
 
     public function master_rekanan()
     {
         $data['user'] = $this->get_user();
-        $data['JavaScriptTambahan'] = $this->load->view('v_master/master_rekanan.js',$data,TRUE);
-		$this->load->view('v_master/v_master_rekanan.php',$data);
+        foreach($data['user'] as $rw):
+            $akses = $rw -> hak_akses;
+        endforeach;
+        if($akses == '1'){
+            $data['JavaScriptTambahan'] = $this->load->view('v_master/master_rekanan.js',$data,TRUE);
+		    $this->load->view('v_master/v_master_rekanan.php',$data);
+        }else{
+            redirect('home');
+        }
+        
     }
 
     public function master_satuan()
     {
         $data['user'] = $this->get_user();
-        $data['JavaScriptTambahan'] = $this->load->view('v_master/master_satuan.js',$data,TRUE);
-		$this->load->view('v_master/v_master_satuan.php',$data);
+        foreach($data['user'] as $rw):
+            $akses = $rw -> hak_akses;
+        endforeach;
+        if($akses == '1'){
+            $data['JavaScriptTambahan'] = $this->load->view('v_master/master_satuan.js',$data,TRUE);
+            $this->load->view('v_master/v_master_satuan.php',$data);
+        }else{
+            redirect('home');
+        }
     }
 
     
     public function master_harga()
     {
         $data['user'] = $this->get_user();
-        $data['JavaScriptTambahan'] = $this->load->view('v_master/master_harga.js',$data,TRUE);
-		$this->load->view('v_master/v_master_harga.php',$data);
+        foreach($data['user'] as $rw):
+            $akses = $rw -> hak_akses;
+        endforeach;
+        if($akses == '1'){
+            $data['JavaScriptTambahan'] = $this->load->view('v_master/master_harga.js',$data,TRUE);
+            $this->load->view('v_master/v_master_harga.php',$data);
+        }else{
+            redirect('home');
+        }
+
     }
 
     public function master_merk()
     {
         $data['user'] = $this->get_user();
-        $data['JavaScriptTambahan'] = $this->load->view('v_master/master_merk.js',$data,TRUE);
-		$this->load->view('v_master/v_master_merk.php',$data);
+        foreach($data['user'] as $rw):
+            $akses = $rw -> hak_akses;
+        endforeach;
+        if($akses == '1'){
+            $data['JavaScriptTambahan'] = $this->load->view('v_master/master_merk.js',$data,TRUE);
+            $this->load->view('v_master/v_master_merk.php',$data);
+        }else{
+            redirect('home');
+        }
+
     }
 
     public function transaksi_masuk()
     {
         $data['user'] = $this->get_user();
-        $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
-        $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
-        $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
-        $data['JavaScriptTambahan'] = $this->load->view('v_transaksi/transaksi_masuk.js',$data,TRUE);
-		$this->load->view('v_transaksi/v_transaksi_masuk.php',$data);
+        foreach($data['user'] as $rw):
+            $akses = $rw -> hak_akses;
+        endforeach;
+        if($akses == '1'){
+            $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
+            $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
+            $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
+            $data['JavaScriptTambahan'] = $this->load->view('v_transaksi/transaksi_masuk.js',$data,TRUE);
+            $this->load->view('v_transaksi/v_transaksi_masuk.php',$data);
+        }else{
+            redirect('home');
+        }
     }
 
     public function stok_barang()
@@ -126,11 +171,18 @@ class Home extends CI_Controller {
     public function transaksi_keluar()
     {
         $data['user'] = $this->get_user();
-        $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
-        $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
-        $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
-        $data['JavaScriptTambahan'] = $this->load->view('v_transaksi/transaksi_keluar.js',$data,TRUE);
-		$this->load->view('v_transaksi/v_transaksi_keluar.php',$data);
+        foreach($data['user'] as $rw):
+            $akses = $rw -> hak_akses;
+        endforeach;
+        if($akses == '1'){
+            $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
+            $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
+            $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
+            $data['JavaScriptTambahan'] = $this->load->view('v_transaksi/transaksi_keluar.js',$data,TRUE);
+            $this->load->view('v_transaksi/v_transaksi_keluar.php',$data);
+        }else{
+            redirect('home');
+        }
     }
 
     public function transaksi_hutang()
@@ -146,41 +198,71 @@ class Home extends CI_Controller {
     public function retur_jual()
     {
         $data['user'] = $this->get_user();
-        $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
-        $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
-        $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
-        $data['JavaScriptTambahan'] = $this->load->view('v_retur/retur_penjualan.js',$data,TRUE);
-		$this->load->view('v_retur/v_retur_penjualan.php',$data);
+        foreach($data['user'] as $rw):
+            $akses = $rw -> hak_akses;
+        endforeach;
+        if($akses == '1'){
+            $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
+            $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
+            $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
+            $data['JavaScriptTambahan'] = $this->load->view('v_retur/retur_penjualan.js',$data,TRUE);
+            $this->load->view('v_retur/v_retur_penjualan.php',$data);
+        }else{
+            redirect('home');
+        }
     }
 
     public function retur_supplier()
     {
         $data['user'] = $this->get_user();
-        $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
-        $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
-        $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
-        $data['JavaScriptTambahan'] = $this->load->view('v_retur/retur_supplier.js',$data,TRUE);
-		$this->load->view('v_retur/v_retur_supplier.php',$data);
+        foreach($data['user'] as $rw):
+            $akses = $rw -> hak_akses;
+        endforeach;
+        if($akses == '1'){
+            $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
+            $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
+            $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
+            $data['JavaScriptTambahan'] = $this->load->view('v_retur/retur_supplier.js',$data,TRUE);
+            $this->load->view('v_retur/v_retur_supplier.php',$data);
+        }else{
+            redirect('home');
+        }
+
     }
 
     public function laporan()
     {
         $data['user'] = $this->get_user();
-        $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
-        $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
-        $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
-        $data['JavaScriptTambahan'] = $this->load->view('v_laporan/laporan.js',$data,TRUE);
-		$this->load->view('v_laporan/v_laporan.php',$data);
+        foreach($data['user'] as $rw):
+            $akses = $rw -> hak_akses;
+        endforeach;
+        if($akses == '1'){
+            $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
+            $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
+            $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
+            $data['JavaScriptTambahan'] = $this->load->view('v_laporan/laporan.js',$data,TRUE);
+            $this->load->view('v_laporan/v_laporan.php',$data);
+        }else{
+            redirect('home');
+        }
     }
 
     public function transaksi_klaim()
     {
         $data['user'] = $this->get_user();
-        $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
-        $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
-        $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
-        $data['master_barang'] = $this->m_master->get_masterbarangready();
-        $data['JavaScriptTambahan'] = $this->load->view('v_transaksi/transaksi_klaim.js',$data,TRUE);
-		$this->load->view('v_transaksi/v_transaksi_klaim.php',$data);
+        foreach($data['user'] as $rw):
+            $akses = $rw -> hak_akses;
+        endforeach;
+        if($akses == '1'){
+            $data['nama_rekanan'] = $this->m_transaksi->get_namarekanan();
+            $data['nama_barang'] = $this -> m_transaksi->get_namabarang();
+            $data['nama_merk'] = $this -> m_transaksi->get_namamerk();
+            $data['master_barang'] = $this->m_master->get_masterbarangready();
+            $data['JavaScriptTambahan'] = $this->load->view('v_transaksi/transaksi_klaim.js',$data,TRUE);
+            $this->load->view('v_transaksi/v_transaksi_klaim.php',$data);
+        }else{
+            redirect('home');
+        }
+
     }
 }
