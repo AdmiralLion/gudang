@@ -347,7 +347,7 @@ class m_transaksi extends CI_Model {
         $tgl = explode('-', $tanggal_transaksi);
         $bulan = $tgl[0];
         $tahun = $tgl[1];
-        $query = $this->db->query("SELECT btk.id, btk.kode_transaksi,DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') AS tgl,DATE_FORMAT(btk.tgl_jatuhtempo,'%d-%m-%Y') AS tgl_jatuhtempo, btk.nama_pembeli,btk.is_lunas FROM b_transaksi_keluar btk WHERE MONTH(btk.tgl_act) = '$bulan' AND YEAR(btk.tgl_act) = '$tahun'");
+        $query = $this->db->query("SELECT btk.id, btk.kode_transaksi,DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') AS tgl,DATE_FORMAT(btk.tgl_jatuhtempo,'%d-%m-%Y') AS tgl_jatuhtempo, btk.nama_pembeli,btk.is_lunas,btk.is_hutang FROM b_transaksi_keluar btk WHERE MONTH(btk.tgl_act) = '$bulan' AND YEAR(btk.tgl_act) = '$tahun'");
         // var_dump($tanggal_transaksi);
         // die();
         return $query->result();

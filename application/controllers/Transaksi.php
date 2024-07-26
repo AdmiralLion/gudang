@@ -726,7 +726,7 @@ class Transaksi extends CI_Controller {
             $totalharga += $row -> harga_jual;
         endforeach;
         foreach($data3['bayar_awal'] as $rows):
-            $pembayaran += $rows -> bayar;
+            // $pembayaran += $rows -> bayar;
             $totalharga -= $rows -> potongan;
             $potongan = $rows -> potongan;
         endforeach;

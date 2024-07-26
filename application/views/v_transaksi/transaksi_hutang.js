@@ -102,7 +102,7 @@ $(document).ready(function () {
             '"><i class="fa fa-money-bill-wave"></i></button >' +
             '</td>';
 
-            if(data[i].is_lunas == 1){
+            if(data[i].is_lunas == 1 || data[i].is_hutang == 0){
               var btn_indikator = '<td style="text-align:center;">' +
                 '<button  type="button" class="btn btn-success btn-icon " data="' +
                 data[i].id +
