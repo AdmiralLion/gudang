@@ -909,4 +909,55 @@ class Transaksi extends CI_Controller {
 		$this->load->view('v_transaksi/print_hutangfaktur.php',$data);
     }
 
+
+    public function data_masukbarang(){
+        $kode_transaksi = $this->input->post('kode_transaksi');
+        $data['get_barang'] = $this->m_transaksi->get_kdtransaksimasuk($kode_transaksi);
+        echo json_encode($data);
+    }
+
+    public function get_databarangbyid(){
+        $id = $this->input->post('id');
+        $data = $this->m_transaksi->get_idbrgmasuk($id);
+        echo json_encode($data);
+    }
+
+    public function save_editbrg()
+    {
+        $id = $this->input->post('id_brgedit');
+        $nama_barang = $this->input->post('edit_namabrg');
+        $nama_merk = $this->input->post('edit_merkbrg');
+        $tahun_barang = $this->input->post('edit_tahunbrg');
+        $seri_barang = $this->input->post('edit_seribrg');
+        $kode_bulan = $this->input->post('edit_kodebln');
+        $kode_urut = $this->input->post('edit_kodeurut');
+        $jenis_brg = $this->input->post('edit_jenisbrg');
+        $harga_masuk = $this->input->post('edit_hargabrg');
+        $id_user = $this->session->userdata('id_user');
+
+        $data2['get_barangkeluar'] = $this->m_transaksi->get_brgkelbyidbrg($id);
+
+        if(count($data2['get_barangkeluar']) > 0){
+            $data['update_barangkel'] = $this -> m_transaksi -> update_brgkeluar($id,$nama_barang,$nama_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$jenis_brg,$harga_masuk);
+        }
+        $data['update_barang'] = $this -> m_transaksi -> update_brgmasuk($id,$nama_barang,$nama_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$jenis_brg,$harga_masuk);
+
+        if($data['update_barang'] == 'true' OR $data['update_barang'] == TRUE OR $data['update_barang'] == 'TRUE'){
+            $response = [
+                'status' => '200',
+                'message' =>  'Barang berhasil terupdate'
+            ];
+        }else{
+            $response = [
+                'status' => '400',
+                'message' =>  'Barang gagal terupdate'
+            ];
+
+        }
+        header('Content-Type: application/json');
+
+        echo json_encode($response);
+        die();
+        
+    }
 }

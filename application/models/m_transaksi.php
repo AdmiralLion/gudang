@@ -53,6 +53,23 @@ class m_transaksi extends CI_Model {
         return $query->result();
     }
 
+    public function get_kdtransaksimasuk($kode_transaksi){
+        $query = $this->db->query("SELECT bbm.kode_transaksi,bbm.id,mb.nama_barang, ms.nama_satuan, m.nama_merk, bbm.tahun_barang, bbm.seri_barang, bbm.kode_bulan, bbm.kode_urut,bbm.jenis_barang, bbm.harga_barang,DATE_FORMAT(bbm.tgl_act,'%d-%m-%Y') AS tgl_transaksi FROM b_barang_masuk bbm JOIN m_barang mb ON bbm.id_barang = mb.id JOIN m_merk m ON bbm.id_merk = m.id JOIN m_satuan ms ON mb.satuan_barang = ms.id WHERE bbm.kode_transaksi = '$kode_transaksi'");
+        return $query->result();
+    }
+
+    public function get_idbrgmasuk($id){
+        $query = $this->db->query("SELECT bbm.*,mb.nama_barang, ms.nama_satuan, m.nama_merk, DATE_FORMAT(bbm.tgl_act,'%d-%m-%Y') AS tgl_transaksi FROM b_barang_masuk bbm JOIN m_barang mb ON bbm.id_barang = mb.id JOIN m_merk m ON bbm.id_merk = m.id JOIN m_satuan ms ON mb.satuan_barang = ms.id WHERE bbm.id = '$id'");
+        return $query->result();
+    }
+
+    public function get_brgkelbyidbrg($id){
+        $query = $this->db->query("SELECT bbk.*,mb.nama_barang, ms.nama_satuan, m.nama_merk, DATE_FORMAT(bbk.tgl_act,'%d-%m-%Y') AS tgl_transaksi 
+        FROM b_barang_keluar bbk JOIN m_barang mb ON bbk.id_barang = mb.id JOIN m_merk m ON bbk.id_merk = m.id 
+        JOIN m_satuan ms ON mb.satuan_barang = ms.id WHERE bbk.id_stok = '$id'");
+        return $query->result();
+    }
+
     public function get_barang_masuk($id){
         $query = $this->db->query("SELECT btm.kode_transaksi, mb.nama_barang, ms.nama_satuan, m.nama_merk, bbm.tahun_barang, bbm.seri_barang, 
         bbm.kode_bulan, bbm.kode_urut,bbm.jenis_barang, bbm.harga_barang, DATE_FORMAT(btm.tgl_act,'%d-%m-%Y') AS tgl_transaksi, mr.nama_rekanan 
@@ -488,5 +505,44 @@ class m_transaksi extends CI_Model {
         WHERE bth.id = '$id'");
         return $query -> result();
     }
+
+    public function update_brgkeluar($id,$nama_barang,$nama_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$jenis_brg,$harga_masuk){
+        $tgl = date('Y-m-d H:i:s');
+        $data = array(
+            'id_barang' => $nama_barang,
+            'id_merk' => $nama_merk,
+            'tahun_barang' => $tahun_barang,
+            'seri_barang' => $seri_barang,
+            'kode_bulan' => $kode_bulan,
+            'kode_urut' => $kode_urut,
+            'harga_masuk' => $harga_masuk,
+         );
+         
+         $this->db->where('id_stok', $id);
+         $query = $this->db->update('b_barang_keluar', $data);
+
+        return $query;
+    }
+
+
+    public function update_brgmasuk($id,$nama_barang,$nama_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$jenis_brg,$harga_masuk){
+        $tgl = date('Y-m-d H:i:s');
+        $data = array(
+            'id_barang' => $nama_barang,
+            'id_merk' => $nama_merk,
+            'tahun_barang' => $tahun_barang,
+            'seri_barang' => $seri_barang,
+            'kode_bulan' => $kode_bulan,
+            'kode_urut' => $kode_urut,
+            'jenis_barang' => $jenis_brg,
+            'harga_barang' => $harga_masuk,
+         );
+         
+         $this->db->where('id', $id);
+         $query = $this->db->update('b_barang_masuk', $data);
+
+        return $query;
+    }
+
 
 }

@@ -1,6 +1,6 @@
   $(document).ready(function () {
     data_transaksimasuk();
-    // reset_masterbarang();
+    reset_fieldedit();
     // ChangeWidth();
 
     $('#btnlogout').click(function() {
@@ -25,12 +25,17 @@
       });
   });
 
-    function reset_masterbarang()
+    function reset_fieldedit()
     {
-      $('#id_barang').val('');
-      $('#nama_barang').val('');
-      $('#satuan_barang').val('');
-      $('#jenis_barang').val('');
+      $('#id_brgedit').val('');
+      $('#edit_namabrg').val('');
+      $('#edit_merkbrg').val('');
+      $('#edit_tahunbrg').val('');
+      $('#edit_seribrg').val('');
+      $('#edit_kodebln').val('');
+      $('#edit_kodeurut').val('');
+      $('#edit_jenisbrg').val('');
+      $('#edit_hargabrg').val('');
     }
 
     $("#table-1").dataTable();
@@ -85,9 +90,16 @@
                 var btn_transaksimasuk = '<td style="text-align:center;">'+'<a href="<?php echo base_url();?>Transaksi/print_transaksimasuk/'+data[i].id+'" class="btn btn-info btn-icon" target="_blank"><i class="fa fa-print"></i>'+
                 '</td>';
 
+                var btn_edittransmasuk = '<td style="text-align:center;">' +
+                '<button  type="button" class="btn btn-primary btn-icon  editmasuk" data="' +
+                data[i].kode_transaksi +
+                '"><i class="fa fa-pen"></i></button >' +
+                '</td>';
+
                   n++;
                   html = [
                     n,
+                    btn_edittransmasuk,
                     data[i].kode_transaksi,
                     data[i].nama_rekanan,
                     data[i].tgl,
@@ -105,37 +117,98 @@
         });
     }
 
-    $('#data_master_barang').on('click','.barang_edit', function () {
+    $('#data_transaksimasuk').on('click','.editmasuk', function () {
+      var kode_transaksi = $(this).attr('data');
+      $.ajax({
+          type: 'POST',
+          url: "../Transaksi/data_masukbarang",//dilanjut besok
+          data: {
+            kode_transaksi:kode_transaksi
+          }
+        }).done(function(data) {
+          var n =0;
+          var m =0;
+  
+          var data4 = $.parseJSON(data);
+          var list_barang = data4.get_barang;
+          $.each(list_barang, function(i, item) {
+          
+            var btn_editbrg = '<td style="text-align:center;">' +
+              '<button  type="button" class="btn btn-success btn-icon edit_pilihan" data="' + item.id +
+              '" >Edit</button></td>';
+           
+            var row_barang = '<td style="text-align:center;">' + item.nama_barang + ' - ' + item.nama_merk  + ' - ' + item.tahun_barang  + ' - ' + item.seri_barang  + ' - ' + item.kode_bulan  + ' - ' + item.kode_urut + '</td>';
+            n++;
+            var html = [
+                n,
+                item.kode_transaksi,
+                row_barang,
+                item.harga_barang,
+                item.tgl_transaksi,
+                btn_editbrg,
+            ];
+          
+                  // Add the row to DataTables
+                  $("#table-2").DataTable().row.add(html);
+                
+                });
+
+            $("#table-2").DataTable().draw();
+  
+        });
+        $('#modal_editbrg').modal('show');
+  });
+
+    $('#data_barangmsk').on('click','.edit_pilihan', function () {
       var id = $(this).attr('data');
       $.ajax({
           type: 'POST',
-          url: "../Master/get_dataeditmasterbarang",//dilanjut besok
+          url: "../Transaksi/get_databarangbyid",//dilanjut besok
           data: {
             id:id
           }
         }).done(function(data) {
           var data3 = $.parseJSON(data);
           $.each(data3, function (i) {
-            $('#id_barang').val(data3[i].id);
-            $('#nama_barang').val(data3[i].nama_barang);
-            $('#satuan_barang').val(data3[i].satuan_barang);
-            $('#jenis_barang').val(data3[i].jenis_barang);
+            $('#id_brgedit').val(data3[i].id);
+            $('#edit_namabrg').val(data3[i].id_barang).trigger('change');
+            $('#edit_merkbrg').val(data3[i].id_merk).trigger('change');
+            $('#edit_tahunbrg').val(data3[i].tahun_barang);
+            $('#edit_seribrg').val(data3[i].seri_barang);
+            $('#edit_kodebln').val(data3[i].kode_bulan);
+            $('#edit_kodeurut').val(data3[i].kode_urut);
+            $('#edit_jenisbrg').val(data3[i].jenis_barang).trigger('change');
+            $('#edit_hargabrg').val(data3[i].harga_barang);
           });
         });
-        $('#modal_tambahbarang').modal('show');
-  });
+        $(".hidetable").removeAttr("style");
+      });
 
-  $('#data_master_barang').on('click','.barang_hapus', function () {
-    var id = $(this).attr('data');
-    var table = 'm_barang';
-    let text = "Anda yakin untuk menghapus master barang tersebut ?";
+  $('#editdatafinal').on('click','#save_editbrg', function () {
+    var id_brgedit = $('#id_brgedit').val();
+    var edit_namabrg = $('#edit_namabrg').val();
+    var edit_merkbrg = $('#edit_merkbrg').val();
+    var edit_tahunbrg = $('#edit_tahunbrg').val();
+    var edit_seribrg = $('#edit_seribrg').val();
+    var edit_kodebln = $('#edit_kodebln').val();
+    var edit_kodeurut = $('#edit_kodeurut').val();
+    var edit_jenisbrg = $('#edit_jenisbrg').val();
+    var edit_hargabrg = $('#edit_hargabrg').val();
+    let text = "Anda yakin untuk Edit data barang tersebut ?";
     if (confirm(text) == true) {
       $.ajax({
         type: 'POST',
-        url: "../Master/hapus_master",//dilanjut besok
+        url: "../Transaksi/save_editbrg",//dilanjut besok
         data: {
-          id:id,
-          table:table
+          id_brgedit:id_brgedit,
+          edit_namabrg:edit_namabrg,
+          edit_merkbrg:edit_merkbrg,
+          edit_tahunbrg:edit_tahunbrg,
+          edit_seribrg:edit_seribrg,
+          edit_kodebln:edit_kodebln,
+          edit_kodeurut:edit_kodeurut,
+          edit_jenisbrg:edit_jenisbrg,
+          edit_hargabrg:edit_hargabrg,
         }
       }).done(function(response) {
         console.log(response);
@@ -143,12 +216,10 @@
         console.log(pesan);
         if (response.status === '200') {
           alert(response.message);
-          data_masterbarang();
-          $("#table-1").DataTable();
+          location.reload();
       } else {
           alert(response.message);
-          data_masterbarang();
-          $("#table-1").DataTable();
+          location.reload();
         }
       });
         }

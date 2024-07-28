@@ -99,6 +99,7 @@ endforeach;
                             <th class="text-center" style="width:10px;">
                               No
                             </th>
+                            <th class="text-center"  style="width:20px;">Act</th>
                             <th class="text-center">Kode Transaksi</th>
                             <th class="text-center">Rekanan</th>
                             <th class="text-center">Tgl Transaksi</th>
@@ -250,6 +251,123 @@ endforeach;
                       <div class="clear"></div>
   
   </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="save_transaksimasuk" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Simpan</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+                <div class="modal fade" id="modal_editbrg" role="dialog" aria-labelledby="modal_editbrg" aria-hidden="true">
+                  <div class="modal-dialog" style="min-width:100%;" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="modal_editbrg">Edit</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <input type="hidden" name="id_transaksi" id="id_transaksi" value="">
+                        <div class="panel-body">
+                        <table class="table table-striped" id="table-2">
+                        <thead>                                 
+                          <tr>
+                            <th class="text-center" style="width:10px;">
+                              No
+                            </th>
+                            <th class="text-center" style="width:300px;">Kode Transaksi</th>
+                            <th class="text-center">Barang</th>
+                            <th class="text-center"style="width:150px;">Harga</th>
+                            <th class="text-center"style="width:100px;">Tgl</th>
+                            <th class="text-center" style="width:100px;">Act</th>
+                          </tr>
+                        </thead>
+                        <tbody id="data_barangmsk" style="text-align: center;">                                 
+                         
+                        </tbody>
+                      </table>
+                      <br><br>
+                      <input type="hidden" name="id_brgedit" id="id_brgedit">
+                        <div class="hidetable" style="display: none;">
+                          <table class="table table-striped" id="table-3">
+                          <thead>  
+                            <tr>
+                              <th colspan="9" style="background-color: aquamarine;text-align:center;" ><h1>==== EDIT BARANG ====</h1></th>
+                            </tr>                               
+                            <tr>
+                              <th class="text-center" style="width: 100px;">Nama Barang</th>
+                              <th class="text-center" style="width: 50px;">Merk</th>
+                              <th class="text-center" style="width: 100px;">Tahun Barang</th>
+                              <th class="text-center" style="width: 150px;">Seri Barang</th>
+                              <th class="text-center" style="width: 50px;" >Kode Bulan</th>
+                              <th class="text-center" style="width: 120px;">Kode Urut</th>
+                              <th class="text-center" style="width: 100px;">Jenis Barang</th>
+                              <th class="text-center" style="width: 150px;">Harga Masuk</th>
+                              <th class="text-center" style="width: 20px;">Act</th>
+                            </tr>
+                          </thead>
+                          <tbody id="editdatafinal" style="text-align: center;">    
+                            <tr>
+                              <td>
+                                <select class="select2" name="edit_namabrg" id="edit_namabrg" style="width:100%">
+                                  <option value="">--Pilih--</option>
+                                  <?php 
+                                    foreach($nama_barang as $row): ?>
+                                    <option value="<?= $row -> id;?>"><?= $row -> nama_barang;?></option>
+                                    <?php endforeach;?>
+                                </select>
+                              </td>
+                              <td>
+                                <select class="select2" name="edit_merkbrg" id="edit_merkbrg" style="width:100%">
+                                  <option value="">--Pilih--</option>
+                                  <?php 
+                                    foreach($nama_merk as $row): ?>
+                                    <option value="<?= $row -> id;?>"><?= $row -> nama_merk;?></option>
+                                    <?php endforeach;?>
+                                </select>
+                              </td>
+                              <td>
+                                <input type="text" name="edit_tahunbrg" id="edit_tahunbrg" class="form-control">
+                              </td>
+                              <td>
+                                <input type="text" name="edit_seribrg" id="edit_seribrg" class="form-control">
+                              </td>
+                              <td>
+                                <input type="text" name="edit_kodebln" id="edit_kodebln" class="form-control">
+                              </td>
+                              <td>
+                                <input type="text" name="edit_kodeurut" id="edit_kodeurut" class="form-control">
+                              </td>
+                              <td>
+                                <select class="select2" name="edit_jenisbrg" id="edit_jenisbrg" style="width:100%">
+                                  <option value="">--Pilih--</option>
+                                  <option value="Jasa">Jasa</option>
+                                  <option value="Panas">Panas</option>
+                                  <option value="Dingin">Dingin</option>
+                                  <option value="Overtread">Overtread</option>
+                                  <option value="Afkir">Afkir</option>
+                                  <option value="Baru">Baru</option>
+                                  <option value="Ori">Ori</option>
+                                  <option value="Tebelan">Tebelan</option>
+                                </select>
+                              </td>
+                              <td>
+                                <input type="text" name="edit_hargabrg" id="edit_hargabrg" class="form-control">
+                              </td>
+                              <td>
+                                <button type="button" class="btn btn-warning btn-icon btn-small" id="save_editbrg"><i class="fa fa-save"></i>
+                                </button>
+                              </td>
+                            </tr>   
+                          </tbody>
+                        </table>
+                        </div>
+                         </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button id="save_transaksimasuk" type="button" class="btn btn-icon icon-left btn-primary"><i class="fa fa-plus"></i>Simpan</button>
