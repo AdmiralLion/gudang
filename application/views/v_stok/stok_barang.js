@@ -103,6 +103,7 @@ $(document).ready(function () {
                   data[i].seri_barang,
                   data[i].kode_bulan,
                   data[i].kode_urut,
+                  data[i].jenis_barang,
                   cekstok
                 ];
         

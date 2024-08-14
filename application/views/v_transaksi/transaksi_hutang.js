@@ -310,6 +310,16 @@ $('#data_master_barang').on('click','.barang_hapus', function () {
 
 });
 
+$(document).keyup(function(e) {    
+  if (e.keyCode == 27) { //escape key
+
+
+
+      //reload the page if you still need to
+      window.location.reload();
+  }
+});
+
 var room = 1;
 function education_fields() {
 
