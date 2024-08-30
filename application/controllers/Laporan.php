@@ -62,8 +62,18 @@ class Laporan extends CI_Controller {
         $id_user = $this->session->userdata('id_user');
         $data['user'] = $this->m_master->getuser($id_user);
         $data['get_barang'] = $this->m_laporan->lap_barang_keluar($jangka_waktu,$tgl);
-        // var_dump($data);
-        // die();
+        $temp = [];
+        $totpotongan = 0;
+        foreach($data['get_barang'] as $row):
+            $kodetrans = $row -> kode_transaksi;
+            if(!in_array($kodetrans,$temp)){
+                array_push($temp,$kodetrans);
+                $res = $this -> m_laporan -> potongan_barang_keluar2($kodetrans);
+                $nilai =  $res[0] -> potongan;
+                $totpotongan = $nilai + $totpotongan;
+            }
+        endforeach;
+        $data['totpotongan'] = $totpotongan;
 		$this->load->view('v_laporan/print_laporan_barang_keluar.php',$data);
     }
 

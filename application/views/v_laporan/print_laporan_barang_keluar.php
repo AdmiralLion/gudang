@@ -2,6 +2,7 @@
 <html lang="en">
   <?php $tgl = $_GET['tgl'];
   $jns_lap = $_GET['jnslap']; 
+
   if($jns_lap == 'excel'){
     header("Content-Type:   application/vnd.ms-excel; charset=utf-8");
     header("Content-Disposition: attachment; filename=lap_barang_keluar_".$tgl.".xls"); 
@@ -166,7 +167,7 @@
             <td colspan="11" style="text-align: right;">Modal</td><td colspan="4"> Rp. <?= $hargamodal;?></td>
         </tr>
         <tr>
-            <td colspan="11" style="text-align: right;">Laba Kotor</td><td colspan="4"> Rp. <?= $hargalaba;?></td>
+            <td colspan="11" style="text-align: right;">Laba Kotor</td><td colspan="4"> Rp. <?= $hargalaba - $totpotongan;?></td>
         </tr>
         <tr>
             <td colspan="11" style="text-align: right;">Laba Bersih</td><td colspan="4"> Rp. <?= $hargalaba - $hargamodal;?></td>
