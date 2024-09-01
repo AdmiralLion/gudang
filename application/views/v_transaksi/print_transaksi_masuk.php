@@ -65,6 +65,7 @@ $tglnow = date('d-m-Y H:i:s');
                 <th>Kode Bulan</th>
                 <th>Kode Urut</th>
                 <th>Jenis Barang</th>
+                <th>Kualitas</th>
                 <th style="width: 150px;">Harga</th>
             </tr>
             <!-- Loop through transaction items and display each row -->
@@ -82,12 +83,13 @@ $tglnow = date('d-m-Y H:i:s');
                     <td><?= $item -> kode_bulan;?></td>
                     <td><?= $item -> kode_urut;?></td>
                     <td><?= $item -> jenis_barang;?></td>
+                    <td><?= $item -> kualitas;?></td>
                     <td>Rp. <?= $item -> harga_barang;?></td>
 
                 </tr>
             <?php endforeach; ?>
             <tr>
-                <td colspan="8" style="padding:10px;">&nbsp;</td>
+                <td colspan="9" style="padding:10px;">&nbsp;</td>
                 <td colspan="2" style="padding:10px;">Total Harga: Rp.<?php echo $totalharga; ?></td>
             </tr>
         </table>

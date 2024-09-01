@@ -297,7 +297,7 @@ endforeach;
                           <table class="table table-striped" id="table-3">
                           <thead>  
                             <tr>
-                              <th colspan="9" style="background-color: aquamarine;text-align:center;" ><h1>==== EDIT BARANG ====</h1></th>
+                              <th colspan="10" style="background-color: aquamarine;text-align:center;" ><h1>==== EDIT BARANG ====</h1></th>
                             </tr>                               
                             <tr>
                               <th class="text-center" style="width: 100px;">Nama Barang</th>
@@ -307,6 +307,7 @@ endforeach;
                               <th class="text-center" style="width: 50px;" >Kode Bulan</th>
                               <th class="text-center" style="width: 120px;">Kode Urut</th>
                               <th class="text-center" style="width: 100px;">Jenis Barang</th>
+                              <th class="text-center" style="width: 100px;">Kualitas</th>
                               <th class="text-center" style="width: 150px;">Harga Masuk</th>
                               <th class="text-center" style="width: 20px;">Act</th>
                             </tr>
@@ -354,6 +355,14 @@ endforeach;
                                   <option value="Baru">Baru</option>
                                   <option value="Ori">Ori</option>
                                   <option value="Tebelan">Tebelan</option>
+                                </select>
+                              </td>
+                              <td>
+                                <select class="select2" name="edit_kualitas" id="edit_kualitas" style="width:100%">
+                                  <option value="">--Pilih--</option>
+                                  <option value="AA">AA</option>
+                                  <option value="BB">BB</option>
+                                  <option value="CC">CC</option>
                                 </select>
                               </td>
                               <td>

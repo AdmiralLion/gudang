@@ -47,6 +47,7 @@ class Transaksi extends CI_Controller {
         $seri_barang = $this->input->post('seri_barang');
         $kode_bulan = $this->input->post('kode_bulan');
         $kode_urut = $this->input->post('kode_urut');
+        $kualitas = $this->input->post('kualitas');
         $harga_masuk = $this->input->post('harga_masuk');
         $id_user = $this->session->userdata('id_user');
         // var_dump($transaksi_temp);
@@ -67,8 +68,9 @@ class Transaksi extends CI_Controller {
                 $kode_bulan = $row['kode_bulan'];
                 $kode_urut = $row['kode_urut'];
                 $jns_brg = $row['jns_brg'];
+                $kualitas = $row['kualitas'];
                 $harga_masuk = $row['harga_masuk'];
-                $data['insert_barang'] = $this -> m_transaksi -> insert_stok($kd_transaksi,$nama_barang,$nama_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$jns_brg,$harga_masuk,$id_user);
+                $data['insert_barang'] = $this -> m_transaksi -> insert_stok($kd_transaksi,$nama_barang,$nama_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$jns_brg,$kualitas,$harga_masuk,$id_user);
             endforeach;
             if($data['insert_barang'] == 'true' OR $data['insert_barang'] == TRUE OR $data['insert_barang'] == 'TRUE'){
                 $response = [
@@ -455,10 +457,9 @@ class Transaksi extends CI_Controller {
                     $hutang = '0';
                 }
                 $klaim = 0;
-                $kualitas = $row['kualitas'];
                 $harga_keluar = $row['harga_keluar'];
                 foreach($data['detail'] as $det):
-                    $data['transaksi_keluar'] = $this -> m_transaksi -> insert_barang_keluar($kd_transaksi,$det->id_transaksi,$det -> id_barang,$det -> id_merk ,$det -> tahun_barang,$det -> seri_barang,$det -> kode_bulan,$det -> kode_urut,$det -> harga_barang,$hutang,$klaim,$jns_brg,$kualitas,$harga_keluar,$id_user);
+                    $data['transaksi_keluar'] = $this -> m_transaksi -> insert_barang_keluar($kd_transaksi,$det->id_transaksi,$det -> id_barang,$det -> id_merk ,$det -> tahun_barang,$det -> seri_barang,$det -> kode_bulan,$det -> kode_urut,$det -> harga_barang,$hutang,$klaim,$jns_brg,$det -> kualitas,$harga_keluar,$id_user);
                     $data['update_stok'] = $this -> m_transaksi -> update_stok($nama_barang);
                 endforeach;
             endforeach;
@@ -932,15 +933,16 @@ class Transaksi extends CI_Controller {
         $kode_bulan = $this->input->post('edit_kodebln');
         $kode_urut = $this->input->post('edit_kodeurut');
         $jenis_brg = $this->input->post('edit_jenisbrg');
+        $kualitas = $this->input->post('edit_kualitas');
         $harga_masuk = $this->input->post('edit_hargabrg');
         $id_user = $this->session->userdata('id_user');
 
         $data2['get_barangkeluar'] = $this->m_transaksi->get_brgkelbyidbrg($id);
 
         if(count($data2['get_barangkeluar']) > 0){
-            $data['update_barangkel'] = $this -> m_transaksi -> update_brgkeluar($id,$nama_barang,$nama_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$jenis_brg,$harga_masuk);
+            $data['update_barangkel'] = $this -> m_transaksi -> update_brgkeluar($id,$nama_barang,$nama_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$jenis_brg,$kualitas,$harga_masuk);
         }
-        $data['update_barang'] = $this -> m_transaksi -> update_brgmasuk($id,$nama_barang,$nama_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$jenis_brg,$harga_masuk);
+        $data['update_barang'] = $this -> m_transaksi -> update_brgmasuk($id,$nama_barang,$nama_merk,$tahun_barang,$seri_barang,$kode_bulan,$kode_urut,$jenis_brg,$kualitas,$harga_masuk);
 
         if($data['update_barang'] == 'true' OR $data['update_barang'] == TRUE OR $data['update_barang'] == 'TRUE'){
             $response = [

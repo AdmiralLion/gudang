@@ -137,7 +137,7 @@
               '<button  type="button" class="btn btn-success btn-icon edit_pilihan" data="' + item.id +
               '" >Edit</button></td>';
            
-            var row_barang = '<td style="text-align:center;">' + item.nama_barang + ' - ' + item.nama_merk  + ' - ' + item.tahun_barang  + ' - ' + item.seri_barang  + ' - ' + item.kode_bulan  + ' - ' + item.kode_urut + '</td>';
+            var row_barang = '<td style="text-align:center;">' + item.nama_barang + ' - ' + item.nama_merk  + ' - ' + item.tahun_barang  + ' - ' + item.seri_barang  + ' - ' + item.kode_bulan  + ' - ' + item.kode_urut + ' - ' + item.kualitas + '</td>';
             n++;
             var html = [
                 n,
@@ -178,6 +178,7 @@
             $('#edit_kodebln').val(data3[i].kode_bulan);
             $('#edit_kodeurut').val(data3[i].kode_urut);
             $('#edit_jenisbrg').val(data3[i].jenis_barang).trigger('change');
+            $('#edit_kualitas').val(data3[i].kualitas).trigger('change');
             $('#edit_hargabrg').val(data3[i].harga_barang);
           });
         });
@@ -193,6 +194,7 @@
     var edit_kodebln = $('#edit_kodebln').val();
     var edit_kodeurut = $('#edit_kodeurut').val();
     var edit_jenisbrg = $('#edit_jenisbrg').val();
+    var edit_kualitas = $('#edit_kualitas').val();
     var edit_hargabrg = $('#edit_hargabrg').val();
     let text = "Anda yakin untuk Edit data barang tersebut ?";
     if (confirm(text) == true) {
@@ -208,6 +210,7 @@
           edit_kodebln:edit_kodebln,
           edit_kodeurut:edit_kodeurut,
           edit_jenisbrg:edit_jenisbrg,
+          edit_kualitas:edit_kualitas,
           edit_hargabrg:edit_hargabrg,
         }
       }).done(function(response) {
@@ -239,6 +242,7 @@
         var kode_bulan = $(this).find('#kode_bulan').val();
         var kode_urut = $(this).find('#kode_urut').val();
         var jns_brg = $(this).find('#jns_brg').val();
+        var kualitas = $(this).find('#kualitas').val();
         var harga_masuk = $(this).find('#harga_masuk').val();
         console.log(nama_barang);
         console.log(harga_masuk);
@@ -253,6 +257,7 @@
             kode_bulan: kode_bulan,
             kode_urut: kode_urut,
             jns_brg:jns_brg,
+            kualitas:kualitas,
             harga_masuk: harga_masuk
         });
         }
@@ -335,13 +340,16 @@ function education_fields() {
     '<div class="col-sm-1 nopadding"><div class="form-group"> <label for="Merk">Merk :</label><br><select class="select2" style="width:100%" id="nama_merk" name="nama_merk[]">' +'<option value="">--Merk--</option>'+
     options2 +
     '</select></div></div>'+
-    '<div class="col-sm-2 nopadding"><div class="form-group"><label for="Urut">Jenis Barang :</label> <br> <select class="select2" style="width:100%" id="jns_brg" name="jns_brg[]">' +'<option value="">Jenis barang</option>'+
+    '<div class="col-sm-1 nopadding"><div class="form-group"><label for="Urut">Jenis :</label> <br> <select class="select2" style="width:100%" id="jns_brg" name="jns_brg[]">' +'<option value="">Jenis barang</option>'+
   '<option value="Jasa">Jasa</option>'+'<option value="Panas">Panas</option>'+'<option value="Dingin">Dingin</option>'+'<option value="Overtread">Overtread</option>'+'<option value="Afkir">Afkir</option>'+'<option value="Baru">Baru</option>'+'<option value="Bekas">Bekas</option>'+'<option value="Ori">Ori</option>'+'<option value="Tebelan">Tebelan</option>'+
   '</select></div></div>'+
     '<div class="col-sm-1 nopadding"><div class="form-group"><label for="Tahun">Tahun :</label><br> <input type="text" class="form-control" id="tahun_barang" name="tahun_barang[]" value="" placeholder="Tahun"></div></div>'+
     '<div class="col-sm-1 nopadding"><div class="form-group"><label for="Seri">Seri :</label> <br> <input type="text" class="form-control" id="seri_barang" name="seri_barang[]" value="" placeholder="Seri"></div></div>'+
     '<div class="col-sm-1 nopadding"><div class="form-group"><label for="Bulan">Bulan :</label> <br> <input type="text" class="form-control" id="kode_bulan" name="kode_bulan[]" value="" placeholder="Bulan"></div></div>'+
     '<div class="col-sm-1 nopadding"><div class="form-group"><label for="Urut">Urut :</label> <br> <input type="text" class="form-control" id="kode_urut" name="kode_urut[]" value="" placeholder="Urut"></div></div>'+
+    '<div class="col-sm-1 nopadding"><div class="form-group"><label for="Urut">Kualitas :</label> <br> <select class="select2" style="width:100%" id="kualitas" name="kualitas[]">' +'<option value="">Kualitas Barang</option>'+
+    '<option value="AA">AA</option>'+'<option value="BB">BB</option>'+'<option value="CC">CC</option>'+
+    '</select></div></div>'+
     '<div class="col-sm-2 nopadding"><div class="form-group"><label for="Harga Masuk">Harga Masuk :</label> <br><div class="input-group"><input type="text" placeholder="Harga" class="form-control" name="harga_masuk[]" id="harga_masuk" onkeyup="hitung_harga()"> &nbsp; &nbsp;<div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_education_fields('+ room +');"> <span class="fa fa-minus" aria-hidden="true"></span> </button></div></div></div></div><div class="clear"></div></div>';
     objTo.appendChild(divtest);
     // Get the current year and month
