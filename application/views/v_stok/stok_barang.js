@@ -98,6 +98,7 @@ $(document).ready(function () {
                 html = [
                   n,
                   data[i].nama_barang,
+                  data[i].kode_transaksi,
                   data[i].nama_merk,
                   data[i].tahun_barang,
                   data[i].seri_barang,

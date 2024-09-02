@@ -105,6 +105,7 @@ endforeach;
                               No
                             </th>
                             <th class="text-center">Nama barang</th>
+                            <th class="text-center">Kode Transaksi</th>
                             <th class="text-center">Nama merk</th>
                             <th class="text-center">Tahun</th>
                             <th class="text-center">Seri</th>
