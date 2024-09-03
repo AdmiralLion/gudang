@@ -3,6 +3,50 @@
   <?php $tgl = $_GET['tgl'];
   $jns_lap = $_GET['jnslap']; 
 
+  function rupiah($angka){
+	
+        $hasil_rupiah = "Rp " . number_format($angka,0,",",".");
+        return $hasil_rupiah;
+        
+    }
+
+    function penyebut($nilai) {
+        $nilai = abs($nilai);
+        $huruf = array("", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas");
+        $temp = "";
+        if ($nilai < 12) {
+            $temp = " ". $huruf[$nilai];
+        } else if ($nilai <20) {
+            $temp = penyebut($nilai - 10). " Belas";
+        } else if ($nilai < 100) {
+            $temp = penyebut($nilai/10)." Puluh". penyebut($nilai % 10);
+        } else if ($nilai < 200) {
+            $temp = " Seratus" . penyebut($nilai - 100);
+        } else if ($nilai < 1000) {
+            $temp = penyebut($nilai/100) . " Ratus" . penyebut($nilai % 100);
+        } else if ($nilai < 2000) {
+            $temp = " Seribu" . penyebut($nilai - 1000);
+        } else if ($nilai < 1000000) {
+            $temp = penyebut($nilai/1000) . " Ribu" . penyebut($nilai % 1000);
+        } else if ($nilai < 1000000000) {
+            $temp = penyebut($nilai/1000000) . " Juta" . penyebut($nilai % 1000000);
+        } else if ($nilai < 1000000000000) {
+            $temp = penyebut($nilai/1000000000) . " Milyar" . penyebut(fmod($nilai,1000000000));
+        } else if ($nilai < 1000000000000000) {
+            $temp = penyebut($nilai/1000000000000) . " Trilyun" . penyebut(fmod($nilai,1000000000000));
+        }     
+        return $temp;
+    }
+
+    function terbilang($nilai) {
+        if($nilai<0) {
+            $hasil = "minus ". trim(penyebut($nilai));
+        } else {
+            $hasil = trim(penyebut($nilai));
+        }     		
+        return $hasil;
+    }
+
   if($jns_lap == 'excel'){
     header("Content-Type:   application/vnd.ms-excel; charset=utf-8");
     header("Content-Disposition: attachment; filename=lap_barang_keluar_".$tgl.".xls"); 
@@ -140,8 +184,8 @@
             <td style="text-align:center;"><?= $row -> kode_bulan;?></td>
             <td style="text-align:center;"><?= $row -> kode_urut;?></td>
             <td style="text-align:center;"><?= $row -> kualitas;?></td>
-            <td style="text-align:center;"><?= $row -> harga_barang;?></td>
-            <td style="text-align:center;"><?= $row -> harga_jual;?></td>
+            <td style="text-align:center;"><?php echo rupiah($row -> harga_barang);?></td>
+            <td style="text-align:center;"><?php echo rupiah($row -> harga_jual);?></td>
             <td style="text-align:center;"><?= $row -> nama_user;?></td>
             <td style="text-align:center;">
             <?php if($row -> is_retur == '1'){
@@ -164,13 +208,20 @@
         </tr>
         <?php endforeach; ?>
         <tr>
-            <td colspan="11" style="text-align: right;">Modal</td><td colspan="4"> Rp. <?= $hargamodal;?></td>
+            <td colspan="8" style="text-align: right;">Modal</td><td colspan="7">  <?php echo rupiah($hargamodal);?> <br>
+        Terbilang : <?= terbilang($hargamodal); ?>  Rupiah </td>
         </tr>
         <tr>
-            <td colspan="11" style="text-align: right;">Laba Kotor</td><td colspan="4"> Rp. <?= $hargalaba - $totpotongan;?></td>
+            <td colspan="8" style="text-align: right;">Laba Kotor</td><td colspan="7"> <?php 
+            $inikotr1 = $hargalaba - $totpotongan;
+            echo rupiah($inikotr1);?> <br>
+            Terbilang : <?= terbilang($inikotr1); ?>  Rupiah </td>
         </tr>
         <tr>
-            <td colspan="11" style="text-align: right;">Laba Bersih</td><td colspan="4"> Rp. <?= $hargalaba - $hargamodal;?></td>
+            <td colspan="8" style="text-align: right;">Laba Bersih</td><td colspan="7"> <?php 
+            $inibersih1 = $hargalaba - $hargamodal;
+            echo rupiah($inibersih1);?> <br>
+            Terbilang : <?= terbilang($inibersih1); ?>  Rupiah </td>
         </tr>
         <tr>
           <td colspan="15" style="text-align: right;">

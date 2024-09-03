@@ -1,5 +1,49 @@
 <?php 
 
+function rupiah($angka){
+	
+    $hasil_rupiah = "Rp " . number_format($angka,0,",",".");
+    return $hasil_rupiah;
+ 
+}
+
+function penyebut($nilai) {
+    $nilai = abs($nilai);
+    $huruf = array("", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas");
+    $temp = "";
+    if ($nilai < 12) {
+        $temp = " ". $huruf[$nilai];
+    } else if ($nilai <20) {
+        $temp = penyebut($nilai - 10). " Belas";
+    } else if ($nilai < 100) {
+        $temp = penyebut($nilai/10)." Puluh". penyebut($nilai % 10);
+    } else if ($nilai < 200) {
+        $temp = " Seratus" . penyebut($nilai - 100);
+    } else if ($nilai < 1000) {
+        $temp = penyebut($nilai/100) . " Ratus" . penyebut($nilai % 100);
+    } else if ($nilai < 2000) {
+        $temp = " Seribu" . penyebut($nilai - 1000);
+    } else if ($nilai < 1000000) {
+        $temp = penyebut($nilai/1000) . " Ribu" . penyebut($nilai % 1000);
+    } else if ($nilai < 1000000000) {
+        $temp = penyebut($nilai/1000000) . " Juta" . penyebut($nilai % 1000000);
+    } else if ($nilai < 1000000000000) {
+        $temp = penyebut($nilai/1000000000) . " Milyar" . penyebut(fmod($nilai,1000000000));
+    } else if ($nilai < 1000000000000000) {
+        $temp = penyebut($nilai/1000000000000) . " Trilyun" . penyebut(fmod($nilai,1000000000000));
+    }     
+    return $temp;
+}
+
+function terbilang($nilai) {
+    if($nilai<0) {
+        $hasil = "minus ". trim(penyebut($nilai));
+    } else {
+        $hasil = trim(penyebut($nilai));
+    }     		
+    return $hasil;
+}
+
 foreach ($get_barang as $row):
     $kode_transaksi = $row -> kode_transaksi;
     $tgl_transaksi = $row -> tgl_act;
@@ -100,7 +144,8 @@ $tglnow = date('d-m-Y H:i:s');
                                     echo 'Tunai';
                                 };?>
                     </td>
-                    <td>Rp. <?= $item -> harga_jual;?></td>
+                    <td><?php $harga_jual1 = rupiah($item -> harga_jual);
+                        echo $harga_jual1;?></td>
 
                 </tr>
             <?php endforeach; ?>
@@ -108,27 +153,43 @@ $tglnow = date('d-m-Y H:i:s');
                 <td colspan="7" style="padding:10px;">&nbsp;</td>
                 <td colspan="4" style="padding:10px;">Total Yang Belum Dibayarkan: Rp.<?php if($totalhutang == $totaltunai){
                     $final_hutang = $totalhutang - $totaltunai;
+                    $final_hutang = rupiah($final_hutang);
                     echo $final_hutang;
                 }else{
+                    $totalhutang = rupiah($totalhutang);
                     echo $totalhutang;
                 }  ?></td>
             </tr>
             <tr>
                 <td colspan="7" style="padding:10px;">&nbsp;</td>
-                <td colspan="4" style="padding:10px;">Total Yang Sudah Dibayarkan: Rp.<?php echo $totaltunai; ?></td>
+                <td colspan="4" style="padding:10px;">Total Yang Sudah Dibayarkan: <?php
+                $totaltunai = rupiah($totaltunai);
+                 echo $totaltunai; ?></td>
             </tr>
             <tr>
                 <td colspan="7" style="padding:10px;">&nbsp;</td>
-                <td colspan="4" style="padding:10px;">Total Potongan Yang didapatkan: Rp.<?php echo $jml_potongan; ?></td>
+                <td colspan="4" style="padding:10px;">Total Potongan Yang didapatkan: <?php 
+                $jml_potongan1 = rupiah($jml_potongan);
+                echo $jml_potongan1; ?></td>
             </tr>
             <tr>
                 <td colspan="7" style="padding:10px;">&nbsp;</td>
-                <td colspan="4" style="padding:10px;">Total Harga Sebelum dipotong: Rp.<?php echo $totalharga; ?></td>
+                <td colspan="4" style="padding:10px;">Total Harga Sebelum dipotong: <?php 
+                $totalharga1 = rupiah($totalharga);
+                echo $totalharga1; ?></td>
             </tr>
             <tr>
                 <td colspan="7" style="padding:10px;">&nbsp;</td>
-                <td colspan="4" style="padding:10px;">Total Harga Sesudah dipotong: Rp.<?php $finalharga = $totalharga - $jml_potongan;
-                echo $finalharga; ?></td>
+                <td colspan="4" style="padding:10px;">Total Harga Sesudah dipotong: <?php
+                 $finalharga = $totalharga - $jml_potongan;
+                 $finalharga1 = rupiah($finalharga);
+                echo $finalharga1; ?></td>
+            </tr>
+            <tr>
+                <td colspan="7" style="padding:10px;text-align:right;">Terbilang : </td>
+                <td colspan="4" style="padding:10px;"><?php
+                 $finalharga2 = terbilang($finalharga);
+                echo $finalharga2; ?> Rupiah</td>
             </tr>
         </table>
         <br>

@@ -1,4 +1,49 @@
 <?php 
+
+function rupiah($angka){
+	
+    $hasil_rupiah = "Rp " . number_format($angka,0,",",".");
+    return $hasil_rupiah;
+ 
+}
+
+function penyebut($nilai) {
+    $nilai = abs($nilai);
+    $huruf = array("", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas");
+    $temp = "";
+    if ($nilai < 12) {
+        $temp = " ". $huruf[$nilai];
+    } else if ($nilai <20) {
+        $temp = penyebut($nilai - 10). " Belas";
+    } else if ($nilai < 100) {
+        $temp = penyebut($nilai/10)." Puluh". penyebut($nilai % 10);
+    } else if ($nilai < 200) {
+        $temp = " Seratus" . penyebut($nilai - 100);
+    } else if ($nilai < 1000) {
+        $temp = penyebut($nilai/100) . " Ratus" . penyebut($nilai % 100);
+    } else if ($nilai < 2000) {
+        $temp = " Seribu" . penyebut($nilai - 1000);
+    } else if ($nilai < 1000000) {
+        $temp = penyebut($nilai/1000) . " Ribu" . penyebut($nilai % 1000);
+    } else if ($nilai < 1000000000) {
+        $temp = penyebut($nilai/1000000) . " Juta" . penyebut($nilai % 1000000);
+    } else if ($nilai < 1000000000000) {
+        $temp = penyebut($nilai/1000000000) . " Milyar" . penyebut(fmod($nilai,1000000000));
+    } else if ($nilai < 1000000000000000) {
+        $temp = penyebut($nilai/1000000000000) . " Trilyun" . penyebut(fmod($nilai,1000000000000));
+    }     
+    return $temp;
+}
+
+function terbilang($nilai) {
+    if($nilai<0) {
+        $hasil = "minus ". trim(penyebut($nilai));
+    } else {
+        $hasil = trim(penyebut($nilai));
+    }     		
+    return $hasil;
+}
+
 foreach ($get_barang as $row):
     $kode_transaksi = $row -> kode_transaksi;
     $tgl_masuk = $row -> tgl_transaksi;
@@ -25,7 +70,7 @@ $tglnow = date('d-m-Y H:i:s');
             font-family: Arial, sans-serif;
         }
         .invoice-container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
         }
         .header {
@@ -84,13 +129,22 @@ $tglnow = date('d-m-Y H:i:s');
                     <td><?= $item -> kode_urut;?></td>
                     <td><?= $item -> jenis_barang;?></td>
                     <td><?= $item -> kualitas;?></td>
-                    <td>Rp. <?= $item -> harga_barang;?></td>
+                    <td><?php $harga_barang1 = rupiah($item -> harga_barang);
+                    echo $harga_barang1;?></td>
 
                 </tr>
             <?php endforeach; ?>
             <tr>
-                <td colspan="9" style="padding:10px;">&nbsp;</td>
-                <td colspan="2" style="padding:10px;">Total Harga: Rp.<?php echo $totalharga; ?></td>
+                <td colspan="7" style="padding:10px;">&nbsp;</td>
+                <td colspan="4" style="padding:10px;">Total Harga: <?php 
+                $totalharga1 = rupiah($totalharga);
+                echo $totalharga1; ?></td>
+            </tr>
+            <tr>
+                <td colspan="7" style="padding:10px;">&nbsp;</td>
+                <td colspan="4" style="padding:10px;">Terbilang : <?php 
+                $totalharga2 = terbilang($totalharga);
+                echo $totalharga2; ?> Rupiah</td>
             </tr>
         </table>
         <br>
