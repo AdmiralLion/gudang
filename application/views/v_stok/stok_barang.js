@@ -105,6 +105,7 @@ $(document).ready(function () {
                   data[i].kode_bulan,
                   data[i].kode_urut,
                   data[i].jenis_barang,
+                  data[i].kualitas,
                   cekstok
                 ];
         

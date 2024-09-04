@@ -112,6 +112,7 @@ endforeach;
                             <th class="text-center">Kode Bulan</th>
                             <th class="text-center">Kode Urut</th>
                             <th class="text-center">Jenis</th>
+                            <th class="text-center">Kualitas</th>
                             <th class="text-center">Stok</th>
                           </tr>
                         </thead>
