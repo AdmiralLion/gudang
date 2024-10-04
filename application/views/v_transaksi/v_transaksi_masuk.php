@@ -315,7 +315,7 @@ endforeach;
                           <tbody id="editdatafinal" style="text-align: center;">    
                             <tr>
                               <td>
-                                <select class="select2" name="edit_namabrg" id="edit_namabrg" style="width:100%">
+                                <select name="edit_namabrg" id="edit_namabrg" style="width:100%">
                                   <option value="">--Pilih--</option>
                                   <?php 
                                     foreach($nama_barang as $row): ?>
@@ -324,7 +324,7 @@ endforeach;
                                 </select>
                               </td>
                               <td>
-                                <select class="select2" name="edit_merkbrg" id="edit_merkbrg" style="width:100%">
+                                <select name="edit_merkbrg" id="edit_merkbrg" style="width:100%">
                                   <option value="">--Pilih--</option>
                                   <?php 
                                     foreach($nama_merk as $row): ?>

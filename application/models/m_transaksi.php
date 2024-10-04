@@ -36,6 +36,11 @@ class m_transaksi extends CI_Model {
         return $query->result();
     }
 
+    public function cekkodetransmsk($transactionCode){
+        $query = $this->db->query("SELECT * FROM b_transaksi_masuk WHERE kode_transaksi = '$transactionCode'");
+        return $query->result();
+    }
+
     public function insert_transaksi($kd_transaksi,$id_rekanan,$id_user){
         $tgl = date('Y-m-d H:i:s');
         $query = $this->db->query("INSERT INTO b_transaksi_masuk VALUES('','$kd_transaksi','$id_rekanan','$id_user','$tgl')");

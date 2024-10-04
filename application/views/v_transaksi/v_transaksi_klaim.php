@@ -236,7 +236,7 @@ endforeach;
                             </tr>
                             <tr>
                               <td>
-                                <select name="pil_brgtukar" id="pil_brgtukar" class="select2" style="width:100%">
+                                <select name="pil_brgtukar" id="pil_brgtukar" style="width:100%">
                                     <option value="">--Pilih--</option>
                                     <?php foreach($master_barang as $rows): ?>
                                         <option value="<?= $rows -> id;?>"><?= $rows -> nama_barang.'-'.$rows -> nama_merk.'-'.$rows -> tahun_barang.'-'.$rows -> seri_barang.'-'.$rows -> kode_bulan.'-'.$rows -> kode_urut;?> </option>

@@ -31,8 +31,15 @@ class Transaksi extends CI_Controller {
         endforeach;
         $jumlah = $temp + 1;
 
-        // Generate the transaction code
+
         $transactionCode = $jumlah.'/ABS/MSK/'.$bulan.'/'.$tahun;
+        $cektranscodde = $this-> m_transaksi -> cekkodetransmsk($transactionCode);
+        while (count($cektranscodde) > 0) {
+            $jumlah++;
+            $transactionCode = $jumlah . '/ABS/MSK/' . $bulan . '/' . $tahun;
+            $cektranscodde = $this->m_transaksi->cekkodetransmsk($transactionCode);
+        }
+        // Generate the transaction code
     
         return $transactionCode;
     }

@@ -37,12 +37,16 @@ $(document).ready(function () {
 
 
 
-  $('.select2').select2({
-    placeholder: 'Pilih nama rekanan',
-    width: "100%",
-    dropdownParent: $('#modal_klaim'),
-    allowClear: true
-  });
+  $('#modal_klaim').on('shown.bs.modal', function () {
+    if (!$('#pil_brgtukar').hasClass('select2-hidden-accessible')) {
+        $('#pil_brgtukar').select2({
+            placeholder: 'Pilih nama barang',
+            width: "100%",
+            dropdownParent: $('#modal_klaim .modal-content'),
+            allowClear: true
+        });
+    }
+});
 
   $('#tgl_transaksi').change(function (){
     data_transaksiklaim();
@@ -318,12 +322,12 @@ $.ajax({
   '</select></div></div>'+
   '<div class="col-sm-2 nopadding"><div class="form-group"> <label for="Harga Keluar">Harga Keluar :</label><br><div class="input-group"><input type="text" placeholder="Harga" class="form-control" name="harga_keluar[]" id="harga_keluar" onkeyup="hitung_harga()"> &nbsp; &nbsp;<div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_education_fields('+ room +');"> <span class="fa fa-minus" aria-hidden="true"></span> </button></div></div></div></div><div class="clear"></div></div>';
   objTo.appendChild(divtest)
-  $('.select2').select2({
-    placeholder: '--Pilih--',
-    width: "100%",
-    dropdownParent: $('#modal_tambahtransaksikeluar .modal-content'),
-    allowClear: true
-  });
+  // $('.select2').select2({
+  //   placeholder: '--Pilih--',
+  //   width: "100%",
+  //   dropdownParent: $('#modal_tambahtransaksikeluar .modal-content'),
+  //   allowClear: true
+  // });
   }
   });
   

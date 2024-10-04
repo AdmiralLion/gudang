@@ -52,12 +52,27 @@ $(document).ready(function () {
     allowClear: true
   });
 
-  $('.select2').select2({
-    placeholder: 'tes',
-    width: "100%",
-    dropdownParent: $('#modal_tambahtransaksimasuk'),
-    allowClear: true
-  });
+  $('#modal_editbrg').on('shown.bs.modal', function () {
+    if (!$('#edit_namabrg').hasClass('select2-hidden-accessible')) {
+        $('#edit_namabrg').select2({
+            placeholder: 'Pilih nama barang',
+            width: "100%",
+            dropdownParent: $('#modal_editbrg .modal-content'),
+            allowClear: true
+        });
+    }
+});
+
+$('#modal_editbrg').on('shown.bs.modal', function () {
+  if (!$('#edit_merkbrg').hasClass('select2-hidden-accessible')) {
+      $('#edit_merkbrg').select2({
+          placeholder: 'Pilih merk barang',
+          width: "100%",
+          dropdownParent: $('#modal_editbrg .modal-content'),
+          allowClear: true
+      });
+  }
+});
 
   $('#tgl_transaksi').change(function (){
     data_transaksimasuk();
