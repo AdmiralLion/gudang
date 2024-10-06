@@ -114,6 +114,7 @@ endforeach;
                             <th class="text-center">Jenis</th>
                             <th class="text-center">Kualitas</th>
                             <th class="text-center">Stok</th>
+                            <th class="text-center">TGL KEL</th>
                           </tr>
                         </thead>
                         <tbody id="data_stok" style="text-align: center;">                                 

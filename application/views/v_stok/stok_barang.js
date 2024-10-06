@@ -87,9 +87,12 @@ $(document).ready(function () {
               if(data[i].stok == 1){
                 var cekstok = '<td style="text-align:center;">'+'<a href="#" class="btn btn-success btn-icon" >Ready</i>'+
               '</td>';
+                var tglout = '-';
               }else if(data[i].stok == 0){
                 var cekstok = '<td style="text-align:center;">'+'<a href="#" class="btn btn-danger btn-icon" >Kosong</i>'+
               '</td>';
+              var tglout = data[i].tgl_kel;
+
               }
               var btn_transaksimasuk = '<td style="text-align:center;">'+'<a href="<?php echo base_url();?>Transaksi/print_transaksimasuk/'+data[i].id+'" class="btn btn-info btn-icon" target="_blank"><i class="fa fa-print"></i>'+
               '</td>';
@@ -106,7 +109,8 @@ $(document).ready(function () {
                   data[i].kode_urut,
                   data[i].jenis_barang,
                   data[i].kualitas,
-                  cekstok
+                  cekstok,
+                  tglout
                 ];
         
                 // Add the row to DataTables

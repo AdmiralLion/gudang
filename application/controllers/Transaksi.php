@@ -877,9 +877,8 @@ class Transaksi extends CI_Controller {
         $data['insert'] = $this -> m_transaksi -> insert_klaim($kode_klaim,$kd_trans,$nama_pembeli,$id_baranglama,$alasan_klaim,$pil_brgtukar,$id_user);
         $data['detail'] = $this->m_transaksi->get_detailbarang_keluar($pil_brgtukar);
         $data['update1'] = $this -> m_transaksi -> update_brgklaimlama($id_baranglama);
-
         foreach($data['detail'] as $det):
-                            $data['transaksi_keluar'] = $this -> m_transaksi -> insert_barang_keluar($kd_trans,$det->id_transaksi,$det -> id_barang,$det -> id_merk ,$det -> tahun_barang,$det -> seri_barang,$det -> kode_bulan,$det -> kode_urut,$det -> harga_barang,$hutang,$klaim,$jns_brg,$harga_keluar,$id_user);
+                            $data['transaksi_keluar'] = $this -> m_transaksi -> insert_barang_keluar($kd_trans,$det->id_transaksi,$det -> id_barang,$det -> id_merk ,$det -> tahun_barang,$det -> seri_barang,$det -> kode_bulan,$det -> kode_urut,$det -> harga_barang,$hutang,$klaim,$jns_brg,$det -> kualitas,$harga_keluar,$id_user);
                             $data['update_stok'] = $this -> m_transaksi -> update_stok($pil_brgtukar);
         endforeach;
         if($data['insert'] == 'true' OR $data['insert'] == TRUE OR $data['insert'] == 'TRUE'){

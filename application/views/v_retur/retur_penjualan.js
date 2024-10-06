@@ -182,7 +182,7 @@
 
                     var input_alasan = '<td style="text-align:center;width:150px;">'+'<textarea class="form-control" name="input_alasan" id="input_alasan"></textarea>'+'</td>';
 
-                    var pil_barang = '<td style="text-align:center;width:150px;">'+'<select class="select2" style="width:100%" id="nama_barang" name="nama_barang[]">' +'<option value="">--Barang--</option>'+options1 +'</select>'+'</td>';
+                    var pil_barang = '<td style="text-align:center;width:150px;">'+'<select class="select2" style="width:100px" id="nama_barang" name="nama_barang[]">' +'<option value="">--Barang--</option>'+options1 +'</select>'+'</td>';
 
     
                       n++;
