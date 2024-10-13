@@ -312,6 +312,29 @@ class m_transaksi extends CI_Model {
         return $query->result();
     }
 
+    public function get_barang_keluar4($id){
+        $query = $this->db->query("SELECT btk.kode_transaksi,btk.bayar,btk.potongan,bbk.id_stok,mb.nama_barang,ms.nama_satuan,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,
+        bbk.kode_urut,bbk.harga_jual, btk.nama_pembeli,bbk.is_hutang,bbk.jns_penjualan,bbk.kualitas,bbk.is_retur, DATE_FORMAT(btk.tgl_act,'%d-%m-%Y') as tgl_act,DATE_FORMAT(btk.tgl_jatuhtempo,'%d-%m-%Y') as tgl_jatuhtempo FROM b_transaksi_keluar btk 
+        JOIN b_barang_keluar bbk ON btk.kode_transaksi = bbk.kode_transaksi JOIN m_barang mb ON bbk.id_barang = mb.id 
+        JOIN m_merk m ON bbk.id_merk = m.id JOIN m_satuan ms ON mb.satuan_barang = ms.id
+        WHERE btk.id = '$id'");
+        return $query->result();
+    }
+
+    public function get_barang_retur($kd_transaksi, $id_barang){
+        $query = $this->db->query("SELECT rtk.*,bbk.is_hutang,mb2.nama_barang AS barang_asli,ms2.nama_satuan AS satuan_asli,m2.nama_merk AS merk_asli,
+        bbm2.tahun_barang AS tahun_asli,bbm2.seri_barang AS seri_asli,bbm2.kode_bulan AS bulan_asli,
+        mb.nama_barang,ms.nama_satuan,m.nama_merk,bbm.tahun_barang,bbm.seri_barang,bbm.kode_bulan,bbm.kode_urut,bbm.kualitas
+        FROM b_retur_keluar rtk JOIN b_barang_masuk bbm ON rtk.id_barang_ganti = bbm.id 
+	    JOIN m_barang mb ON bbm.id_barang = mb.id 
+        JOIN m_merk m ON bbm.id_merk = m.id JOIN m_satuan ms ON mb.satuan_barang = ms.id
+        JOIN b_barang_masuk bbm2 ON rtk.id_barang = bbm2.id JOIN m_barang mb2 ON bbm2.id_barang = mb2.id 
+        JOIN m_merk m2 ON bbm2.id_merk = m2.id JOIN m_satuan ms2 ON mb2.satuan_barang = ms2.id
+        JOIN b_barang_keluar bbk ON rtk.id_transaksi = bbk.id
+         WHERE kd_transaksi = '$kd_transaksi' AND rtk.id_barang = '$id_barang'");
+        return $query->result();
+    }
+
     public function insert_retur_supplier($kd_transaksi,$nama_supplier,$kode_transaksimasuk,$id_transaksimasuk,$id_barang,$harga_masuk,$id_user){
         $tgl = date('Y-m-d H:i:s');
         $query = $this->db->query("INSERT INTO b_retur_masuk VALUES('','$kd_transaksi','$id_transaksimasuk','$kode_transaksimasuk','$id_barang','$nama_supplier','$harga_masuk','$id_user','$tgl')");
