@@ -89,9 +89,9 @@ class m_transaksi extends CI_Model {
         $bulan = $tgl[0];
         $tahun = $tgl[1];
         $query = $this->db->query("SELECT btm.kode_transaksi, mb.nama_barang, ms.nama_satuan, m.nama_merk, bbm.tahun_barang, bbm.seri_barang, 
-        bbm.kode_bulan, bbm.kode_urut,bbm.jenis_barang, bbm.harga_barang, DATE_FORMAT(btm.tgl_act,'%d-%m-%Y') AS tgl_transaksi, mr.nama_rekanan, bbm.stok,bbm.kualitas,DATE_FORMAT(bbk.tgl_act,'%d-%m-%Y') AS tgl_kel
+        bbm.kode_bulan, bbm.kode_urut,bbm.jenis_barang, bbm.harga_barang, DATE_FORMAT(btm.tgl_act,'%d-%m-%Y') AS tgl_transaksi, mr.nama_rekanan, bbm.stok,bbm.kualitas, (SELECT DATE_FORMAT(bbk.tgl_act, '%d-%m-%Y') FROM b_barang_keluar bbk WHERE bbm.id = bbk.id_stok ORDER BY bbk.id DESC LIMIT 1) AS tgl_kel
         FROM b_transaksi_masuk btm JOIN b_barang_masuk bbm ON btm.kode_transaksi = bbm.kode_transaksi 
-        JOIN m_barang mb ON bbm.id_barang = mb.id JOIN m_merk m ON bbm.id_merk = m.id JOIN m_rekanan mr ON btm.id_rekanan = mr.id JOIN m_satuan ms ON mb.satuan_barang = ms.id LEFT JOIN b_barang_keluar bbk ON bbm.id = bbk.`id_stok` WHERE MONTH(btm.tgl_act) = '$bulan' AND YEAR(btm.tgl_act) = '$tahun'");
+        JOIN m_barang mb ON bbm.id_barang = mb.id JOIN m_merk m ON bbm.id_merk = m.id JOIN m_rekanan mr ON btm.id_rekanan = mr.id JOIN m_satuan ms ON mb.satuan_barang = ms.id WHERE MONTH(btm.tgl_act) = '$bulan' AND YEAR(btm.tgl_act) = '$tahun' ORDER BY bbm.id");
         return $query->result();
     }
 

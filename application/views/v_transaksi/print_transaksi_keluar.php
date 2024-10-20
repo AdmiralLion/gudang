@@ -7,6 +7,8 @@ function rupiah($angka){
  
 }
 
+// dd($ganti_retur);
+
 function penyebut($nilai) {
     $nilai = abs($nilai);
     $huruf = array("", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas");

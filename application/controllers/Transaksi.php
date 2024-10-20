@@ -518,9 +518,7 @@ class Transaksi extends CI_Controller {
         $data['user'] = $this->m_master->getuser($id_user);
         $data['get_barang'] = $this->m_transaksi->get_barang_keluar4($id);
         foreach($data['get_barang'] as $row):
-            if($row -> is_retur == '1'){
                 $data['ganti_retur'][] = $this->m_transaksi->get_barang_retur($row -> kode_transaksi,$row -> id_stok);
-            }
         endforeach;
         // dd($data['ganti_retur']);
 		$this->load->view('v_transaksi/print_transaksi_keluar.php',$data);
