@@ -2,7 +2,12 @@
 <html lang="en">
   <?php $tgl = $_GET['tgl'];
   $jns_lap = $_GET['jnslap']; 
-
+    // dd($get_barang);
+//     $retur_data = [];
+// foreach ($get_retur as $retur) {
+//     $retur_data[$retur->kd_transaksi][$retur->id_barang] = $retur;
+// }
+// dd($get_barang);die();
   function rupiah($angka){
 	
         $hasil_rupiah = "Rp " . number_format($angka,0,",",".");
@@ -171,8 +176,10 @@
             $hargamodal = 0;
             $hargalaba = 0;
       foreach($get_barang as $row):
-        $hargamodal += $row -> harga_barang;
-        $hargalaba += $row -> harga_jual;
+        if($row->is_retur != '1' || ($row->is_retur == '1' && $row->id_barang_ganti != '0' && $row->id_barang_ganti != NULL)) {
+            $hargamodal += $row->harga_barang; 
+            $hargalaba += $row->harga_jual;
+        }
         ?>
         <tr>
             <td style="text-align:center;"><?= $no++;?></td>
@@ -206,7 +213,34 @@
             <td style="text-align:center;"><?= $row -> tgl;?></td>
 
         </tr>
-        <?php endforeach; ?>
+        <?php if($row -> is_retur == '1' AND $row -> id_barang_ganti != '0' AND $row -> id_barang_ganti != NULL){ ?>
+            <tr>
+            <td style="text-align:center;">PENGGANTI RETUR</td>
+            <td style="text-align:center;"><?= $row -> kode_transaksi;?></td>
+            <td style="text-align:center;"><?= $row -> pengganti_barang;?></td>
+            <td style="text-align:center;"><?= $row -> merk_pengganti;?></td>
+            <td style="text-align:center;"><?= $row -> tahun_pengganti;?></td>
+            <td style="text-align:center;"><?= $row -> seri_pengganti;?></td>
+            <td style="text-align:center;"><?= $row -> bulan_pengganti;?></td>
+            <td style="text-align:center;"><?= $row -> kode_urut_pengganti;?></td>
+            <td style="text-align:center;"><?= $row -> kualitas_pengganti;?></td>
+            <td style="text-align:center;"><?php echo rupiah($row -> harga_barang);?></td>
+            <td style="text-align:center;"><?php echo rupiah($row -> harga_jual);?></td>
+            <td style="text-align:center;"><?= $row -> nama_user;?></td>
+            <td style="text-align:center;">PENGGANTI RETUR
+            </td>
+            <td style="text-align:center;">
+            <?php if($row -> is_hutang == '1'){
+              echo 'Hutang Belum Lunas';
+            }else{
+              echo 'Hutang Lunas';
+            }
+            ;?>
+            </td>
+            <td style="text-align:center;"><?= $row -> tgl_ganti;?></td>
+            </tr>
+        <?php } 
+         endforeach; ?>
         <tr>
             <td colspan="8" style="text-align: right;">Modal</td><td colspan="7">  <?php echo rupiah($hargamodal);?> <br>
         Terbilang : <?= terbilang($hargamodal); ?>  Rupiah </td>

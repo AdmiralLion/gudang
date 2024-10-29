@@ -358,12 +358,50 @@ class m_laporan extends CI_Model {
             $tahun = $tgls[1];
             $tambahanquer = "MONTH(bbk.tgl_act) ='".$bulan."' AND YEAR(bbk.tgl_act) = '".$tahun."'";
         }
-        $query = $this->db->query("SELECT bbk.`kode_transaksi`,b.nama_barang,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,bbk.kode_urut,bbk.kualitas,
-        bbm.`harga_barang`,bbk.harga_jual,u.`nama_user`,is_retur,bbk.is_hutang,DATE_FORMAT(bbk.tgl_act,'%d-%m-%Y %H:%i:%s') AS tgl 
+        $query = $this->db->query("SELECT bbk.`kode_transaksi`,b.nama_barang,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,bbk.kode_urut,bbk.kualitas,bbk.is_retur,
+        bbm.`harga_barang`,bbk.harga_jual,u.`nama_user`,is_retur,bbk.is_hutang,DATE_FORMAT(bbk.tgl_act,'%d-%m-%Y %H:%i:%s') AS tgl,
+        rtk.*,mb2.nama_barang AS barang_asli, ms2.nama_satuan AS satuan_asli, m2.nama_merk AS merk_asli,
+        bbm2.tahun_barang AS tahun_asli, bbm2.seri_barang AS seri_asli, bbm2.kode_bulan AS bulan_asli,
+        bbm2.kode_urut AS kode_urut_asli, bbm2.kualitas AS kualitas_asli,
+        mb1.nama_barang AS pengganti_barang, ms1.nama_satuan AS satuan_pengganti, m1.nama_merk AS merk_pengganti,
+        bbm1.tahun_barang AS tahun_pengganti, bbm1.seri_barang AS seri_pengganti, bbm1.kode_bulan AS bulan_pengganti,
+        bbm1.kode_urut AS kode_urut_pengganti, bbm1.kualitas AS kualitas_pengganti,DATE_FORMAT(rtk.tgl_retur,'%d-%m-%Y %H:%i:%s') AS tgl_ganti
         FROM b_barang_keluar bbk 
         INNER JOIN b_barang_masuk bbm ON bbk.`id_stok` = bbm.`id`
         INNER JOIN m_barang b ON bbk.id_barang = b.id 
-        INNER JOIN m_merk m ON bbk.id_merk = m.id INNER JOIN a_user u ON bbk.`user_act` = u.`id` WHERE bbk.is_retur IS NULL AND $tambahanquer ORDER BY bbk.tgl_act ASC" );
+        INNER JOIN m_merk m ON bbk.id_merk = m.id INNER JOIN a_user u ON bbk.`user_act` = u.`id` 
+        LEFT JOIN b_retur_keluar rtk ON bbk.is_retur = 1 AND bbk.id_stok = rtk.`id_barang`
+        AND bbk.`kode_transaksi` = rtk.`kd_transaksi` 
+        LEFT JOIN b_barang_masuk bbm1 ON rtk.id_barang_ganti = bbm1.id
+        LEFT JOIN m_barang mb1 ON bbm1.id_barang = mb1.id
+        LEFT JOIN m_merk m1 ON bbm1.id_merk = m1.id
+        LEFT JOIN m_satuan ms1 ON mb1.satuan_barang = ms1.id
+        LEFT JOIN b_barang_masuk bbm2 ON rtk.id_barang = bbm2.id
+        LEFT JOIN m_barang mb2 ON bbm2.id_barang = mb2.id
+        LEFT JOIN m_merk m2 ON bbm2.id_merk = m2.id
+        LEFT JOIN m_satuan ms2 ON mb2.satuan_barang = ms2.id 
+         WHERE  $tambahanquer ORDER BY bbk.tgl_act ASC" );
+        return $query->result();
+    }
+
+    public function get_retur_pengganti($jangka_waktu, $tgl){
+        if($jangka_waktu == 'Harian'){
+            $tambahanquer = "DATE(bbk.tgl_act) ='".$tgl."'";
+        }else{
+            $tgls = explode('-', $tgl);
+            $bulan = $tgls[0];
+            $tahun = $tgls[1];
+            $tambahanquer = "MONTH(bbk.tgl_act) ='".$bulan."' AND YEAR(bbk.tgl_act) = '".$tahun."'";
+        }
+        $query = $this->db->query("SELECT DISTINCT rtk.*,mb2.nama_barang AS barang_asli,ms2.nama_satuan AS satuan_asli,m2.nama_merk AS merk_asli,
+        bbm2.tahun_barang AS tahun_asli,bbm2.seri_barang AS seri_asli,bbm2.kode_bulan AS bulan_asli,
+        mb.nama_barang,ms.nama_satuan,m.nama_merk,bbm.tahun_barang,bbm.seri_barang,bbm.kode_bulan,bbm.kode_urut,bbm.kualitas FROM b_retur_keluar rtk 
+        INNER JOIN b_barang_keluar bbk ON rtk.kd_transaksi = bbk.`kode_transaksi`
+        LEFT JOIN b_barang_masuk bbm ON rtk.id_barang_ganti = bbm.id 
+        LEFT JOIN m_barang mb ON bbm.id_barang = mb.id 
+        LEFT JOIN m_merk m ON bbm.id_merk = m.id LEFT JOIN m_satuan ms ON mb.satuan_barang = ms.id
+        LEFT JOIN b_barang_masuk bbm2 ON rtk.id_barang = bbm2.id LEFT JOIN m_barang mb2 ON bbm2.id_barang = mb2.id 
+        LEFT JOIN m_merk m2 ON bbm2.id_merk = m2.id LEFT JOIN m_satuan ms2 ON mb2.satuan_barang = ms2.id WHERE bbk.is_retur = 1 AND $tambahanquer ORDER BY bbk.tgl_act ASC" );
         return $query->result();
     }
 
