@@ -363,6 +363,7 @@ endforeach;
                                   <option value="AA">AA</option>
                                   <option value="BB">BB</option>
                                   <option value="CC">CC</option>
+                                  <option value="DD">DD</option>
                                 </select>
                               </td>
                               <td>
