@@ -58,10 +58,21 @@ class Laporan extends CI_Controller {
 
     public function print_barang_keluar(){
         $jangka_waktu = $_GET['jangka_waktu'];
-        $tgl = $_GET['tgl'];
+        if($jangka_waktu == 'Rentang Waktu'){
+            $tgl = '';
+            $tgl1 = $_GET['tgl1'];
+            $tgl2 = $_GET['tgl2'];
+            $data['get_barang'] = $this->m_laporan->lap_barang_keluar($jangka_waktu,$tgl,$tgl1,
+            $tgl2);
+        }else{
+            $tgl = $_GET['tgl'];
+            $tgl1 = '';
+            $tgl2 = '';
+            $data['get_barang'] = $this->m_laporan->lap_barang_keluar($jangka_waktu,$tgl,$tgl1,
+            $tgl2);
+        }
         $id_user = $this->session->userdata('id_user');
         $data['user'] = $this->m_master->getuser($id_user);
-        $data['get_barang'] = $this->m_laporan->lap_barang_keluar($jangka_waktu,$tgl);
         // $data['get_retur'] = $this->m_laporan->get_retur_pengganti($jangka_waktu,$tgl);
         $temp = [];
         // $temp2 = [];

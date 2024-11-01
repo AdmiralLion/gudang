@@ -116,6 +116,7 @@ endforeach;
                                     <option value="">--Pilih Jangka Waktu--</option>
                                     <option value="Harian">Harian</option>
                                     <option value="Bulanan">Bulanan</option>
+                                    <option value="Rentang Waktu">Rentang Waktu</option>
                                 </select>
                             </td>
                           </tr>
@@ -124,6 +125,8 @@ endforeach;
                               <input type="hidden" name="btn_cek" id="btn_cek">
                               <input class="form-control datepicker" style="display:none;" type="text" name="lap_harian" id="lap_harian" readonly>
                               <input class="form-control" style="display:none;" type="text" name="lap_bulanan" id="lap_bulanan" readonly>
+                              <input class="form-control datepicker" style="display:none;" type="text" name="lap_rtgwaktu1" id="lap_rtgwaktu1" readonly>
+                              <input class="form-control datepicker" style="display:none;" type="text" name="lap_rtgwaktu2" id="lap_rtgwaktu2" readonly>
                             </td>
                             <td>:</td>
                             <td>

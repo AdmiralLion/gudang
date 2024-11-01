@@ -349,14 +349,17 @@ class m_laporan extends CI_Model {
 
     }
 
-    public function lap_barang_keluar($jangka_waktu, $tgl){
+    public function lap_barang_keluar($jangka_waktu, $tgl,$tgl1,
+    $tgl2){
        if($jangka_waktu == 'Harian'){
             $tambahanquer = "DATE(bbk.tgl_act) ='".$tgl."'";
-        }else{
+        }else if($jangka_waktu == 'Bulanan'){
             $tgls = explode('-', $tgl);
             $bulan = $tgls[0];
             $tahun = $tgls[1];
             $tambahanquer = "MONTH(bbk.tgl_act) ='".$bulan."' AND YEAR(bbk.tgl_act) = '".$tahun."'";
+        }else{
+            $tambahanquer = "DATE(bbk.tgl_act) BETWEEN '".$tgl1."' AND '".$tgl2."'";
         }
         $query = $this->db->query("SELECT bbk.`kode_transaksi`,b.nama_barang,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,bbk.kode_urut,bbk.kualitas,bbk.is_retur,
         bbm.`harga_barang`,bbk.harga_jual,u.`nama_user`,is_retur,bbk.is_hutang,DATE_FORMAT(bbk.tgl_act,'%d-%m-%Y %H:%i:%s') AS tgl,

@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-  <?php $tgl = $_GET['tgl'];
+  <?php 
   $jns_lap = $_GET['jnslap']; 
+  if($_GET['jangka_waktu'] == 'Rentang Waktu'){
+    $tgl1 = $_GET['tgl1'];
+    $tgl2 = $_GET['tgl2'];
+    $tgl = $tgl1 . ' Sampai ' . $tgl2;
+  }else{
+    $tgl = $_GET['tgl'];
+  }
     // dd($get_barang);
 //     $retur_data = [];
 // foreach ($get_retur as $retur) {
