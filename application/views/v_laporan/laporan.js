@@ -80,6 +80,9 @@
             $("#btn_lihat").removeAttr("style");
             $("#btn_download").removeAttr("style");
             $("#lap_bulanan").attr("style", "display: none;");
+            $("#lap_rtgwaktu1").attr("style", "display: none;");
+            $("#lap_rtgwaktu2").attr("style", "display: none;");
+            $("#tglgrup").attr("style", "display: none;");
             // $("#lap_tahunan").attr("style", "display: none;");
             // $('#lap_tahunan').val('');
             $('#lap_bulanan').val('');
@@ -88,12 +91,16 @@
             $("#btn_lihat").removeAttr("style");
             $("#btn_download").removeAttr("style");
             $("#lap_harian").attr("style", "display: none;");
+            $("#lap_rtgwaktu1").attr("style", "display: none;");
+            $("#lap_rtgwaktu2").attr("style", "display: none;");
+            $("#tglgrup").attr("style", "display: none;");
             // $("#lap_tahunan").attr("style", "display: none;");
             // $('#lap_tahunan').val('');
             $('#lap_harian').val('');
           }else if(jangka_waktu == 'Rentang Waktu'){
             $("#lap_rtgwaktu1").removeAttr("style");
             $("#lap_rtgwaktu2").removeAttr("style");
+            $("#tglgrup").removeAttr("style");
             $("#btn_lihat").removeAttr("style");
             $("#btn_download").removeAttr("style");
             $("#lap_harian").attr("style", "display: none;");
@@ -108,6 +115,7 @@
             $("#btn_download").attr("style", "display: none;");
             $("#lap_rtgwaktu1").attr("style", "display: none;");
             $("#lap_rtgwaktu2").attr("style", "display: none;");
+            $("#tglgrup").attr("style", "display: none;");
             // $("#lap_tahunan").attr("style", "display: none;");
             $('#lap_bulanan').val('');
             $('#lap_harian').val('');

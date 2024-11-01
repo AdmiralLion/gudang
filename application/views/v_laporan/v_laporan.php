@@ -125,8 +125,11 @@ endforeach;
                               <input type="hidden" name="btn_cek" id="btn_cek">
                               <input class="form-control datepicker" style="display:none;" type="text" name="lap_harian" id="lap_harian" readonly>
                               <input class="form-control" style="display:none;" type="text" name="lap_bulanan" id="lap_bulanan" readonly>
-                              <input class="form-control datepicker" style="display:none;" type="text" name="lap_rtgwaktu1" id="lap_rtgwaktu1" readonly>
-                              <input class="form-control datepicker" style="display:none;" type="text" name="lap_rtgwaktu2" id="lap_rtgwaktu2" readonly>
+                              <div class="input-group mb-3" style="display:none;" id="tglgrup">
+                                <input class="form-control datepicker" style="display:none;" type="text" name="lap_rtgwaktu1" id="lap_rtgwaktu1" readonly>
+                                <span class="input-group-text">To</span>
+                                <input class="form-control datepicker" style="display:none;" type="text" name="lap_rtgwaktu2" id="lap_rtgwaktu2" readonly>
+                              </div>
                             </td>
                             <td>:</td>
                             <td>
