@@ -363,8 +363,21 @@ mastermerk.forEach(function(item2) {
   '<div class="col-sm-1 nopadding"><div class="form-group"><label for="Seri">Seri :</label> <br> <input type="text" class="form-control" id="seri_barang" name="seri_barang[]" value="" placeholder="Seri"></div></div>'+
   '<div class="col-sm-1 nopadding"><div class="form-group"><label for="Bulan">Bulan :</label> <br> <input type="text" class="form-control" id="kode_bulan" name="kode_bulan[]" value="" placeholder="Bulan"></div></div>'+
   '<div class="col-sm-1 nopadding"><div class="form-group"><label for="Urut">Urut :</label> <br> <input type="text" class="form-control" id="kode_urut" name="kode_urut[]" value="" placeholder="Urut"></div></div>'+
-  '<div class="col-sm-1 nopadding"><div class="form-group"><label for="Urut">Kualitas :</label> <br> <select class="select2" style="width:100%" id="kualitas" name="kualitas[]">' +'<option value="">Kualitas Barang</option>'+
-  '<option value="AA">AA</option>'+'<option value="BB">BB</option>'+'<option value="CC">CC</option>'+'<option value="DD">DD</option>'+
+  '<div class="col-sm-1 nopadding"><div class="form-group"><label for="Urut">Kualitas :</label> <br> <select class="select2" style="width:100%" id="kualitas" name="kualitas[]">' +'<option value="">Kualitas Barang</option>'+'<option value="AA MOTIF">AA MOTIF</option>' +
+  '<option value="AA FULL ALS">AA FULL ALS</option>' +
+  '<option value="AA FULL KSR">AA FULL KSR</option>' +
+  '<option value="AA TOP ALS">AA TOP ALS</option>' +
+  '<option value="AA TOP KSR">AA TOP KSR</option>' +
+  '<option value="BB MOTIF">BB MOTIF</option>' +
+  '<option value="BB FULL ALS">BB FULL ALS</option>' +
+  '<option value="BB FULL KSR">BB FULL KSR</option>' +
+  '<option value="BB TOP ALS">BB TOP ALS</option>' +
+  '<option value="BB TOP KSR">BB TOP KSR</option>' +
+  '<option value="CC MOTIF">CC MOTIF</option>' +
+  '<option value="CC FULL ALS">CC FULL ALS</option>' +
+  '<option value="CC FULL KSR">CC FULL KSR</option>' +
+  '<option value="CC TOP ALS">CC TOP ALS</option>' +
+  '<option value="CC TOP KSR">CC TOP KSR</option>'+
   '</select></div></div>'+
   '<div class="col-sm-2 nopadding"><div class="form-group"><label for="Harga Masuk">Harga Masuk :</label> <br><div class="input-group"><input type="text" placeholder="Harga" class="form-control" name="harga_masuk[]" id="harga_masuk" onkeyup="hitung_harga()"> &nbsp; &nbsp;<div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_education_fields('+ room +');"> <span class="fa fa-minus" aria-hidden="true"></span> </button></div></div></div></div><div class="clear"></div></div>';
   objTo.appendChild(divtest);
