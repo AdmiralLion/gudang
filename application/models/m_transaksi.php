@@ -271,7 +271,7 @@ class m_transaksi extends CI_Model {
     }
 
     public function get_detailbarang_keluar($id){
-        $query = $this->db->query("SELECT b.id id_barang,bm.kode_transaksi,bm.id id_transaksi, m.id id_merk, b.nama_barang,m.nama_merk,bm.tahun_barang,bm.seri_barang,bm.kode_bulan,bm.kode_urut,bm.kualitas,bm.harga_barang
+        $query = $this->db->query("SELECT b.id id_barang,bm.kode_transaksi,bm.id id_transaksi, m.id id_merk, b.nama_barang,m.nama_merk,bm.tahun_barang,bm.seri_barang,bm.kode_bulan,bm.kode_urut,bm.kualitas,b.jenis_barang,bm.harga_barang
         FROM b_barang_masuk bm INNER JOIN m_barang b ON bm.id_barang = b.id INNER JOIN m_merk m ON bm.id_merk = m.id
         WHERE bm.stok = '1' AND bm.id = '$id'");
         return $query->result();

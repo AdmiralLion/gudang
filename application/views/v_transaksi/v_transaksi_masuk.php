@@ -360,21 +360,30 @@ endforeach;
                               <td>
                                 <select class="select2" name="edit_kualitas" id="edit_kualitas" style="width:100%">
                                   <option value="">--Pilih--</option>
+                                  <option value="AA">AA</option>
                                   <option value="AA MOTIF">AA MOTIF</option>
                                   <option value="AA FULL ALS">AA FULL ALS</option>
                                   <option value="AA FULL KSR">AA FULL KSR</option>
                                   <option value="AA TOP ALS">AA TOP ALS</option>
                                   <option value="AA TOP KSR">AA TOP KSR</option>
+                                  <option value="BB">BB</option>
                                   <option value="BB MOTIF">BB MOTIF</option>
                                   <option value="BB FULL ALS">BB FULL ALS</option>
                                   <option value="BB FULL KSR">BB FULL KSR</option>
                                   <option value="BB TOP ALS">BB TOP ALS</option>
                                   <option value="BB TOP KSR">BB TOP KSR</option>
+                                  <option value="CC">CC</option>
                                   <option value="CC MOTIF">CC MOTIF</option>
                                   <option value="CC FULL ALS">CC FULL ALS</option>
                                   <option value="CC FULL KSR">CC FULL KSR</option>
                                   <option value="CC TOP ALS">CC TOP ALS</option>
                                   <option value="CC TOP KSR">CC TOP KSR</option>
+                                  <option value="DD">DD</option>
+                                  <option value="DD MOTIF">DD MOTIF</option>
+                                  <option value="DD FULL ALS">DD FULL ALS</option>
+                                  <option value="DD FULL KSR">DD FULL KSR</option>
+                                  <option value="DD TOP ALS">DD TOP ALS</option>
+                                  <option value="DD TOP KSR">DD TOP KSR</option>
                                 </select>
                               </td>
                               <td>

@@ -76,10 +76,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '103.247.11.173',
-	'username' => 'gudm9643_admin',
-	'password' => '3]IRNa17UEMF',
-	'database' => 'gudm9643_gudang',
+	'hostname' => '173.249.3.53',
+	'username' => 'admiral',
+	'password' => 'admiral123',
+	'database' => 'gudang',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

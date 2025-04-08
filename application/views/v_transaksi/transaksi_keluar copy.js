@@ -187,7 +187,7 @@ $('#data_master_barang').on('click','.barang_hapus', function () {
     $('.form-group').each(function() {
       var nama_barang = $(this).find('#nama_barang').val();
       var harga_keluar = $(this).find('#harga_keluar').val();
-      // var jns_brg = $(this).find('#jns_brg').val();
+      var jns_brg = $(this).find('#jns_brg').val();
 
       console.log(nama_barang);
       console.log(harga_keluar);
@@ -201,7 +201,7 @@ $('#data_master_barang').on('click','.barang_hapus', function () {
           jumlah_bayar:jumlah_bayar,
           jumlah_potongan:jumlah_potongan,
           nama_barang: nama_barang,
-          // jns_brg: jns_brg,
+          jns_brg: jns_brg,
           harga_keluar: harga_keluar
       });
       }
@@ -267,7 +267,7 @@ $.ajax({
   var options2 = '';
 
   masterbarang.forEach(function(item) {
-    options1 += '<option value="' + item.id + '" data-harga="' + item.harga_barang + '">' + item.nama_barang + ' Merk '+ item.nama_merk + ' Tahun ' + item.tahun_barang + ' Seri ' + item.seri_barang + ' Bulan ' + item.kode_bulan + ' Kode Urut ' + item.kode_urut+' Kualitas ' + item.kualitas+' Jenis ' + item.jenis_barang+'</option>';
+    options1 += '<option value="' + item.id + '" data-harga="' + item.harga_barang + '">' + item.nama_barang + ' Merk '+ item.nama_merk + ' Tahun ' + item.tahun_barang + ' Seri ' + item.seri_barang + ' Kode Bulan ' + item.kode_bulan + ' Kode Urut ' + item.kode_urut+' Kualitaas ' + item.kualitas+'</option>';
 });
 
 //   mastermerk.forEach(function(item2) {
@@ -278,9 +278,12 @@ $.ajax({
 
 // $('#nama_barang').append(options1);
   divtest.innerHTML = '<div class="row">'+
-  '<div class="col-sm-8 nopadding"><div class="form-group"> <label for="Barang">Barang :</label><br><select class="select2" style="width:100%" id="nama_barang" name="nama_barang[]" onchange="setHarga(this)">' +'<option value="">--Barang--</option>'+
+  '<div class="col-sm-6 nopadding"><div class="form-group"> <label for="Barang">Barang :</label><br><select class="select2" style="width:100%" id="nama_barang" name="nama_barang[]" onchange="setHarga(this)">' +'<option value="">--Barang--</option>'+
               options1 +
   '</select></div></div>'+'<div class="col-sm-2 nopadding"><div class="form-group"><label for="Harga">Harga Masuk :</label><br><div class="input-group"><input type="text" placeholder="Harga" class="form-control" name="harga_masuk[]" id="harga_masuk" readonly></div></div></div>'+
+  '<div class="col-sm-2 nopadding"><div class="form-group"><label for="Urut">Jenis Barang :</label> <br> <select class="select2" style="width:100%" id="jns_brg" name="jns_brg[]">' +'<option value="">Jenis barang</option>'+
+  '<option value="Jasa">Jasa</option>'+'<option value="Panas">Panas</option>'+'<option value="Dingin">Dingin</option>'+'<option value="Overtread">Overtread</option>'+'<option value="Afkir">Afkir</option>'+'<option value="Baru">Baru</option>'+'<option value="Bekas">Bekas</option>'+'<option value="Ori">Ori</option>'+'<option value="Tebelan">Tebelan</option>'+
+  '</select></div></div>'+
   '<div class="col-sm-2 nopadding"><div class="form-group"> <label for="Harga Keluar">Harga Keluar :</label><br><div class="input-group"><input type="text" placeholder="Harga" class="form-control" name="harga_keluar[]" id="harga_keluar" onkeyup="hitung_harga()"> &nbsp; &nbsp;<div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_education_fields('+ room +');"> <span class="fa fa-minus" aria-hidden="true"></span> </button></div></div></div></div><div class="clear"></div></div>';
   objTo.appendChild(divtest)
   $('.select2').select2({
