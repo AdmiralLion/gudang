@@ -73,6 +73,24 @@
       });
   });
 
+    $('#jns_laporan').on("change", function () {
+      var jns_laporan = $('#jns_laporan').val();
+      $('#jangka_waktu').val('');
+          if(jns_laporan == 'Laporan Stok Gudang'){
+            $("#lap_harian").attr("style", "display: none;");
+            $("#btn_lihat").removeAttr("style");
+            $("#btn_download").removeAttr("style");
+            $("#lap_bulanan").attr("style", "display: none;");
+            $("#lap_rtgwaktu1").attr("style", "display: none;");
+            $("#lap_rtgwaktu2").attr("style", "display: none;");
+            $("#tglgrup").attr("style", "display: none;");
+            $("#jangka_waktu").attr("style", "display: none;");
+          }else{
+            $("#jangka_waktu").removeAttr("style");
+          }
+        })
+
+
     $('#jangka_waktu').on("change", function () {
       var jangka_waktu = $('#jangka_waktu').val();
           if(jangka_waktu == 'Harian'){
@@ -174,6 +192,9 @@
       }else if(jns_laporan == 'Laporan Jatuh Tempo' && jangka_waktu == 'Bulanan'){
               var lap_bulanan = $('#lap_bulanan').val();
         $('<a href="<?= base_url();?>Laporan/print_jatuh_tempo/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
+      }else if(jns_laporan == 'Laporan Stok Gudang'){
+        var lap_harian = $('#lap_harian').val();
+        $('<a href="<?= base_url();?>Laporan/print_stok_gudang/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
       }
     });
 
@@ -227,16 +248,11 @@
       }else if(jns_laporan == 'Laporan Jatuh Tempo' && jangka_waktu == 'Bulanan'){
               var lap_bulanan = $('#lap_bulanan').val();
         $('<a href="<?= base_url();?>Laporan/print_jatuh_tempo/?jangka_waktu='+jangka_waktu+'&tgl='+lap_bulanan+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
+      }else if(jns_laporan == 'Laporan Stok Gudang'){
+        var lap_harian = $('#lap_harian').val();
+        $('<a href="<?= base_url();?>Laporan/print_stok_gudang/?jangka_waktu='+jangka_waktu+'&tgl='+lap_harian+'&jnslap='+jns_lap+'" target="blank"></a>')[0].click();    
       }
     });
-
-    function reset_masterbarang()
-    {
-      $('#id_barang').val('');
-      $('#nama_barang').val('');
-      $('#satuan_barang').val('');
-      $('#jenis_barang').val('');
-    }
 
     $("#table-1").dataTable();
 

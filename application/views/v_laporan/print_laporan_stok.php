@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<?php 
+// $tgl = $_GET['tgl'];
+  $jns_lap = $_GET['jnslap']; 
+  if($jns_lap == 'excel'){
+    header("Content-Type:   application/vnd.ms-excel; charset=utf-8");
+    header("Content-Disposition: attachment; filename=lap_stok_gudang_".$tgl.".xls"); 
+    header("Expires: 0");
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+    header("Cache-Control: private",false);
+  }
+  ?>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laporan Stok Gudang</title>
+<style>
+    /* Style the table for printing */
+    table {
+            width: 80%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        /* Style the letterhead */
+        .letterhead {
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: sans-serif !important;
+
+        }
+        .letterhead h1 {
+            margin: 0;
+            font-family: sans-serif !important;
+        }
+
+        .center {
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        button{
+            height:60px; 
+            width:100px; 
+            margin: -20px -50px; 
+            position:relative;
+            top:50%; 
+            left:50%;
+        }
+    @media print {
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        /* Style the letterhead */
+        .letterhead {
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: sans-serif !important;
+
+        }
+        .letterhead h1 {
+            margin: 0;
+            font-family: sans-serif !important;
+        }
+
+        .center {
+          margin-left: auto;
+          margin-right: auto;
+        }
+    }
+</style>
+</head>
+<body>
+
+<!-- Letterhead -->
+<div class="letterhead">
+    <h1>CV ABS</h1>
+    <p>ALAMAT KECIPIK BARU NO 99</p>
+    <p>Laporan Stok Gudangr</p>
+</div>
+
+<!-- Table to print -->
+<?php
+// var_dump($get_barang);die();
+?>
+<table id="myTable" class="center">
+    <thead>
+        <tr>
+            <th></th>
+            <?php
+            foreach ($get_barang as $item): ?>
+                <th style='text-align:center;'><?= htmlspecialchars($item->nama_barang) ?></th>
+            <?php endforeach;
+            ?>
+        </tr>
+    </thead>
+    <tbody>
+      <?php $no = 1;
+            $tglskrg = date('d-m-Y H:i:s');
+        ?>
+        <tr>
+            <td style="text-align: center;">Jenis</td>
+            <?php foreach ($get_barang as $item): ?>
+                <td style="text-align: center;"><?= htmlspecialchars($item->jenis_list) ?></td>
+            <?php endforeach; ?>
+        </tr>
+        <tr>
+            <td style="text-align: center;">Jumlah</td>
+            <?php foreach ($get_barang as $item): ?>
+                <td style="text-align: center;"><?= htmlspecialchars($item->jumlah_list) ?></td>
+            <?php endforeach; ?>
+        </tr>
+        <tr>
+          <td colspan="20" style="text-align: right;">
+          Yang Mencetak <br>
+          Gresik, <?= $tglskrg;?><br><br><br> <br><br>
+          <?php foreach($user as $rows):
+          echo $rows -> nama_user;
+          endforeach;?>
+          </td>
+        </tr>
+        <!-- Add more rows here -->
+    </tbody>
+</table>
+<br><br>
+<!-- Button to trigger printing -->
+<button class="cenbut" onclick="printTable()">Print Laporan</button>
+
+<script>
+function printTable() {
+    // Copy the table content to a new window
+    var printWindow = window.open('', '_blank');
+    printWindow.document.write('<html><head><title>Print Table with Letterhead</title></head><body>');
+    printWindow.document.write('<div class="letterhead"><h1>CV ABS</h1><p>ALAMAT KECIPIK BARU NO 99</p></div>');
+    printWindow.document.write('<h2>Laporan Tabel</h2>');
+    printWindow.document.write(document.getElementById('myTable').outerHTML);
+    printWindow.document.write('</body></html>');
+
+    // Style the new window
+    printWindow.document.head.innerHTML += '<style>' + 
+        '@media print {table {width: 100%;border-collapse: collapse;}th, td {border: 1px solid #ddd;padding: 8px;}th {background-color: #f2f2f2;}tr:nth-child(even) {background-color: #f2f2f2;} .letterhead {text-align: center;margin-bottom: 20px;}.letterhead h1 {margin: 0;}}</style>';
+
+    // Trigger printing
+    printWindow.print();
+    printWindow.close();
+}
+</script>
+
+</body>
+</html>

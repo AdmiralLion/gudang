@@ -522,4 +522,23 @@ class m_laporan extends CI_Model {
        ) AS total_hutang,u.`nama_user` FROM b_transaksi_keluar btk INNER JOIN a_user u ON btk.`user_act` = u.`id` WHERE $tambahanquer");
         return $query->result();
     }
+
+    public function lap_stok_gudang(){
+        $query = $this->db->query("SELECT 
+                nama_barang,
+                GROUP_CONCAT(jenis_barang ORDER BY jenis_barang SEPARATOR ', ') AS jenis_list,
+                GROUP_CONCAT(jumlah ORDER BY jenis_barang SEPARATOR ', ') AS jumlah_list
+                FROM (
+                SELECT 
+                    mb.nama_barang,
+                    t.jenis_barang,
+                    COUNT(*) AS jumlah
+                FROM b_barang_masuk t
+                JOIN m_barang mb ON t.id_barang = mb.id
+                WHERE t.stok = 1
+                GROUP BY mb.nama_barang, t.jenis_barang
+                ) AS sub
+                GROUP BY nama_barang;");
+        return $query->result();
+    }
 }

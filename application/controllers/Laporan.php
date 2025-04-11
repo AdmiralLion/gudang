@@ -139,4 +139,14 @@ class Laporan extends CI_Controller {
         $data['get_barang'] = $this->m_laporan->lap_jatuh_tempo($jangka_waktu,$tgl);
 		$this->load->view('v_laporan/print_laporan_jatuh_tempo.php',$data);
     }
+
+    public function print_stok_gudang(){
+        #$jangka_waktu = $_GET['jangka_waktu'];
+        #$tgl = $_GET['tgl'];
+        $id_user = $this->session->userdata('id_user');
+        $data['user'] = $this->m_master->getuser($id_user);
+        $data['get_barang'] = $this->m_laporan->lap_stok_gudang();
+        // var_dump($data);die();
+		$this->load->view('v_laporan/print_laporan_stok.php',$data);
+    }
 }
