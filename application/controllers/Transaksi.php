@@ -466,6 +466,7 @@ class Transaksi extends CI_Controller {
                 $klaim = 0;
                 $harga_keluar = $row['harga_keluar'];
                 foreach($data['detail'] as $det):
+                    dd($data);
                     $data['transaksi_keluar'] = $this -> m_transaksi -> insert_barang_keluar($kd_transaksi,$det->id_transaksi,$det -> id_barang,$det -> id_merk ,$det -> tahun_barang,$det -> seri_barang,$det -> kode_bulan,$det -> kode_urut,$det -> harga_barang,$hutang,$klaim,$det -> jenis_barang,$det -> kualitas,$harga_keluar,$id_user);
                     $data['update_stok'] = $this -> m_transaksi -> update_stok($nama_barang);
                 endforeach;
