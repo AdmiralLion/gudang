@@ -122,13 +122,23 @@ $tglnow = date('d-m-Y');
             $totalhutang = 0;
             $totaltunai = 0;
             $totaltunai += $jml_bayar;
+            //  dd($get_barang);
             foreach ($get_barang as $item): 
-                $totalharga += $item->harga_jual;
                 if ($item->is_hutang == '1') {
-                    $totalhutang += $item->harga_jual;
-                    $pembayaran = 'Hutang';
+                    if($item -> is_retur != '1'){
+                        $totalhutang += $item->harga_jual;
+                        $totalharga += $item->harga_jual;
+                        $pembayaran = 'Hutang';
+                        $harga_jual1 = rupiah($item->harga_jual) ;
+                    }else{
+                        $pembayaran = 'Retur';
+                        $harga_jual1 = '-';
+                    }
+                    
                 } else {
                     // $totaltunai += $item->harga_jual;
+                    $harga_jual1 = rupiah($item->harga_jual);
+                    $totalharga += $item->harga_jual;
                     $pembayaran = 'Tunai';
                 }
                 ?>
@@ -139,13 +149,43 @@ $tglnow = date('d-m-Y');
                     <td style="text-align: center;"><?php echo $item->seri_barang; ?></td>
                     <td style="text-align: center;"><?php echo $item->jns_penjualan; ?></td>
                     <td style="text-align: center;"><?php echo $pembayaran; ?></td>
-                    <td style="text-align: center;"><?php $harga_jual1 = rupiah($item->harga_jual) ; 
-                    echo $harga_jual1;?></td>
+                    <td style="text-align: center;"><?php echo $harga_jual1;?></td>
                 </tr>
             <?php endforeach; ?>
             <tr>
+                <td style="text-align: center;background-color: aquamarine;" colspan="7">PENGGANTI RETUR</td>
+            </tr>
+ <?php 
+            $noretur = 1;
+            foreach($ganti_retur as $rows):
+                // dd($ganti_retur);
+                    foreach($rows as $r): ?>
+            <tr style="text-align: center;">
+                <td style="text-align: center;"><?= $noretur++;?></td>
+                <td style="text-align: center;"><?= $r -> nama_barang;?></td>
+                <td style="text-align: center;"><?= $r -> nama_merk;?></td>
+                <td style="text-align: center;"><?= $r -> seri_barang;?></td>
+                <td style="text-align: center;">RETUR</td>
+                <td style="text-align: center;"><?php if($r -> is_hutang == '1'){
+                        $totalhutang += $r->harga_keluar;
+                        echo 'Hutang';
+                        } else {
+                            echo 'Tunai';
+                        }
+                    ?></td>
+                <td style="text-align: center;">
+                    <?php $totalharga += $r->harga_keluar;
+                        $harga_kel1 = rupiah($r -> harga_keluar);
+                        echo $harga_kel1;
+                    ?>
+                </td>
+            </tr>
+            <?php endforeach; 
+                endforeach;
+            ?>
+            <tr>
                 <td colspan="6" class="right">Total Yang Belum Dibayarkan:</td>
-                <td style="text-align: center;">R<?php
+                <td style="text-align: center;"><?php
                 if($totalhutang == $totaltunai){
                     $final_hutang = $totalhutang - $totaltunai;
                     $final_hutang1 = rupiah($final_hutang);

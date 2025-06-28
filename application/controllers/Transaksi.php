@@ -529,7 +529,10 @@ class Transaksi extends CI_Controller {
     {
         $id_user = $this->session->userdata('id_user');
         $data['user'] = $this->m_master->getuser($id_user);
-        $data['get_barang'] = $this->m_transaksi->get_barang_keluar($id);
+        $data['get_barang'] = $this->m_transaksi->get_barang_keluar4($id);
+        foreach($data['get_barang'] as $row):
+                $data['ganti_retur'][] = $this->m_transaksi->get_barang_retur($row -> kode_transaksi,$row -> id_stok);
+        endforeach;
 		$this->load->view('v_transaksi/print_transaksi_keluarfaktur.php',$data);
     }
 
@@ -724,6 +727,9 @@ class Transaksi extends CI_Controller {
         $data['histori_hutang'] = $this->m_transaksi->get_list_hutang($kode_transaksi);
         $data3['bayar_awal'] = $this->m_transaksi->bayar_awal($kode_transaksi);
         $data2['tampung'] = $this->m_transaksi->get_list_hutang($kode_transaksi);
+        foreach($data['list_data'] as $row):
+                $data['ganti_retur'][] = $this->m_transaksi->get_barang_retur($row -> kode_transaksi,$row -> id_stok);
+        endforeach;
         $pembayaran = 0;
         $totalharga = 0;
         $harusbayar = 0;
@@ -751,6 +757,7 @@ class Transaksi extends CI_Controller {
             'kode_transaksi' => $kode_transaksi,
             'potongan' => $potongan
         ];
+        // dd($data);
         echo json_encode($data);
     }
 

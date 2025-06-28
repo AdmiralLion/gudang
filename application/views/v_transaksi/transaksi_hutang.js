@@ -153,6 +153,7 @@ $(document).ready(function () {
         var data4 = $.parseJSON(data);
         var listData = data4.list_data;
         var historiHutang = data4.histori_hutang;
+        var temp_ganti = data4.ganti_retur
         var data2 = data4.bayar;
         console.log(historiHutang);
 
@@ -191,6 +192,26 @@ $(document).ready(function () {
             '</td>';
           }
           var row_barang = '<td style="text-align:center;">' + item.nama_barang + ' - ' + item.nama_merk  + ' - ' + item.tahun_barang  + ' - ' + item.seri_barang  + ' - ' + item.kode_bulan  + ' - ' + item.kode_urut + '</td>';
+
+          $.each(temp_ganti, function(i, itemret) {
+                $.each(itemret, function(i, retur_item) {
+                  if(item.id_stok == retur_item.id_barang){
+                      var no = 'Pengganti';
+                      n++;
+                      var row_barang2 = '<td style="text-align:center;">' + retur_item.nama_barang + ' - ' + retur_item.nama_merk  + ' - ' + retur_item.tahun_barang  + ' - ' + retur_item.seri_barang  + ' - ' + retur_item.kode_bulan  + ' - ' + retur_item.kode_urut + '</td>';
+                      var html2 = [
+                        n,
+                        retur_item.kd_retur,
+                        row_barang2,
+                        retur_item.tgl_retur,
+                        no,
+                        no,
+                        retur_item.harga_keluar
+                    ];
+                      $("#table-2").DataTable().row.add(html2);
+                  }
+                })
+          })
           n++;
           var html = [
               n,

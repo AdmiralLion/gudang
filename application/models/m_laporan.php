@@ -344,7 +344,7 @@ class m_laporan extends CI_Model {
         $query = $this->db->query("SELECT bm.`kode_transaksi`,b.nama_barang,m.nama_merk,bm.tahun_barang,bm.seri_barang,bm.kode_bulan,bm.kode_urut,bm.jenis_barang,
         bm.harga_barang,u.`nama_user`,DATE_FORMAT(bm.tgl_act,'%d-%m-%Y %H:%i:%s') AS tgl 
         FROM b_barang_masuk bm INNER JOIN m_barang b ON bm.id_barang = b.id INNER JOIN m_merk m ON bm.id_merk = m.id
-        INNER JOIN a_user u ON bm.`user_act` = u.`id` WHERE $tambahanquer");
+        LEFT JOIN a_user u ON bm.`user_act` = u.`id` WHERE $tambahanquer");
         return $query->result();
 
     }
@@ -372,7 +372,7 @@ class m_laporan extends CI_Model {
         FROM b_barang_keluar bbk 
         INNER JOIN b_barang_masuk bbm ON bbk.`id_stok` = bbm.`id`
         INNER JOIN m_barang b ON bbk.id_barang = b.id 
-        INNER JOIN m_merk m ON bbk.id_merk = m.id INNER JOIN a_user u ON bbk.`user_act` = u.`id` 
+        INNER JOIN m_merk m ON bbk.id_merk = m.id LEFT JOIN a_user u ON bbk.`user_act` = u.`id` 
         LEFT JOIN b_retur_keluar rtk ON bbk.is_retur = 1 AND bbk.id_stok = rtk.`id_barang`
         AND bbk.`kode_transaksi` = rtk.`kd_transaksi` 
         LEFT JOIN b_barang_masuk bbm1 ON rtk.id_barang_ganti = bbm1.id
@@ -422,7 +422,7 @@ class m_laporan extends CI_Model {
          FROM b_barang_keluar bbk 
          INNER JOIN b_barang_masuk bbm ON bbk.`id_stok` = bbm.`id`
          INNER JOIN m_barang b ON bbk.id_barang = b.id 
-         INNER JOIN m_merk m ON bbk.id_merk = m.id INNER JOIN a_user u ON bbk.`user_act` = u.`id` WHERE bbk.is_retur IS NULL AND $tambahanquer ORDER BY bbk.tgl_act ASC" );
+         INNER JOIN m_merk m ON bbk.id_merk = m.id LEFT JOIN a_user u ON bbk.`user_act` = u.`id` WHERE bbk.is_retur IS NULL AND $tambahanquer ORDER BY bbk.tgl_act ASC" );
          return $query->result();
      }
 
@@ -447,7 +447,7 @@ class m_laporan extends CI_Model {
         INNER JOIN m_barang b ON rm.id_barang = b.id
         INNER JOIN m_merk m ON bm.id_merk = m.id
          INNER JOIN m_rekanan r ON rm.id_supplier = r.id
-        INNER JOIN a_user u ON rm.`user_act` = u.`id` WHERE $tambahanquer");
+        LEFT JOIN a_user u ON rm.`user_act` = u.`id` WHERE $tambahanquer");
         return $query->result();
     }
 
@@ -468,7 +468,7 @@ class m_laporan extends CI_Model {
                 JOIN m_barang mb2 ON bbm.`id_barang` = mb2.`id`
                 INNER JOIN m_barang b ON bk.id_barang = b.id 
                 INNER JOIN m_merk m ON bk.id_merk = m.id
-                INNER JOIN a_user u ON rk.`user_act` = u.`id`  WHERE $tambahanquer");
+                LEFT JOIN a_user u ON rk.`user_act` = u.`id`  WHERE $tambahanquer");
         return $query->result();
     }
 
@@ -484,7 +484,7 @@ class m_laporan extends CI_Model {
         $query = $this->db->query("SELECT  btk.bayar,btk.potongan,bbk.`kode_transaksi`,b.nama_barang,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,bbk.kode_urut,
         bbk.harga_jual,bbk.harga_masuk,u.`nama_user`,DATE_FORMAT(btk.tgl_act,'%d-%m-%Y %H:%i:%s') AS tgl FROM b_transaksi_keluar btk JOIN b_barang_keluar bbk ON btk.kode_transaksi = bbk.kode_transaksi
         INNER JOIN m_barang b ON bbk.id_barang = b.id 
-        INNER JOIN m_merk m ON bbk.id_merk = m.id INNER JOIN a_user u ON bbk.`user_act` = u.`id`
+        INNER JOIN m_merk m ON bbk.id_merk = m.id LEFT JOIN a_user u ON bbk.`user_act` = u.`id`
         WHERE bbk.is_retur IS NULL AND $tambahanquer");
         return $query->result();
     }
@@ -503,7 +503,7 @@ class m_laporan extends CI_Model {
         (SELECT SUM(bb.harga_jual)
          FROM b_barang_keluar bb
          WHERE bb.kode_transaksi = bth.kode_transaksi
-        ) AS total_hutang,u.`nama_user` FROM b_transaksi_hutang bth LEFT JOIN b_transaksi_keluar btk ON bth.kode_transaksi = btk.kode_transaksi INNER JOIN a_user u ON bth.`user_act` = u.`id` WHERE $tambahanquer GROUP BY bth.id ");
+        ) AS total_hutang,u.`nama_user` FROM b_transaksi_hutang bth LEFT JOIN b_transaksi_keluar btk ON bth.kode_transaksi = btk.kode_transaksi LEFT JOIN a_user u ON bth.`user_act` = u.`id` WHERE $tambahanquer GROUP BY bth.id ");
         return $query->result();
     }
    
