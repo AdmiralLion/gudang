@@ -366,24 +366,28 @@ endforeach;
                                   <option value="AA FULL KSR">AA FULL KSR</option>
                                   <option value="AA TOP ALS">AA TOP ALS</option>
                                   <option value="AA TOP KSR">AA TOP KSR</option>
+                                  <option value="AA HQ">AA HQ</option>
                                   <option value="BB">BB</option>
                                   <option value="BB MOTIF">BB MOTIF</option>
                                   <option value="BB FULL ALS">BB FULL ALS</option>
                                   <option value="BB FULL KSR">BB FULL KSR</option>
                                   <option value="BB TOP ALS">BB TOP ALS</option>
                                   <option value="BB TOP KSR">BB TOP KSR</option>
+                                  <option value="BB HQ">BB HQ</option>
                                   <option value="CC">CC</option>
                                   <option value="CC MOTIF">CC MOTIF</option>
                                   <option value="CC FULL ALS">CC FULL ALS</option>
                                   <option value="CC FULL KSR">CC FULL KSR</option>
                                   <option value="CC TOP ALS">CC TOP ALS</option>
                                   <option value="CC TOP KSR">CC TOP KSR</option>
+                                  <option value="CC HQ">CC HQ</option>
                                   <option value="DD">DD</option>
                                   <option value="DD MOTIF">DD MOTIF</option>
                                   <option value="DD FULL ALS">DD FULL ALS</option>
                                   <option value="DD FULL KSR">DD FULL KSR</option>
                                   <option value="DD TOP ALS">DD TOP ALS</option>
                                   <option value="DD TOP KSR">DD TOP KSR</option>
+                                  <option value="DD HQ">DD HQ</option>
                                 </select>
                               </td>
                               <td>
