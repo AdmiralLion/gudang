@@ -120,6 +120,7 @@ class Transaksi extends CI_Controller {
             // $tgl_transaksi = date('', strtotime($tgl_transaksi));
         }
         $data = $this->m_transaksi->get_stok($tgl_transaksi);
+        // dd($data);
         echo json_encode($data);
     }
 

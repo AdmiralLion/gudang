@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  data_stok();
+  data_stok('Bulanan');
   // reset_masterbarang();
   // ChangeWidth();
 
@@ -57,13 +57,28 @@ $(document).ready(function () {
   });
 
   $('#tgl_transaksi').change(function (){
-    data_stok();
+    data_stok('Bulanan');
+  });
+
+  $('#filter_stok').change(function (){
+    var filter_stok = $('#filter_stok').val();
+    // console.log(filter_stok);
+    if(filter_stok == 'Global'){
+      $("#tag_bulanstok").attr("style", "display: none;");
+    }else{
+      $("#tag_bulanstok").attr("style", "display: block;");
+    }
+    data_stok(filter_stok)
   });
 
 
-  function data_stok(){
-    var tanggal_transaksi = $('#tgl_transaksi').val();
-    console.log(tanggal_transaksi);
+  function data_stok(filter_stok){
+    if(filter_stok == 'Bulanan'){
+      var tanggal_transaksi = $('#tgl_transaksi').val();
+    }else{
+      var tanggal_transaksi = 'Global';
+    }
+    // console.log(tanggal_transaksi);
     // if(tanggal_transaksi == null || tanggal_transaksi == ''){
     //   var tanggal_transaksi = new Date().toJSON().slice(0, 10);
     // }
@@ -91,7 +106,7 @@ $(document).ready(function () {
               }else if(data[i].stok == 0){
                 var cekstok = '<td style="text-align:center;">'+'<a href="#" class="btn btn-danger btn-icon" >Kosong</i>'+
               '</td>';
-              var tglout = data[i].tgl_kel;
+                var tglout = data[i].tgl_kel;
 
               }
               var btn_transaksimasuk = '<td style="text-align:center;">'+'<a href="<?php echo base_url();?>Transaksi/print_transaksimasuk/'+data[i].id+'" class="btn btn-info btn-icon" target="_blank"><i class="fa fa-print"></i>'+

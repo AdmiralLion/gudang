@@ -94,6 +94,16 @@ endforeach;
                       <div class="row">
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
+                          Filter Stok : <select class="form-control" name="filter_stok" id="filter_stok">
+                            <option value="Bulanan" selected>Bulanan</option>
+                            <option value="Global">Global</option>
+                          </select>
+                        </div>
+                        <div class="col-md-4"></div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4" id="tag_bulanstok">
                           Bulan Stok : <input class="form-control" type="text" name="tgl_transaksi" id="tgl_transaksi">
                         </div>
                         <div class="col-md-4"></div>
@@ -115,6 +125,7 @@ endforeach;
                             <th class="text-center">Kualitas</th>
                             <th class="text-center">Stok</th>
                             <th class="text-center">TGL KEL</th>
+                            <th class="text-center">Transaksi</th>
                           </tr>
                         </thead>
                         <tbody id="data_stok" style="text-align: center;">                                 
