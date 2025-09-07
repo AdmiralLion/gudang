@@ -96,7 +96,7 @@ class m_transaksi extends CI_Model {
         // echo $tgl_stok;die();
 
         $query = $this->db->query("SELECT btm.kode_transaksi, mb.nama_barang, ms.nama_satuan, m.nama_merk, bbm.tahun_barang, bbm.seri_barang, 
-        bbm.kode_bulan, bbm.kode_urut,bbm.jenis_barang, bbm.harga_barang, DATE_FORMAT(btm.tgl_act,'%d-%m-%Y') AS tgl_transaksi, mr.nama_rekanan, bbm.stok,bbm.kualitas, (SELECT DATE_FORMAT(bbk.tgl_act, '%d-%m-%Y') FROM b_barang_keluar bbk WHERE bbm.id = bbk.id_stok AND is_retur = 0 AND is_klaim = 0 ORDER BY bbk.id DESC LIMIT 1) AS tgl_kel
+        bbm.kode_bulan, bbm.kode_urut,bbm.jenis_barang, bbm.harga_barang, DATE_FORMAT(btm.tgl_act,'%d-%m-%Y') AS tgl_transaksi, mr.nama_rekanan, bbm.stok,bbm.kualitas, (SELECT DATE_FORMAT(bbk.tgl_act, '%d-%m-%Y') FROM b_barang_keluar bbk WHERE bbm.id = bbk.id_stok AND is_retur IS NULL AND is_klaim = 0 ORDER BY bbk.id DESC LIMIT 1) AS tgl_kel
         FROM b_transaksi_masuk btm JOIN b_barang_masuk bbm ON btm.kode_transaksi = bbm.kode_transaksi 
         JOIN m_barang mb ON bbm.id_barang = mb.id JOIN m_merk m ON bbm.id_merk = m.id JOIN m_rekanan mr ON btm.id_rekanan = mr.id JOIN m_satuan ms ON mb.satuan_barang = ms.id $query_add ORDER BY bbm.id");
         return $query->result();
