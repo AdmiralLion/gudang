@@ -361,14 +361,14 @@ class m_laporan extends CI_Model {
         }else{
             $tambahanquer = "DATE(bbk.tgl_act) BETWEEN '".$tgl1."' AND '".$tgl2."'";
         }
-        $query = $this->db->query("SELECT bbk.`kode_transaksi`,b.nama_barang,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,bbk.kode_urut,bbk.kualitas,bbk.is_retur,
+        $query = $this->db->query("SELECT bbk.`kode_transaksi`,b.nama_barang,m.nama_merk,bbk.tahun_barang,bbk.seri_barang,bbk.kode_bulan,bbk.kode_urut,bbk.jns_penjualan,bbk.kualitas,bbk.is_retur,
         bbm.`harga_barang`,bbk.harga_jual,u.`nama_user`,is_retur,bbk.is_hutang,DATE_FORMAT(bbk.tgl_act,'%d-%m-%Y %H:%i:%s') AS tgl,
         rtk.*,mb2.nama_barang AS barang_asli, ms2.nama_satuan AS satuan_asli, m2.nama_merk AS merk_asli,
         bbm2.tahun_barang AS tahun_asli, bbm2.seri_barang AS seri_asli, bbm2.kode_bulan AS bulan_asli,
         bbm2.kode_urut AS kode_urut_asli, bbm2.kualitas AS kualitas_asli,
         mb1.nama_barang AS pengganti_barang, ms1.nama_satuan AS satuan_pengganti, m1.nama_merk AS merk_pengganti,
         bbm1.tahun_barang AS tahun_pengganti, bbm1.seri_barang AS seri_pengganti, bbm1.kode_bulan AS bulan_pengganti,
-        bbm1.kode_urut AS kode_urut_pengganti, bbm1.kualitas AS kualitas_pengganti,DATE_FORMAT(rtk.tgl_retur,'%d-%m-%Y %H:%i:%s') AS tgl_ganti
+        bbm1.kode_urut AS kode_urut_pengganti, bbm1.jenis_barang AS jenis_pengganti, bbm1.kualitas AS kualitas_pengganti, bbm1.harga_barang AS harga_barang_pengganti,DATE_FORMAT(rtk.tgl_retur,'%d-%m-%Y %H:%i:%s') AS tgl_ganti
         FROM b_barang_keluar bbk 
         INNER JOIN b_barang_masuk bbm ON bbk.`id_stok` = bbm.`id`
         INNER JOIN m_barang b ON bbk.id_barang = b.id 

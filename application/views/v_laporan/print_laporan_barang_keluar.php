@@ -168,6 +168,7 @@
             <th>Seri Barang</th>
             <th>Kode bulan</th>
             <th>Kode Urut</th>
+            <th>Jenis</th>
             <th>Kualitas</th>
             <th>Harga Masuk</th>
             <th>Harga Jual</th>
@@ -197,6 +198,7 @@
             <td style="text-align:center;"><?= $row -> seri_barang;?></td>
             <td style="text-align:center;"><?= $row -> kode_bulan;?></td>
             <td style="text-align:center;"><?= $row -> kode_urut;?></td>
+            <td style="text-align:center;"><?= $row -> jns_penjualan;?></td>
             <td style="text-align:center;"><?= $row -> kualitas;?></td>
             <td style="text-align:center;"><?php echo rupiah($row -> harga_barang);?></td>
             <td style="text-align:center;"><?php echo rupiah($row -> harga_jual);?></td>
@@ -230,8 +232,9 @@
             <td style="text-align:center;"><?= $row -> seri_pengganti;?></td>
             <td style="text-align:center;"><?= $row -> bulan_pengganti;?></td>
             <td style="text-align:center;"><?= $row -> kode_urut_pengganti;?></td>
+            <td style="text-align:center;"><?= $row -> jenis_pengganti;?></td>
             <td style="text-align:center;"><?= $row -> kualitas_pengganti;?></td>
-            <td style="text-align:center;"><?php echo rupiah($row -> harga_barang);?></td>
+            <td style="text-align:center;"><?php echo rupiah($row -> harga_barang_pengganti);?></td>
             <td style="text-align:center;"><?php echo rupiah($row -> harga_jual);?></td>
             <td style="text-align:center;"><?= $row -> nama_user;?></td>
             <td style="text-align:center;">PENGGANTI RETUR
